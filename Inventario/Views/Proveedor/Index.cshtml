@@ -1,0 +1,172 @@
+﻿@*Vista de Index de Proveedores*@
+@using CoreInventario.Application.DTOS;
+@model IEnumerable<ProveedorDTO>
+
+
+@{
+    ViewBag.Title = "Index";
+    var proceso = ViewBag.proceso;
+
+    var titPantalla = "Proveedores";
+    var titCampo1 = "Proveedor";
+}
+
+
+
+<!-- Mostrar mensaje en el index si se grabó correctamente -->
+@if (TempData["mensaje"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["mensaje"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h2>@titPantalla</h2>
+            </div>
+            <div class="col">
+                @*Botonera*@
+                <div class="nav navbar-right" style="margin-right: -7px;">
+                    <button type="button" id="Add" class="btn bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="fa fa-sticky-note btn-dark btn-sm"> Nuevo</i>
+                        </b>
+                    </button>
+                    <button type="button" id="Edit" class="btn bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="fa fa-pencil-square btn-dark btn-sm"> Editar</i>
+                        </b>
+                    </button>
+                    <button type="button" id="See" class="btn bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="fa fa-eye btn-dark btn-sm"> Ver</i>
+                        </b>
+                    </button>
+                    <button type="button" id="Del" class="btn bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="fa fa-trash btn-dark btn-sm"> Borrar</i>
+                        </b>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">
+                            Id
+                        </th>
+                        <th style="text-align:center;">Código</th>
+                        <th style="text-align:center;">Nombre del proveedor</th>
+                        <th style="text-align:center;">Contacto</th>                        
+                        <th style="width: 25%; text-align:center;">Estatus</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        var formid = @item.Id.ToString();
+
+                        <tr data-dtid="@formid">
+                            <td data-id="@formid" id="idr">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvCodigo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvNombreCompania)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvContacto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.proveedorEstatus)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/lib/common/libreria.js"></script>
+    <script type='text/javascript'>
+
+
+        $(document).ready(function () {
+
+            $('#dataTable').DataTable({
+                language: {
+                    url: '/plantilla/vendor/datatables/es-ES.json',
+                },
+                select: {
+                    style: 'single'
+                }
+            });
+
+            var table = $('#dataTable').DataTable();
+            $('#dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+            $('#Add, #See, #Del, #Edit').click(function () {
+                var table = $('#dataTable').DataTable();
+                var row = table.row('.selected');
+                var data = $('#dataTable').dataTable().fnGetData(row);
+
+                if (this.id == 'Add') {
+                    window.location.href = "/Proveedor/Create";
+                }
+                else if (this.id == 'See') {
+
+                    if (data[0] == null)
+                        alert('No hay registro seleccionado');
+                    else
+                        window.location.href = "/Proveedor/Details/" + data[0];
+                }
+                else if (this.id == 'Del') {
+
+                    if (data[0] == null)
+                        alert('No hay registro seleccionado');
+                    else
+                        window.location.href = "/Proveedor/Delete/" + data[0];
+                }
+                else if (this.id == 'Edit') {
+                    if (data[0] == null)
+                        alert('No hay registro seleccionado');
+                    else
+                        window.location.href = "/Proveedor/Edit/" + data[0];
+
+                }
+            });
+
+        });
+
+    </script>
+}
+
+
+

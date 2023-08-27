@@ -1,0 +1,25 @@
+﻿/*Personalizacion site*/
+.table {
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 0.1rem; /*padding: 0.75rem; */
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    padding-bottom: 0.1rem;
+    padding-left: 0.1px;
+}
+
+/*.barra-titulo-form {
+    background-color: #192a5c;
+    color: white;
+}
+
+.barra-separador-form {
+    font-style: oblique;
+    background-color: #192a5c;
+    color: white;
+    align-content: center;
+}*/

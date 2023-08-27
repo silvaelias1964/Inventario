@@ -1,0 +1,155 @@
+﻿@model Inventario.Models.ProductoViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Producto";
+    var fncPantalla = "Ver";
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+            <b>@titPantalla</b> - @fncPantalla
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="PrdCodigo" class="control-label"></label>
+                            <input asp-for="PrdCodigo" class="form-control" readonly/>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PrdNombre" class="control-label"></label>
+                            <input asp-for="PrdNombre" class="form-control" readonly />
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CatId" class="control-label"></label>
+                            <select class="form-control select" asp-for="CatId" asp-items=@ViewBag.Categorias disabled></select>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PrvId" class="control-label"></label>
+                            <select class="form-control select" asp-for="PrvId" asp-items=@ViewBag.Proveedor disabled></select>
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col">
+                        <div class="text-center barra-separador-form">
+                            <label class="control-label">Cantidades/Montos</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @*Cantidad*@
+                            <label asp-for="PrdStock" class="control-label"></label>
+                            <input asp-for="PrdStock" class="form-control" readonly />
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @*Minimo*@
+                            <label asp-for="PrdStockMinimo" class="control-label"></label>
+                            <input asp-for="PrdStockMinimo" class="form-control" readonly />
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="PrdCantPorUnidad" class="control-label"></label>
+                            <input asp-for="PrdCantPorUnidad" class="form-control" readonly />
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="PrdPrecioUnidad" class="control-label"></label>
+                            <input asp-for="PrdPrecioUnidad" class="form-control" readonly />
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="PrdEstatus" class="control-label"></label>
+                            <select class="form-control select" asp-for="PrdEstatus" asp-items=@ViewBag.Estatus disabled></select>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="nav navbar-right" style="padding-right: 10px">
+
+                        <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                            <b>
+                                <i class="icon-exit3"></i>
+                            </b> Salir
+                        </button>
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/Libreria.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+        });
+
+        function Cancel() {
+            window.location.href = "/Producto/Index";
+        }
+    </script>
+}
+
+
+
+
