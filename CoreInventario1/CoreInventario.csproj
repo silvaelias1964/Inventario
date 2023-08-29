@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Infrastructure\Configurations\" />
     <Folder Include="Infrastructure\Migrations\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Transversal\Commons\" />
     <Folder Include="Transversal\Logins\" />
   </ItemGroup>

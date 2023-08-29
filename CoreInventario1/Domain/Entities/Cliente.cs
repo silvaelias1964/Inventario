@@ -24,7 +24,7 @@ namespace CoreInventario.Domain.Entities
         [MaxLength(50)]
         public string? CliTitulo { get; set; }
         [MaxLength(500)]
-        public string? PrvDireccion { get; set; }
+        public string? CliDireccion { get; set; }
         [MaxLength(25)]
         public string? CliTelefono1 { get; set; }
         [MaxLength(25)]

@@ -17,6 +17,7 @@ namespace CoreInventario
             services.AddScoped<IProductoService, ProductoService>();
             services.AddScoped<ILibreriaService, LibreriaService>();
             services.AddScoped<IProveedorService, ProveedorService>();
+            services.AddScoped<IClienteService, ClienteService>();
             return services;
         }
     }

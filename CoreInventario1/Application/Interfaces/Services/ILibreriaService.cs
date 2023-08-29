@@ -26,5 +26,11 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> EstatusProveedorList();
+
+        /// <summary>
+        /// Estatus de cliente
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> EstatusClienteList();
     }
 }

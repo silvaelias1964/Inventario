@@ -11,7 +11,7 @@ namespace Inventario.Models
 
         [Display(Name = "Código Producto")]
         [MaxLength(15)]
-        public string PrdCodigo { get; set; }
+        public string? PrdCodigo { get; set; }
 
         [Display(Name = "Nombre del Producto")]
         [Required]
@@ -27,7 +27,7 @@ namespace Inventario.Models
         public int PrvId { get; set; }
 
         [Display(Name = "Cantidad")]
-        [Required]
+        [Required]        
         public int PrdStock { get; set; }
 
         [Display(Name = "Cantidad mínima")]
@@ -36,10 +36,10 @@ namespace Inventario.Models
 
         [Display(Name = "Cant.xUnidad")]
         [MaxLength(20)]
-        public string PrdCantPorUnidad { get; set; }
+        public string? PrdCantPorUnidad { get; set; }
 
         [Display(Name = "Precio Unidad")]
-        [Required]
+        [Required]        
         public decimal PrdPrecioUnidad { get; set; }
 
         [Display(Name = "Estatus")]

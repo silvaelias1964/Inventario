@@ -1,11 +1,11 @@
 ﻿@model Inventario.Models.ProveedorViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var titPantalla = "Proveedor";
-    var fncPantalla = "Agregar";
+    var fncPantalla = "Editar";
 
 }
 
@@ -18,7 +18,7 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form asp-action="Create">
+            <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
                     <div class="col-md-2">
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="row">
-                   <div class="linea"></div>
+                    <div class="linea"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-10">
@@ -176,24 +176,13 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label asp-for="PrvEstatus" class="control-label"></label>                            
-                            <select class="form-control custom-select" asp-for="PrvEstatus" asp-items=@ViewBag.Estatus></select>  
+                            <label asp-for="PrvEstatus" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="PrvEstatus" asp-items=@ViewBag.Estatus></select>
                             <span asp-validation-for="PrvEstatus" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
 
-                @*<div class="row">
-                <div class="form-group">
-                <div class="text-right">
-                <input type="file" asp-for="FotoId" class="file-input" data-show-upload="false" accept="image/*">
-                </div>
-                <div class="caption text-center">
-                <h6 class="text-semibold no-margin"><small class="display-block">Foto</small></h6>
-                </div>
-                </div>
-
-                </div>*@
                 <div class="modal-footer">
                     <div class="nav navbar-right" style="padding-right: 10px">
                         <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
@@ -220,11 +209,11 @@
     <script src="~/js/Libreria.js"></script>
     <script type="text/javascript">
 
-  
+
         $(document).ready(function () {
-  
+
         });
-     
+
         function Cancel() {
             window.location.href = "/Proveedor/Index";
         }</script>

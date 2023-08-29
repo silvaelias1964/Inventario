@@ -11,7 +11,7 @@ namespace Inventario.Models
 
         [Display(Name = "Código Proveedor")]
         [MaxLength(15)]
-        public string PrvCodigo { get; set; }
+        public string? PrvCodigo { get; set; }
 
         [Display(Name = "Nombre de la compañía")]
         [Required]
@@ -20,59 +20,63 @@ namespace Inventario.Models
 
         [Display(Name = "Contacto")]
         [MaxLength(50)]
-        public string PrvContacto { get; set; }
+        public string? PrvContacto { get; set; }
 
         [Display(Name = "Título contacto")]
         [MaxLength(50)]
-        public string PrvTituloContacto { get; set; }
+        public string? PrvTituloContacto { get; set; }
 
         [Display(Name = "Dirección")]
         [MaxLength(500)]
-        public string PrvDireccion { get; set; }
+        public string? PrvDireccion { get; set; }
 
         [Display(Name = "Ciudad")]
         [MaxLength(50)]
-        public string PrvCiudad { get; set; }
+        public string? PrvCiudad { get; set; }
 
         [Display(Name = "Región")]
         [MaxLength(50)]
-        public string PrvRegion { get; set; }
+        public string? PrvRegion { get; set; }
 
         [Display(Name = "Código Postal")]
         [MaxLength(10)]
-        public string PrvCodigoPostal { get; set; }
+        public string? PrvCodigoPostal { get; set; }
 
         [Display(Name = "Teléfono Principal")]
         [MaxLength(25)]
-        public string PrvTelefono1 { get; set; }
+        public string? PrvTelefono1 { get; set; }
 
         [Display(Name = "Teléfono Movil")]
         [MaxLength(25)]
-        public string PrvTelefono2 { get; set; }
+        public string? PrvTelefono2 { get; set; }
 
         [Display(Name = "Teléfono Trabajo")]
         [MaxLength(25)]
-        public string PrvTelefono3 { get; set; }
+        public string? PrvTelefono3 { get; set; }
 
         [Display(Name = "Correo Electrónico 1")]
-        [MaxLength(50)]
-        public string PrvCorreoE1 { get; set; }
+        [MaxLength(50, ErrorMessage = "El {0} debe tener un máximo de {1} caracteres")]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "El Email no es valido!")]
+        public string? PrvCorreoE1 { get; set; }
 
         [Display(Name = "Correo Electrónico 2")]
-        [MaxLength(50)]
-        public string PrvCorreoE2 { get; set; }
+        [MaxLength(50, ErrorMessage = "El {0} debe tener un máximo de {1} caracteres")]
+        [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "El Email no es valido!")]
+        public string? PrvCorreoE2 { get; set; }
 
         [Display(Name = "Pagina Web")]
         [MaxLength(100)]
-        public string PrvPagWeb { get; set; }
+        public string? PrvPagWeb { get; set; }
 
         [Display(Name = "Red Social 1")]
         [MaxLength(100)]
-        public string PrvRedSocial1 { get; set; }
+        public string? PrvRedSocial1 { get; set; }
 
         [Display(Name = "Red Social 2")]
         [MaxLength(100)]
-        public string PrvRedSocial2 { get; set; }
+        public string? PrvRedSocial2 { get; set; }
 
         [Display(Name = "Estatus")]
         [Required]
