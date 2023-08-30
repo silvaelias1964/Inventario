@@ -47,6 +47,9 @@ namespace CoreInventario.Domain.Entities
         [Required]
 		public int PrvEstatus { get; set; }
 
-        public virtual ICollection<Producto> Producto { get; set; }
+        //public int? PrdId { get; set; }
+
+        public ICollection<Producto> Producto { get; set; }
+        
     }
 }

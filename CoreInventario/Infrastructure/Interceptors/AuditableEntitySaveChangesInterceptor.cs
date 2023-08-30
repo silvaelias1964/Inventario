@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using CoreInventario.Domain.Common;
+using System.Threading;
 
 namespace CoreInventario.Infrastructure.Interceptors
 {

@@ -16,6 +16,7 @@ namespace Inventario.Controllers
         private readonly ILibreriaService libreriaService;
 
         private List<SelectListItem> lstEstatusClie;
+        private List<SelectListItem> lstTipoClie;
 
         // Constructor
         public ClienteController(IClienteService clienteService, IMapper mapper, ILibreriaService libreriaService)
@@ -223,7 +224,13 @@ namespace Inventario.Controllers
             lstEstatusClie = libreriaService.EstatusClienteList();
             lstEstatusClie[0].Selected = true;
             ViewBag.Estatus = lstEstatusClie;
+
+            // Lista tipo cliente
+            lstTipoClie = libreriaService.TipoClienteList();
+            lstTipoClie[0].Selected = true;
+            ViewBag.TipoCliente = lstTipoClie;
         }
+
 
         #endregion
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventario", "Inventario\Inventario.csproj", "{CF9CFFD8-DF4E-4040-A85B-6A67EA18FFF7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreInventario", "CoreInventario1\CoreInventario.csproj", "{9518257C-96EE-4594-B608-82DEEC3DF9B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreInventario", "CoreInventario\CoreInventario.csproj", "{FADAD141-CDEA-493C-9670-790DDD870D32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{CF9CFFD8-DF4E-4040-A85B-6A67EA18FFF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF9CFFD8-DF4E-4040-A85B-6A67EA18FFF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF9CFFD8-DF4E-4040-A85B-6A67EA18FFF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9518257C-96EE-4594-B608-82DEEC3DF9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9518257C-96EE-4594-B608-82DEEC3DF9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9518257C-96EE-4594-B608-82DEEC3DF9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9518257C-96EE-4594-B608-82DEEC3DF9B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FADAD141-CDEA-493C-9670-790DDD870D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FADAD141-CDEA-493C-9670-790DDD870D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FADAD141-CDEA-493C-9670-790DDD870D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FADAD141-CDEA-493C-9670-790DDD870D32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -98,5 +98,21 @@ namespace CoreInventario.Application.Services
             return lstEstatus;
         }
 
+        
+        /// <summary>
+        /// Tipo de cliente
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> TipoClienteList()
+        {
+            List<SelectListItem> lstEstatus = new List<SelectListItem>();
+
+            foreach (var option in Enum.GetValues(typeof(TipoClienteEnum)))
+            {
+                lstEstatus.Add(new SelectListItem { Text = Enum.GetName(typeof(TipoClienteEnum), (int)option), Value = ((int)option).ToString() });
+            }
+            return lstEstatus;
+        }
+
     }
 }

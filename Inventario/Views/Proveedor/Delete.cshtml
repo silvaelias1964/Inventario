@@ -1,10 +1,10 @@
-﻿@model Inventario.Models.ProductoViewModel
+﻿@model Inventario.Models.ProveedorViewModel
 
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var titPantalla = "Producto";
+    var titPantalla = "Proveedor";
     var fncPantalla = "Borrar";
 
 }
@@ -26,9 +26,9 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="PrdCodigo" class="control-label"></label>
-                        <input asp-for="PrdCodigo" class="form-control" readonly />
-
+                        <label asp-for="PrvCodigo" class="control-label"></label>
+                        <input asp-for="PrvCodigo" class="form-control" readonly />
+                        <span asp-validation-for="PrvCodigo" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -39,33 +39,31 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <div class="form-group">
-                        <label asp-for="PrdNombre" class="control-label"></label>
-                        <input asp-for="PrdNombre" class="form-control" readonly />
-
+                        <label asp-for="PrvNombreCompania" class="control-label"></label>
+                        <input asp-for="PrvNombreCompania" class="form-control" readonly />
+                        <span asp-validation-for="PrvNombreCompania" class="text-danger"></span>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="form-group">
-                        <label asp-for="CatId" class="control-label"></label>
-                        <select class="form-control select" asp-for="CatId" asp-items=@ViewBag.Categorias disabled></select>
-
+                        <label asp-for="PrvContacto" class="control-label"></label>
+                        <input asp-for="PrvContacto" class="form-control" readonly />
+                        <span asp-validation-for="PrvContacto" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="form-group">
-                        <label asp-for="PrvId" class="control-label"></label>
-                        <select class="form-control select" asp-for="PrvId" asp-items=@ViewBag.Proveedor disabled></select>
-
+                        <label asp-for="PrvTituloContacto" class="control-label"></label>
+                        <input asp-for="PrvTituloContacto" class="form-control" readonly />
+                        <span asp-validation-for="PrvTituloContacto" class="text-danger"></span>
                     </div>
                 </div>
+
             </div>
 
             <div class="row">
@@ -73,46 +71,118 @@
             </div>
 
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-10">
                     <div class="form-group">
-                        @*Cantidad*@
-                        <label asp-for="PrdStock" class="control-label"></label>
-                        <input asp-for="PrdStock" class="form-control" readonly />
-
+                        <label asp-for="PrvDireccion" class="control-label"></label>
+                        <textarea asp-for="PrvDireccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
+                        <span asp-validation-for="PrvDireccion" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        @*Minimo*@
-                        <label asp-for="PrdStockMinimo" class="control-label"></label>
-                        <input asp-for="PrdStockMinimo" class="form-control" readonly />
-
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="PrdCantPorUnidad" class="control-label"></label>
-                        <input asp-for="PrdCantPorUnidad" class="form-control" readonly />
-
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="PrdPrecioUnidad" class="control-label"></label>
-                        <input asp-for="PrdPrecioUnidad" class="form-control" readonly />
-
-                    </div>
-                </div>
-
             </div>
 
 
             <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PrvCiudad" class="control-label"></label>
+                        <input asp-for="PrvCiudad" class="form-control" readonly />
+                        <span asp-validation-for="PrvCiudad" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PrvRegion" class="control-label"></label>
+                        <input asp-for="PrvRegion" class="form-control" readonly />
+                        <span asp-validation-for="PrvRegion" class="text-danger"></span>
+                    </div>
+                </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="PrdEstatus" class="control-label"></label>
-                        <select class="form-control select" asp-for="PrdEstatus" asp-items=@ViewBag.Estatus disabled></select>
+                        <label asp-for="PrvCodigoPostal" class="control-label"></label>
+                        <input asp-for="PrvCodigoPostal" class="form-control" readonly />
+                        <span asp-validation-for="PrvCodigoPostal" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="linea"></div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PrvTelefono1" class="control-label"></label>
+                        <input asp-for="PrvTelefono1" class="form-control" readonly />
+                        <span asp-validation-for="PrvTelefono1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PrvTelefono2" class="control-label"></label>
+                        <input asp-for="PrvTelefono2" class="form-control" readonly />
+                        <span asp-validation-for="PrvTelefono2" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PrvTelefono3" class="control-label"></label>
+                        <input asp-for="PrvTelefono3" class="form-control" readonly />
+                        <span asp-validation-for="PrvTelefono3" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="PrvCorreoE1" class="control-label"></label>
+                        <input asp-for="PrvCorreoE1" class="form-control" readonly />
+                        <span asp-validation-for="PrvCorreoE1" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="PrvCorreoE2" class="control-label"></label>
+                        <input asp-for="PrvCorreoE2" class="form-control" readonly />
+                        <span asp-validation-for="PrvCorreoE2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="PrvPagWeb" class="control-label"></label>
+                        <input asp-for="PrvPagWeb" class="form-control" readonly />
+                        <span asp-validation-for="PrvPagWeb" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="PrvRedSocial1" class="control-label"></label>
+                        <input asp-for="PrvRedSocial1" class="form-control" readonly />
+                        <span asp-validation-for="PrvRedSocial1" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="PrvRedSocial2" class="control-label"></label>
+                        <input asp-for="PrvRedSocial2" class="form-control" readonly />
+                        <span asp-validation-for="PrvRedSocial2" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="PrvEstatus" class="control-label"></label>
+                        <select class="form-control custom-select" asp-for="PrvEstatus" asp-items=@ViewBag.Estatus disabled></select>
+                        <span asp-validation-for="PrvEstatus" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -151,7 +221,7 @@
         });
 
         function Cancel() {
-            window.location.href = "/Producto/Index";
+            window.location.href = "/Proveedor/Index";
         }
     </script>
 }

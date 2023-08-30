@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,8 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Application\Configurations\" />
     <Folder Include="Infrastructure\Configurations\" />
     <Folder Include="Infrastructure\Migrations\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Transversal\Commons\" />
     <Folder Include="Transversal\Logins\" />
   </ItemGroup>

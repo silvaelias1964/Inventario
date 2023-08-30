@@ -30,7 +30,7 @@ namespace CoreInventario.Application.Services
         /// <returns></returns>
         public async Task<IEnumerable> GetAll()
         {
-            var entities = unitOfWork.Proveedor.GetAll();
+            var entities = unitOfWork.Cliente.GetAll();
             return (IEnumerable)entities;
         }
 

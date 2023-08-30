@@ -20,6 +20,9 @@ namespace CoreInventario.Transversal.Mappers
            : base(profileName)
         {
             CreateMap<Producto, ProductoModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Proveedor, ProveedorModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Cliente, ClienteModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+
 
             //CreateMap<Socios, SociosDTO>().ReverseMap()
             //.ForPath(x => x.Cedula, x => x.MapFrom(y => y.Cedula))

@@ -9,6 +9,7 @@ namespace Inventario.Models
         [Display(Name = "Id")]
         public int Id { get; set; }
 
+        [Display(Name = "Doc. Identificación")]
         [MaxLength(15)]
         public string? CliCodigo { get; set; }
 

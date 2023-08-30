@@ -46,6 +46,8 @@ namespace CoreInventario.Application.Models
 
         public int PrvEstatus { get; set; }
 
-        public virtual ICollection<Producto> Producto { get; set; }
+        //public int? PrdId { get; set; }
+
+        public virtual Producto Producto { get; set; }
     }
 }

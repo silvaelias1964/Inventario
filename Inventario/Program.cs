@@ -28,8 +28,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseLazyLoadingProxies().UseSqlServer(
-                    connectionString, b => b.MigrationsAssembly("CoreInventario1.Infrastructure.Migrations")));   
+                options.UseLazyLoadingProxies().UseSqlServer(                    
+                connectionString, b => b.MigrationsAssembly("CoreInventario.Infrastructure.Migration")));  //connectionString, b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));   
 
 builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
 

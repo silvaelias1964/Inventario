@@ -32,5 +32,11 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> EstatusClienteList();
+
+        /// <summary>
+        /// Tipo de cliente
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> TipoClienteList();
     }
 }
