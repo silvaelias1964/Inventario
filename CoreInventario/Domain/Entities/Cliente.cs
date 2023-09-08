@@ -12,6 +12,7 @@ namespace CoreInventario.Domain.Entities
     public class Cliente : BaseAuditableEntity
     {
 		[MaxLength(15)]
+        [Required]
         public string CliCodigo { get; set; }
 		[MaxLength(1)]
 		[Required]

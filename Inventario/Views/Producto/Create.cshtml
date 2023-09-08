@@ -15,15 +15,29 @@
 }
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 barra-titulo-form barra-titulo-form">
-            <b>@titPantalla</b> - @fncPantalla
-        </div>
-    </div>
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Confirmar
+                    </button>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <form asp-action="Create">
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+            
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
                     <div class="col-md-2">
@@ -130,26 +144,11 @@
                 </div>
 
                 </div>*@
-                <div class="modal-footer">
-                    <div class="nav navbar-right" style="padding-right: 10px">
-                        <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
-                            <b>
-                                <i class="icon-checkmark3"></i>
-                            </b> Confirmar
-                        </button>
 
-                        <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
-                            <b>
-                                <i class="icon-exit3"></i>
-                            </b> Salir
-                        </button>
-                    </div>
-                </div>
-
-            </form>
+            
+            </div>
         </div>
-    </div>
-
+    </form>
 </div>
 
 @section Scripts {

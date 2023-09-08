@@ -12,6 +12,7 @@ namespace CoreInventario.Domain.Entities
     {
 
         [MaxLength(15)]
+        [Required]
         public string PrvCodigo { get; set; }
 		[Required]
         [MaxLength(100)]

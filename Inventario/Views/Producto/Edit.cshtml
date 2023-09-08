@@ -15,131 +15,128 @@
 }
 
 <div class="container-fluid">
+    <form asp-action="Edit">
     <div class="row">
         <div class="col-lg-12 barra-titulo-form barra-titulo-form">
             <b>@titPantalla</b> - @fncPantalla
+            <div class="nav navbar-right" style="padding-right: 10px">
+                <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                    <b>
+                        <i class="icon-checkmark3"></i>
+                    </b> Confirmar
+                </button>
+
+                <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                    <b>
+                        <i class="icon-exit3"></i>
+                    </b> Salir
+                </button>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-12">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label asp-for="PrdCodigo" class="control-label"></label>
-                            <input asp-for="PrdCodigo" class="form-control" />
-                            <span asp-validation-for="PrdCodigo" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" readonly />
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="PrdNombre" class="control-label"></label>
-                            <input asp-for="PrdNombre" class="form-control" />
-                            <span asp-validation-for="PrdNombre" class="text-danger"></span>
-                        </div>
+ 
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="PrdCodigo" class="control-label"></label>
+                        <input asp-for="PrdCodigo" class="form-control" />
+                        <span asp-validation-for="PrdCodigo" class="text-danger"></span>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="CatId" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="CatId" asp-items=@ViewBag.Categorias></select>
-                            <span asp-validation-for="CatId" class="text-danger"></span>
-                        </div>
-                    </div>
+                <div class="col-md-2">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly />
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="PrvId" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="PrvId" asp-items=@ViewBag.Proveedor></select>
-                            <span asp-validation-for="PrvId" class="text-danger"></span>
-                        </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PrdNombre" class="control-label"></label>
+                        <input asp-for="PrdNombre" class="form-control" />
+                        <span asp-validation-for="PrdNombre" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="linea"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CatId" class="control-label"></label>
+                        <select class="form-control custom-select" asp-for="CatId" asp-items=@ViewBag.Categorias></select>
+                        <span asp-validation-for="CatId" class="text-danger"></span>
+                    </div>
                 </div>
+            </div>
 
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            @*Cantidad*@
-                            <label asp-for="PrdStock" class="control-label"></label>
-                            <input asp-for="PrdStock" class="form-control" />
-                            <span asp-validation-for="PrdStock" class="text-danger"></span>
-                        </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PrvId" class="control-label"></label>
+                        <select class="form-control custom-select" asp-for="PrvId" asp-items=@ViewBag.Proveedor></select>
+                        <span asp-validation-for="PrvId" class="text-danger"></span>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            @*Minimo*@
-                            <label asp-for="PrdStockMinimo" class="control-label"></label>
-                            <input asp-for="PrdStockMinimo" class="form-control" />
-                            <span asp-validation-for="PrdStockMinimo" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label asp-for="PrdCantPorUnidad" class="control-label"></label>
-                            <input asp-for="PrdCantPorUnidad" class="form-control" />
-                            <span asp-validation-for="PrdCantPorUnidad" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="PrdPrecioUnidad" class="control-label"></label>
-                            <input asp-for="PrdPrecioUnidad" class="form-control" />
-                            <span asp-validation-for="PrdPrecioUnidad" class="text-danger"></span>
-                        </div>
-                    </div>
-
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="linea"></div>
+            </div>
 
 
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label asp-for="PrdEstatus" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="PrdEstatus" asp-items=@ViewBag.Estatus></select>
-                            <span asp-validation-for="PrdEstatus" class="text-danger"></span>
-                        </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @*Cantidad*@
+                        <label asp-for="PrdStock" class="control-label"></label>
+                        <input asp-for="PrdStock" class="form-control" />
+                        <span asp-validation-for="PrdStock" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @*Minimo*@
+                        <label asp-for="PrdStockMinimo" class="control-label"></label>
+                        <input asp-for="PrdStockMinimo" class="form-control" />
+                        <span asp-validation-for="PrdStockMinimo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PrdCantPorUnidad" class="control-label"></label>
+                        <input asp-for="PrdCantPorUnidad" class="form-control" />
+                        <span asp-validation-for="PrdCantPorUnidad" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="PrdPrecioUnidad" class="control-label"></label>
+                        <input asp-for="PrdPrecioUnidad" class="form-control" />
+                        <span asp-validation-for="PrdPrecioUnidad" class="text-danger"></span>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <div class="nav navbar-right" style="padding-right: 10px">
-                        <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
-                            <b>
-                                <i class="icon-checkmark3"></i>
-                            </b> Confirmar
-                        </button>
+            </div>
 
-                        <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
-                            <b>
-                                <i class="icon-exit3"></i>
-                            </b> Salir
-                        </button>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="PrdEstatus" class="control-label"></label>
+                        <select class="form-control custom-select" asp-for="PrdEstatus" asp-items=@ViewBag.Estatus></select>
+                        <span asp-validation-for="PrdEstatus" class="text-danger"></span>
                     </div>
                 </div>
-
-            </form>
+            </div>
+            
         </div>
     </div>
-
+    </form>
 </div>
 
 @section Scripts {

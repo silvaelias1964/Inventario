@@ -22,6 +22,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Proveedor> Proveedor { get; set; }        
         public DbSet<Producto> Producto { get; set; }
+        public DbSet<Entrada> Entrada { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,16 +31,19 @@ namespace CoreInventario.Infrastructure.Contexts
             builder.Entity<Cliente>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasIndex(e => e.CliCodigo).IsUnique();
             });
 
             builder.Entity<Proveedor>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasIndex(e => e.PrvCodigo).IsUnique();
             });
 
             builder.Entity<Producto>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasIndex(e => e.PrdCodigo).IsUnique();
                 entity.HasOne(e => e.CategoriaProducto)
                     .WithMany(c => c.Producto)
                     .HasForeignKey("CatId")
@@ -51,9 +55,23 @@ namespace CoreInventario.Infrastructure.Contexts
 
             });
 
+            builder.Entity<Entrada>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();                
+                //entity.HasOne(e => e.Producto)
+                //    .WithMany(c => c.)
+                //    .HasForeignKey("EntId")
+                //    .OnDelete(DeleteBehavior.NoAction);
+
+            });
+
             // Atributos de campo
             builder.Entity<Producto>()
                 .Property(p => p.PrdPrecioUnidad)
+                .HasColumnType("decimal(18,2)");
+
+            builder.Entity<Entrada>()
+                .Property(p => p.EntPrecioUnidad)
                 .HasColumnType("decimal(18,2)");
 
 
