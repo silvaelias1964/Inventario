@@ -1,4 +1,5 @@
 ﻿using CoreInventario.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,6 +30,10 @@ namespace CoreInventario.Application.Models
         public int PrdStock { get; set; }
 
         public int PrdEstatus { get; set; }
+
+        public string PrdFoto1 { get; set; }
+        public string PrdFoto2 { get; set; }
+        
 
         public virtual CategoriaProducto CategoriaProductos { get; set; }
         public virtual Proveedor Proveedores { get; set; }

@@ -29,6 +29,13 @@ namespace CoreInventario.Domain.Entities
         public int PrdStock { get; set; }
         [Required]
         public int PrdEstatus { get; set; }
+
+        [MaxLength(100)]
+        public string PrdFoto1 { get; set; }
+
+        [MaxLength(100)]
+        public string PrdFoto2 { get; set; }
+
         public virtual CategoriaProducto CategoriaProducto { get; set; }
         public virtual Proveedor Proveedor { get; set; }
 

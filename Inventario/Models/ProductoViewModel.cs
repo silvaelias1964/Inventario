@@ -46,6 +46,16 @@ namespace Inventario.Models
         [Required]
         public int PrdEstatus { get; set; }
 
+        [Display(Name = "Foto 1 Producto")]
+        public string PrdFoto1 { get; set; }
+
+        [Display(Name = "Foto 2 Producto")]
+        public string PrdFoto2 { get; set; }
+
+        public IFormFile File1 { get; set; }
+        public IFormFile File2 { get; set; }
+        
+
         /// <summary>
         /// Pasar los datos de la vista al modelo
         /// </summary>
@@ -62,6 +72,8 @@ namespace Inventario.Models
             model.PrdStockMinimo = PrdStockMinimo;
             model.PrdStock = PrdStock;
             model.PrdEstatus=PrdEstatus;
+            model.PrdFoto1 = PrdFoto1;
+            model.PrdFoto2 = PrdFoto2;
         }
 
         /// <summary>
@@ -80,6 +92,8 @@ namespace Inventario.Models
             PrdStockMinimo = model.PrdStockMinimo;
             PrdStock = model.PrdStock;
             PrdEstatus = model.PrdEstatus;
+            PrdFoto1 = model.PrdFoto1;
+            PrdFoto2 = model.PrdFoto2;
         }
 
     }
