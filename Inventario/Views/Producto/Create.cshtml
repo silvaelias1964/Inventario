@@ -133,6 +133,39 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PrdFoto1" class="control-label"></label>
+                            <img src="" width="100" height="100" id="foto1">
+                            <div class="thumbnail no-padding">
+                                <div class="text-right">
+                                    <input type="file" id="File1" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(1);">
+                                </div>
+                            </div>
+                            <input asp-for="PrdFoto1" class="form-control" hidden />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="PrdFoto2" class="control-label"></label>
+                            <img src="" width="100" height="100" id="foto2">
+                            <div class="thumbnail no-padding">
+                                <div class="text-right">
+                                    <input type="file" id="File2" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(2);">
+                                </div>
+                            </div>
+                            <input asp-for="PrdFoto2" class="form-control" hidden />
+                        </div>
+                    </div>
+
+                </div>
+
+
                 @*<div class="row">
                 <div class="form-group">
                 <div class="text-right">
@@ -152,12 +185,14 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/Libreria.js"></script>
+   @*  <script src="~/js/Libreria.js"></script> *@
     <script type="text/javascript">
 
         //CalculoEdad();
 
         $(document).ready(function () {
+            MostrarImg(3);
+
             /*
             CargarCiudades();
             CargarMunicipios();
@@ -223,7 +258,10 @@
 
         function Cancel() {
             window.location.href = "/Producto/Index";
-        }</script>
+        }
+
+
+    </script>
 }
 
 

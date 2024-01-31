@@ -23,6 +23,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<Proveedor> Proveedor { get; set; }        
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Entrada> Entrada { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

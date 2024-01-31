@@ -3,8 +3,10 @@ using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using Inventario.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace Inventario.Controllers
 {
@@ -97,6 +99,28 @@ namespace Inventario.Controllers
 
             ProductoViewModel viewModel = new ProductoViewModel();
             viewModel.MapToViewModel(ref producto);
+
+
+            //var file = viewModel.File1;
+
+            //var fileBytes = System.IO.File.ReadAllBytes(@"C:\Proyectos\Inventario\Inventario\wwwroot\FotosProductos\" + viewModel.PrdFoto1);
+            //string s = Convert.ToBase64String(fileBytes);
+            //file = s;
+
+            //var stream = new FileStream(@"C:\Proyectos\Inventario\Inventario\wwwroot\FotosProductos\" + viewModel.PrdFoto1, FileMode.Open);
+
+            //using (var stream = new FileStream(@"C:\Proyectos\Inventario\Inventario\wwwroot\FotosProductos\" + viewModel.PrdFoto1, FileMode.Open))
+            //{
+            //    file.CopyTo(stream);
+            //}
+
+            //using (var fileStream = new FileStream(Path.Combine(@"C:\Proyectos\Inventario\Inventario\wwwroot\FotosProductos\", viewModel.PrdFoto1), FileMode.Open))
+            //    {
+            //        await viewModel.File1.CopyToAsync(fileStream);
+            //    }
+
+
+
 
             // Buscar Ciudad en el combo
             //BuscarCiudadId(viewModel.EstadoId, viewModel.CiudadId);
@@ -349,6 +373,44 @@ namespace Inventario.Controllers
             //ViewBag.Ciudad = lstCiudades;
         }
 
+        //public async Task UploadDocumentAsync(IFormFile file)
+        //{
+        //    using (var fileStream = new FileStream(Path.Combine(_documentUploadConfiguration.UploadPath, file.FileName), FileMode.Create))
+        //    {
+        //        await file.CopyToAsync(fileStream);
+        //    }
+        //}
+
+        public ActionResult UploadFiles3(List<IFormFile> files)
+        {
+            string nams = "";
+            string funame = "";
+            var list = new List<MediaFileModel>();
+            int posicion = 0;
+
+            return Json(files);
+
+        }
+
+        public class MediaFileModel
+        {
+
+            public int Id { get; set; }
+
+            public byte[] Image { get; set; }
+
+            public string ImageType { get; set; }
+
+            public string Url { get; set; }
+
+            public int MediaFileType { get; set; }
+
+            public string FileName { get; set; }
+
+            public string ContentType { get; set; }
+
+
+        }
 
         #endregion
 

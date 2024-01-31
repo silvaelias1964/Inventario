@@ -49,3 +49,44 @@ function totalFactura() {
 
 }
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [day, month, year].join('/');
+}
+
+// Desplegar imagenes de producto, solo dos
+function MostrarImg(opt) {
+    let nomImg = "";
+    let pos = 0;
+    let nomDef = "";
+    if (opt === 1) {
+        nomImg = File1.value;
+        pos = nomImg.lastIndexOf("\\");
+        nomDef = nomImg.substr(pos + 1);
+        document.getElementById("foto1").src = "/FotosProductos/" + nomDef;
+        $("#PrdFoto1").val(nomDef);
+    }
+    else if (opt === 2) {
+        nomImg = File2.value;
+        pos = nomImg.lastIndexOf("\\");
+        nomDef = nomImg.substr(pos + 1);
+        document.getElementById("foto2").src = "/FotosProductos/" + nomDef;
+        $("#PrdFoto2").val(nomDef);
+    }
+    else {
+        nomDef = $("#PrdFoto1").val();
+        document.getElementById("foto1").src = "/FotosProductos/" + nomDef;
+        nomDef = $("#PrdFoto2").val();
+        document.getElementById("foto2").src = "/FotosProductos/" + nomDef;
+    }
+}
+

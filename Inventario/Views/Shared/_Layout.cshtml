@@ -1,4 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using CoreInventario.Transversal.Logins;
+@using CoreInventario.Application.DTOS;
+@{
+    // Recuperar sesion
+    List<UsuarioSesionDTO> datos = Context.Session.GetObject<List<UsuarioSesionDTO>>("dataUserSession");
+
+    string nombre = "";
+    string foto = "";
+    foreach (var item in datos)
+    {
+        nombre = item.Usuario;
+        foto = item.Foto;
+    }
+
+
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -358,25 +374,25 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-@*                                    @if (nombre != null)
+                                   @if (nombre != null)
                                     {
                                         @nombre
                                     }
 
-*@                                </span>
+                                </span>
 
 
                                 @{
-                                    //@if (foto != null)
-                                    //{
-                                    //    <img class="img-profile rounded-circle"
-                                    //         src=@foto>
-                                    //}
-                                    //else
-                                    //{
-                                    //    <img class="img-profile rounded-circle"
-                                    //         src="~/avatar/defaultUser.png">
-                                    //}
+                                    @if (foto != null)
+                                    {
+                                       <img class="img-profile rounded-circle"
+                                            src=@foto>
+                                    }
+                                    else
+                                    {
+                                       <img class="img-profile rounded-circle"
+                                            src="~/avatar/defaultUser.png">
+                                    }
 
                                 }
 
@@ -493,7 +509,7 @@
     <!-- Custom scripts for all pages-->
     <script src="~/plantilla/js/sb-admin-2.min.js"></script>
 
-    <script src="~/lib/common/libreria.js" asp-append-version="true"></script>
+    <script src="~/js/Libreria.js" asp-append-version="true"></script>
 
     <!-- Page level plugins -->
     <script src="~/plantilla/vendor/datatables/jquery.dataTables.min.js"></script>

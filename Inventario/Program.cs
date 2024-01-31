@@ -27,28 +27,43 @@ builder.Services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(                    
-                connectionString, b => b.MigrationsAssembly("CoreInventario.Infrastructure.Migration")));  //connectionString, b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));   
-
-builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
-
+                connectionString, b => b.MigrationsAssembly("CoreInventario.Migration")));  //connectionString, b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));   
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//               .AddCookie(options =>
-//               {
-//                   options.LoginPath = "/Inicio/IniciarSesion";
-//                   options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-//               });
+// Security
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.LoginPath = "/Inicio/IniciarSesion";
+                   options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+               });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(
+            new ResponseCacheAttribute
+            {
+                NoStore = true,
+                Location = ResponseCacheLocation.None,
+            }
+        );
+});
+
+
+// builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
 builder.Services.AddCoreInventarioServices(builder.Configuration);   // Aqui los servicios de CoreInventario
 // Repositorios
+builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
 builder.Services.AddTransient<ICategoriaProductoRepository, CategoriaProductoRepository>();
 builder.Services.AddTransient<IProveedorRepository, ProveedorRepository>();
@@ -68,6 +83,18 @@ builder.Services.AddControllers();
 
 #endregion
 
+// Sesiones
+builder.Services.AddResponseCaching();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
+builder.Services.AddMvc();
+builder.Services.AddDistributedMemoryCache();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -84,10 +111,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    //pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Inicio}/{action=IniciarSesion}/{id?}");
 app.MapRazorPages();
 
 app.Run();

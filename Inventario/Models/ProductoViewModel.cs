@@ -52,8 +52,8 @@ namespace Inventario.Models
         [Display(Name = "Foto 2 Producto")]
         public string PrdFoto2 { get; set; }
 
-        public IFormFile File1 { get; set; }
-        public IFormFile File2 { get; set; }
+        //public IFormFile File1 { get; set; }
+        //public IFormFile File2 { get; set; }
         
 
         /// <summary>

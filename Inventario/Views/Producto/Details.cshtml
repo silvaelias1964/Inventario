@@ -122,6 +122,29 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="linea"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PrdFoto1" class="control-label"></label>
+                        <img src="" width="100" height="100" id="foto1">
+                        <input asp-for="PrdFoto1" class="form-control" hidden />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PrdFoto2" class="control-label"></label>
+                        <img src="" width="100" height="100" id="foto2">
+                        <input asp-for="PrdFoto2" class="form-control" hidden />
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 
@@ -133,7 +156,7 @@
 
 
         $(document).ready(function () {
-
+            MostrarImg(3);
         });
 
         function Cancel() {

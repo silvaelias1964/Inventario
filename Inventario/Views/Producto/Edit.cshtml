@@ -140,22 +140,23 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        @* <div class="form-group"> *@
                             <label asp-for="PrdFoto1" class="control-label"></label>
                             <img src="" width="100" height="100" id="foto1">
                             <div class="thumbnail no-padding">
                                 
-                                    <div class="text-right">
-                                        <input type="file" asp-for="File1" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(1);">
-                                    </div>
-                                    @* <div class="caption text-center">
-                                        <h6 class="text-semibold no-margin"><small class="display-block">@Localizer["Picture"]</small></h6>
-                                    </div> *@
+                                <div class="text-right">
+                                    @* <input type="file" asp-for="File1" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(1);"> *@
+                                    <input type="file" id="File1" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(1);">
+                                </div>
+                                @* <div class="caption text-center">
+                                    <h6 class="text-semibold no-margin"><small class="display-block">@Localizer["Picture"]</small></h6>
+                                </div> *@
                                 
                             </div>
                             <input asp-for="PrdFoto1" class="form-control" hidden />
 
-                        </div>
+                        @* </div> *@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -163,12 +164,13 @@
                             <img src="" width="100" height="100" id="foto2">
                             <div class="thumbnail no-padding">
                                 
-                                    <div class="text-right">
-                                          <input type="file" asp-for="File2" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(2);">
-                                    </div>
-                                    @* <div class="caption text-center">
-                                    <h6 class="text-semibold no-margin"><small class="display-block">@Localizer["Picture"]</small></h6>
-                                    </div> *@
+                                <div class="text-right">
+                                        @* <input type="file" asp-for="File2" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(2);"> *@
+                                    <input type="file" id="File2" class="file-input" data-show-upload="false" accept="image/*" onchange="MostrarImg(2);">
+                                </div>
+                                @* <div class="caption text-center">
+                                <h6 class="text-semibold no-margin"><small class="display-block">@Localizer["Picture"]</small></h6>
+                                </div> *@
                                 
                             </div>
                             <input asp-for="PrdFoto2" class="form-control" hidden />
@@ -185,12 +187,16 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/Libreria.js"></script>
+   @*  <script src="~/js/Libreria.js"></script> *@
     <script type="text/javascript">
 
         //CalculoEdad();
 
         $(document).ready(function () {
+
+            MostrarImg(3);            
+
+
             /*
             CargarCiudades();
             CargarMunicipios();
@@ -258,29 +264,78 @@
             window.location.href = "/Producto/Index";
         }
 
-        function MostrarImg(opt) {
-            let nomImg = "";
-            let pos = 0;
-            let nomDef = "";
-            if (opt == 1) {
-                nomImg = File1.value;
-                pos = nomImg.lastIndexOf("\\"); 
-                nomDef = nomImg.substr(pos + 1);                
-                document.getElementById("foto1").src = "/FotosProductos/" + nomDef;
-                $("#PrdFoto1").val(nomDef);
-                //document.getElementById("File1").src = "/FotosProductos/" + nomDef;
-                
-            }
-            else {
-                nomImg = File2.value;
-                pos = nomImg.lastIndexOf("\\");
-                nomDef = nomImg.substr(pos + 1);
-                document.getElementById("foto2").src = "/FotosProductos/" + nomDef;
-                $("#PrdFoto2").val(nomDef);
-                //document.getElementById("File2").src = "/FotosProductos/" + nomDef;
-            }
-            
+        // function MostrarImg(opt) {
+        //     let nomImg = "";
+        //     let pos = 0;
+        //     let nomDef = "";
+        //     if (opt == 1) {
+        //         nomImg = File1.value;
+        //         pos = nomImg.lastIndexOf("\\");
+        //         nomDef = nomImg.substr(pos + 1);
+        //         document.getElementById("foto1").src = "/FotosProductos/" + nomDef;
+        //         $("#PrdFoto1").val(nomDef);
+        //         //document.getElementById("File1").src = "/FotosProductos/" + nomDef;
+
+        //     }
+        //     else if (opt == 2) {
+        //         nomImg = File2.value;
+        //         pos = nomImg.lastIndexOf("\\");
+        //         nomDef = nomImg.substr(pos + 1);
+        //         document.getElementById("foto2").src = "/FotosProductos/" + nomDef;
+        //         $("#PrdFoto2").val(nomDef);
+        //         //document.getElementById("File2").src = "/FotosProductos/" + nomDef;
+        //     }
+        //     else {
+        //         nomDef = $("#PrdFoto1").val();
+        //         document.getElementById("foto1").src = "/FotosProductos/" + nomDef;
+        //         nomDef = $("#PrdFoto2").val();
+        //         document.getElementById("foto2").src = "/FotosProductos/" + nomDef;
+
+        //         //uploadFiles('File1');
+
+        //     }
+
+        // }
+
+
+
+        function uploadFiles(inputId) {
+            // var input = document.getElementById(inputId);
+            // var files = input.files;
+            // var formData = new FormData();
+
+            // for (var i = 0; i != files.length; i++) {
+            //     formData.append("files", files[i]);
+            // }
+
+            var formData = new FormData(document.getElementById(inputId));
+            //formData.append("dato", "valor");
+            formData.append("files", { name: "2.jpg", lastModified: 1681191864000, size: 13019, type: "image/jpeg" });
+
+            //formData.append("files", files);
+            //if (files.length > 0) {
+                $.ajax(
+                    {
+                        url: "@Url.Action("UploadFiles3", "Producto")",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        type: "POST",
+                        success: function (data) {
+                            if (data.length > 0) {
+                                for (var x = 0; x != data.length; x++) {
+                                    ListFiles.push(data[x]);
+                                }
+                            }
+
+                            alert("Files Uploaded!");
+
+                        }
+                    }
+                );
+            //}
         }
+
 
     </script>
 }

@@ -2,6 +2,7 @@
 using CoreInventario.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace CoreInventario
             services.AddScoped<ILibreriaService, LibreriaService>();
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddTransient<SesionService>();
             return services;
         }
     }
