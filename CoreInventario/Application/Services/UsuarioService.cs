@@ -34,6 +34,9 @@ namespace CoreInventario.Application.Services
 
         public async Task<Usuario> SaveUsuario(Usuario modelo)
         {
+            if (modelo.Foto == null)
+                modelo.Foto="/avatar/defaultUser.png";
+
             await usuarioRepository.Add(modelo);
             usuarioRepository.Save();
             return modelo;
