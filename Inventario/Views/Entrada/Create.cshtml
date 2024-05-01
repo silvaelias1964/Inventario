@@ -1,0 +1,157 @@
+﻿@model Inventario.Models.EntradaViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Entradas";
+    var fncPantalla = "Agregar";
+
+    // Set de campos input Date
+    DateTime fecha = DateTime.Today;
+    var fechaini = fecha.ToString("dd/MM/yyyy");
+
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Confirmar
+                    </button>
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="ProductoId" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="ProductoId" asp-items=@ViewBag.Productos></select>
+                            <span asp-validation-for="ProductoId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label asp-for="EntFecha" class="control-label"></label>
+                        <input asp-for="EntFecha" class="form-control daterange-single" readonly value=@fechaini />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">                
+                            <label class="control-label">Nombre del Producto</label>
+                            <input id="NombrePrd" class="form-control" readonly/>                
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                 <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            
+                            <label asp-for="EntStock" class="control-label"></label>
+                            <input asp-for="EntStock" class="form-control" />
+                            <span asp-validation-for="EntStock" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="EntPrecioUnidad" class="control-label"></label>
+                            <input asp-for="EntPrecioUnidad" class="form-control" />
+                            <span asp-validation-for="EntPrecioUnidad" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="EntDetalles" class="control-label"></label>
+                            <textarea asp-for="EntDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            <span asp-validation-for="EntDetalles" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+               @*  <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="PrdEstatus" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="PrdEstatus" asp-items=@ViewBag.Estatus></select>
+                            <span asp-validation-for="PrdEstatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div> *@
+
+
+
+
+
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @*  <script src="~/js/Libreria.js"></script> *@
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#ProductoId").change(function () {
+                //alert($("#ProductoId").val());
+                let cadena = $("#ProductoId option:selected").text();
+                cadena = cadena.substring(cadena.indexOf("-") + 1);
+
+                $("#NombrePrd").val(cadena);
+            });
+
+        });
+
+
+
+
+        function Cancel() {
+            window.location.href = "/Entrada/Index";
+        }
+
+
+    </script>
+}
+
+

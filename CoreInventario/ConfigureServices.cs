@@ -20,6 +20,7 @@ namespace CoreInventario
             services.AddScoped<IProveedorService, ProveedorService>();
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IEntradaService, EntradaService>();
             services.AddTransient<SesionService>();
             return services;
         }

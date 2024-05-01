@@ -68,7 +68,9 @@ builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
 builder.Services.AddTransient<ICategoriaProductoRepository, CategoriaProductoRepository>();
 builder.Services.AddTransient<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
+builder.Services.AddTransient<IEntradaRepository, EntradaRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 #region Automapper
 var config = new MapperConfiguration(cfg =>

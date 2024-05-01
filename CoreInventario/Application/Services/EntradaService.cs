@@ -5,7 +5,6 @@ using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,16 +14,17 @@ using System.Threading.Tasks;
 
 namespace CoreInventario.Application.Services
 {
+  
     /// <summary>
-    /// Productos
+    /// Entradas al inventario
     /// </summary>
-    public class ProductoService : IProductoService
+    public class EntradaService : IEntradaService
     {
-        private readonly IUnitOfWork unitOfWork;        
+        private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-       
+
         // Constructor
-        public ProductoService(IUnitOfWork unitOfWork, IMapper mapper)
+        public EntradaService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
@@ -36,7 +36,7 @@ namespace CoreInventario.Application.Services
         /// <returns></returns>
         public async Task<IEnumerable> GetAll()
         {
-            var entities = unitOfWork.Producto.GetAll();
+            var entities = unitOfWork.Entrada.GetAll();
             return (IEnumerable)entities;
         }
 
@@ -45,9 +45,9 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Producto> GetById(int id)
+        public async Task<Entrada> GetById(int id)
         {
-            Producto entities = unitOfWork.Producto.GetByID(id);
+            Entrada entities = unitOfWork.Entrada.GetByID(id);
             return entities;
         }
 
@@ -56,7 +56,7 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<string> Add(ProductoModel model)
+        public async Task<string> Add(EntradaModel model)
         {
             try
             {
@@ -74,11 +74,10 @@ namespace CoreInventario.Application.Services
                 //    PrdEstatus = model.PrdEstatus
                 //};
 
-                var entity = mapper.Map<Producto>(model); //Mapping con mapper
-                entity.PrvId= entity.PrvId==0 ? null: entity.PrvId;
-                entity.CatId= entity.CatId==0 ? null : entity.CatId;
-                await unitOfWork.Producto.Add(entity);
-                unitOfWork.Producto.Save();
+                var entity = mapper.Map<Entrada>(model); //Mapping con mapper
+                entity.ProductoId = entity.ProductoId == 0 ? null : entity.ProductoId;                
+                await unitOfWork.Entrada.Add(entity);
+                unitOfWork.Entrada.Save();
                 return "Ok";
             }
             catch (Exception ex)
@@ -89,7 +88,7 @@ namespace CoreInventario.Application.Services
             }
         }
 
-        public async Task<string> Edit(ProductoModel model)
+        public async Task<string> Edit(EntradaModel model)
         {
             try
             {
@@ -106,11 +105,10 @@ namespace CoreInventario.Application.Services
                 //    PrdStock = model.PrdStock,
                 //    PrdEstatus = model.PrdEstatus
                 //};
-                var entity = mapper.Map<Producto>(model); //Mapping con mapper               
-                entity.PrvId = entity.PrvId == 0 ? null : entity.PrvId;
-                entity.CatId = entity.CatId == 0 ? null : entity.CatId;
-                await unitOfWork.Producto.Update(entity);
-                unitOfWork.Producto.Save();
+                var entity = mapper.Map<Entrada>(model); //Mapping con mapper               
+                entity.ProductoId = entity.ProductoId == 0 ? null : entity.ProductoId;                
+                await unitOfWork.Entrada.Update(entity);
+                unitOfWork.Entrada.Save();
                 return "Ok";
             }
             catch (Exception ex)
@@ -132,8 +130,8 @@ namespace CoreInventario.Application.Services
         {
             try
             {
-                await unitOfWork.Producto.Delete(id);
-                unitOfWork.Producto.Save();
+                await unitOfWork.Entrada.Delete(id);
+                unitOfWork.Entrada.Save();
 
                 return "Ok";
             }
@@ -144,32 +142,6 @@ namespace CoreInventario.Application.Services
                 return "Error: " + error + " - " + msg;
             }
         }
-
-        /// <summary>
-        /// Listado de Productos (combo)
-        /// </summary>
-        /// <returns></returns>
-        public List<SelectListItem> ProductosList()
-        {
-            List<SelectListItem> lstSalida = new List<SelectListItem>();
-
-            var lista = unitOfWork.Producto.GetAll();
-            if (lista.Count() > 0)
-            {
-                foreach (var item in lista)
-                {
-                    lstSalida.Add(new SelectListItem() { Text = item.PrdCodigo+'-'+item.PrdNombre, Value = item.Id.ToString() });
-                }
-            }
-            else
-            {
-                lstSalida.Add(new SelectListItem() { Text = "No hay productos", Value = "0" });
-            }
-
-            return lstSalida;
-        }
-
-
 
     }
 }

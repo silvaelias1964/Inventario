@@ -1,6 +1,5 @@
 ﻿using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,18 +9,17 @@ using System.Threading.Tasks;
 
 namespace CoreInventario.Application.Interfaces.Services
 {
-    public interface IProductoService
+
+    public interface IEntradaService
     {
         Task<IEnumerable> GetAll();
 
-        Task<Producto> GetById(int id);
+        Task<Entrada> GetById(int id);
 
-        Task<string> Add(ProductoModel model);
+        Task<string> Add(EntradaModel model);
 
-        Task<string> Edit(ProductoModel model);
+        Task<string> Edit(EntradaModel model);
 
         Task<string> Delete(int id);
-
-        List<SelectListItem> ProductosList();
     }
 }

@@ -24,6 +24,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Entrada> Entrada { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Salida> Salida { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -66,6 +67,12 @@ namespace CoreInventario.Infrastructure.Contexts
 
             });
 
+            builder.Entity<Salida>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+
+            });
+
             // Atributos de campo
             builder.Entity<Producto>()
                 .Property(p => p.PrdPrecioUnidad)
@@ -75,6 +82,9 @@ namespace CoreInventario.Infrastructure.Contexts
                 .Property(p => p.EntPrecioUnidad)
                 .HasColumnType("decimal(18,2)");
 
+            builder.Entity<Salida>()
+                .Property(p => p.SalPrecioUnidad)
+                .HasColumnType("decimal(18,2)");
 
 
         }

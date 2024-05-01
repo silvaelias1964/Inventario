@@ -8,29 +8,27 @@ using System.Threading.Tasks;
 
 namespace CoreInventario.Domain.Entities
 {
-    public class Entrada : BaseAuditableEntity
+    public class Salida : BaseAuditableEntity
     {
-        
+        //[Required]
         public int? ProductoId { get; set; }
 
         [Required]
-        public decimal EntPrecioUnidad { get; set; }
+        public decimal SalPrecioUnidad { get; set; }
 
         [Required]
-        public int EntStock { get; set; }
+        public int SalStock { get; set; }
 
         [MaxLength(255)]
         [Required]
-        public string EntDetalles { get; set; }
+        public string SalDetalles { get; set; }
 
         [Required]
-        public DateTime? EntFecha { get; set; }
+        public DateTime? SalFecha { get; set; }
 
         [Required]
-        public int EntEstatus { get; set; }
+        public int SalEstatus { get; set; }
 
         public virtual Producto Producto { get; set; }
-        
-
     }
 }

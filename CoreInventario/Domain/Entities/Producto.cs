@@ -39,5 +39,8 @@ namespace CoreInventario.Domain.Entities
         public virtual CategoriaProducto CategoriaProducto { get; set; }
         public virtual Proveedor Proveedor { get; set; }
 
+        public virtual ICollection<Entrada> Entrada { get; set; }
+        public virtual ICollection<Salida> Salida { get; set; }
+
     }
 }

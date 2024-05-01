@@ -12,5 +12,6 @@ namespace CoreInventario.Application.Interfaces.Repositories
         ICategoriaProductoRepository CategoriaProducto { get; }
         IProveedorRepository Proveedor { get; }
         IClienteRepository Cliente { get; }
+        IEntradaRepository Entrada { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using System;
@@ -19,10 +20,37 @@ namespace CoreInventario.Transversal.Mappers
         protected ConfigureAutoMapper(string profileName)
            : base(profileName)
         {
+            // Entity to Model
             CreateMap<Producto, ProductoModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Proveedor, ProveedorModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Cliente, ClienteModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Entrada, EntradaModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
 
+
+            // Entity to DTO
+            //CreateMap<Entrada, EntradaDTO>()
+            // .ForPath(x => x.Id, x => x.MapFrom(y => y.Id))
+            // .ForPath(x => x.PrdId, x => x.MapFrom(y => y.PrdId))
+            // .ForPath(x => x.PrdCodigo, x => x.MapFrom(y => y.Producto.PrdCodigo))
+            // .ForPath(x => x.Nombre, x => x.MapFrom(y => y.Producto.PrdNombre))
+            // .ForPath(x => x.Precio, x => x.MapFrom(y => y.EntPrecioUnidad))
+            // .ForPath(x => x.Cantidad, x => x.MapFrom(y => y.EntStock))
+            // .ForPath(x => x.Fecha, x => x.MapFrom(y => y.EntFecha))
+            // .ForPath(x => x.Estatus, x => x.MapFrom(y => y.EntEstatus));
+
+            CreateMap<Entrada, EntradaDTO>().ReverseMap()
+             .ForPath(x => x.Id, x => x.MapFrom(y => y.Id))
+             .ForPath(x => x.ProductoId, x => x.MapFrom(y => y.ProductoId))
+              .ForPath(x => x.Producto.PrdCodigo, x => x.MapFrom(y => y.PrdCodigo))
+             .ForPath(x => x.Producto.PrdNombre, x => x.MapFrom(y => y.Nombre))
+             .ForPath(x => x.EntPrecioUnidad, x => x.MapFrom(y => y.Precio))
+             .ForPath(x => x.EntStock, x => x.MapFrom(y => y.Cantidad))
+             .ForPath(x => x.EntFecha, x => x.MapFrom(y => y.Fecha))
+             .ForPath(x => x.EntEstatus, x => x.MapFrom(y => y.Estatus));
+
+
+
+            //CreateMap<>
 
             //CreateMap<Socios, SociosDTO>().ReverseMap()
             //.ForPath(x => x.Cedula, x => x.MapFrom(y => y.Cedula))

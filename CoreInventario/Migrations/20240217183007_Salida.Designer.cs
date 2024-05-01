@@ -4,6 +4,7 @@ using CoreInventario.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreInventario.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240217183007_Salida")]
+    partial class Salida
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,15 +175,13 @@ namespace CoreInventario.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductoId")
+                    b.Property<int>("PrdId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("ProductoId");
 
                     b.ToTable("Entrada");
                 });
@@ -386,7 +387,7 @@ namespace CoreInventario.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductoId")
+                    b.Property<int>("PrdId")
                         .HasColumnType("int");
 
                     b.Property<string>("SalDetalles")
@@ -411,8 +412,6 @@ namespace CoreInventario.Migrations
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("ProductoId");
 
                     b.ToTable("Salida");
                 });
@@ -663,15 +662,6 @@ namespace CoreInventario.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CoreInventario.Domain.Entities.Entrada", b =>
-                {
-                    b.HasOne("CoreInventario.Domain.Entities.Producto", "Producto")
-                        .WithMany("Entrada")
-                        .HasForeignKey("ProductoId");
-
-                    b.Navigation("Producto");
-                });
-
             modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
                 {
                     b.HasOne("CoreInventario.Domain.Entities.CategoriaProducto", "CategoriaProducto")
@@ -687,15 +677,6 @@ namespace CoreInventario.Migrations
                     b.Navigation("CategoriaProducto");
 
                     b.Navigation("Proveedor");
-                });
-
-            modelBuilder.Entity("CoreInventario.Domain.Entities.Salida", b =>
-                {
-                    b.HasOne("CoreInventario.Domain.Entities.Producto", "Producto")
-                        .WithMany("Salida")
-                        .HasForeignKey("ProductoId");
-
-                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -752,13 +733,6 @@ namespace CoreInventario.Migrations
             modelBuilder.Entity("CoreInventario.Domain.Entities.CategoriaProducto", b =>
                 {
                     b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
-                {
-                    b.Navigation("Entrada");
-
-                    b.Navigation("Salida");
                 });
 
             modelBuilder.Entity("CoreInventario.Domain.Entities.Proveedor", b =>
