@@ -10,7 +10,7 @@ namespace CoreInventario.Application.Models
     public class EntradaModel
     {
         public int Id { get; set; }
-        public int? ProductodId { get; set; }
+        public int? ProductoId { get; set; }
         public decimal EntPrecioUnidad { get; set; }
         public int EntStock { get; set; }
         public string EntDetalles { get; set; }

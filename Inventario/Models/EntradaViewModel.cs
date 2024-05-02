@@ -10,23 +10,25 @@ namespace Inventario.Models
         public int Id { get; set; }
 
         [Display(Name = "Producto")]
+        [Required(ErrorMessage = "El campo: {0} es requerido")]
         public int? ProductoId { get; set; }
 
         [Display(Name = "Precio Unidad")]
-        [Required]
+        [Required(ErrorMessage = "El campo: {0} es requerido")]
         public decimal EntPrecioUnidad { get; set; }
 
         [Display(Name = "Cantidad")]
-        [Required]
+        [Required(ErrorMessage = "El campo: {0} es requerido")]
         public int EntStock { get; set; }
 
-        [Display(Name = "Detalles")]        
-        [StringLength(255, ErrorMessage = "El {0} debe tener al menos {2} y máximo {1} caracteres", MinimumLength = 3)]
-        [Required]
-        public string EntDetalles { get; set; }
+        [Display(Name = "Detalles")]
+        //[Required(ErrorMessage = "El campo: {0} es requerido")]
+        //[StringLength(255, ErrorMessage = "El {0} debe tener al menos {2} y máximo {1} caracteres", MinimumLength = 3)]        
+        [MaxLength(255)]
+        public string? EntDetalles { get; set; }
 
         [Display(Name = "Fecha")]
-        [Required]
+        [Required(ErrorMessage = "El campo: {0} es requerido")]
         public DateTime? EntFecha { get; set; }
 
         [Required]
@@ -39,7 +41,7 @@ namespace Inventario.Models
         public void MapToModel(ref EntradaModel model)
         {
             model.Id = Id;
-            model.ProductodId = ProductoId;
+            model.ProductoId = ProductoId;
             model.EntStock = EntStock;
             model.EntDetalles = EntDetalles;
             model.EntFecha = EntFecha;

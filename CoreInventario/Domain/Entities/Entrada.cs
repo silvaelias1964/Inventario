@@ -10,7 +10,7 @@ namespace CoreInventario.Domain.Entities
 {
     public class Entrada : BaseAuditableEntity
     {
-        
+        [Required]
         public int? ProductoId { get; set; }
 
         [Required]
@@ -19,8 +19,7 @@ namespace CoreInventario.Domain.Entities
         [Required]
         public int EntStock { get; set; }
 
-        [MaxLength(255)]
-        [Required]
+        [MaxLength(255)]        
         public string EntDetalles { get; set; }
 
         [Required]

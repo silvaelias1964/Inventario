@@ -8,8 +8,9 @@
     var fncPantalla = "Agregar";
 
     // Set de campos input Date
-    DateTime fecha = DateTime.Today;
+    DateTime fecha = DateTime.Today;    
     var fechaini = fecha.ToString("dd/MM/yyyy");
+    
 
 
 }
@@ -54,7 +55,7 @@
 
                     <div class="col-md-2">
                         <label asp-for="EntFecha" class="control-label"></label>
-                        <input asp-for="EntFecha" class="form-control daterange-single" readonly value=@fechaini />
+                        <input asp-for="EntFecha" class="form-control" type="text" value=@fechaini readonly />
                     </div>
 
                 </div>
@@ -130,12 +131,18 @@
     @*  <script src="~/js/Libreria.js"></script> *@
     <script type="text/javascript">
 
+        let cadena='';
+
+        $("#ProductoId").val('1').trigger('change');
+        cadena = $("#ProductoId option:selected").text();
+        cadena = cadena.substring(cadena.indexOf("-") + 1);
+        $("#NombrePrd").val(cadena);
 
         $(document).ready(function () {
 
             $("#ProductoId").change(function () {
                 //alert($("#ProductoId").val());
-                let cadena = $("#ProductoId option:selected").text();
+                cadena = $("#ProductoId option:selected").text();
                 cadena = cadena.substring(cadena.indexOf("-") + 1);
 
                 $("#NombrePrd").val(cadena);
