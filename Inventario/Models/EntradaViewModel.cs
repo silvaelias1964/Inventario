@@ -15,10 +15,14 @@ namespace Inventario.Models
 
         [Display(Name = "Precio Unidad")]
         [Required(ErrorMessage = "El campo: {0} es requerido")]
-        public decimal EntPrecioUnidad { get; set; }
+        [RegularExpression(@"^\d{1,20}(\.\d{1,10})?$", ErrorMessage = "PriceMaxLenght")]
+        [DisplayFormat(DataFormatString = "{0:#.##########}")]
+        public string EntPrecioUnidad { get; set; }
+
 
         [Display(Name = "Cantidad")]
         [Required(ErrorMessage = "El campo: {0} es requerido")]
+        //[Range(0, int.MaxValue, ErrorMessage = "Introduce un valor mayor a cero..")]
         public int EntStock { get; set; }
 
         [Display(Name = "Detalles")]
@@ -31,8 +35,14 @@ namespace Inventario.Models
         [Required(ErrorMessage = "El campo: {0} es requerido")]
         public DateTime? EntFecha { get; set; }
 
+        [Display(Name = "Procesado")]
         [Required]
         public int EntEstatus { get; set; }
+
+        [Display(Name = "¿ Actualiza Inventario ?")]        
+        public bool ActualizaInv { get; set; }
+
+
 
         /// <summary>
         /// Pasar los datos de la vista al modelo
@@ -46,8 +56,10 @@ namespace Inventario.Models
             model.EntDetalles = EntDetalles;
             model.EntFecha = EntFecha;
             model.EntEstatus = EntEstatus;
-            model.EntPrecioUnidad = EntPrecioUnidad;
+            EntPrecioUnidad = EntPrecioUnidad.Replace(".", ",");
+            model.EntPrecioUnidad = decimal.Parse(EntPrecioUnidad);
             model.EntEstatus = EntEstatus;
+            model.ActualizaInv= ActualizaInv;
         }
 
         /// <summary>
@@ -62,7 +74,8 @@ namespace Inventario.Models
             EntDetalles = model.EntDetalles;
             EntFecha = model.EntFecha;
             EntEstatus = model.EntEstatus;
-            EntPrecioUnidad = model.EntPrecioUnidad;
+            EntPrecioUnidad = model.EntPrecioUnidad.ToString();
+            EntPrecioUnidad = EntPrecioUnidad.Replace(",", ".");
             EntEstatus = model.EntEstatus;
         }
 

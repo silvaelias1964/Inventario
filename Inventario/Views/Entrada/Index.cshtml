@@ -72,6 +72,7 @@
                         <th style="text-align:center;">Nombre del producto</th>
                         <th style="text-align:center;">Precio</th>
                         <th style="text-align:center;">Cantidad</th>
+                        <th style="text-align:center;">Procesado</th>
                         <th style="text-align:center;">Fecha</th>
                         @* <th style="width: 25%; text-align:center;">Estatus</th> *@
                     </tr>
@@ -100,9 +101,11 @@
                                 @Html.DisplayFor(modelItem => item.Cantidad)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.entradaEstatus)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Fecha)
                             </td>
-
                         </tr>
                     }
                 </tbody>
@@ -114,7 +117,6 @@
 
 
 @section Scripts {
-    <script src="~/lib/common/libreria.js"></script>
     <script type='text/javascript'>
 
 

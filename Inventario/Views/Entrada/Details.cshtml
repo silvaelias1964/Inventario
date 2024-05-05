@@ -1,30 +1,29 @@
 ﻿@model Inventario.Models.EntradaViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var titPantalla = "Entradas";
-    var fncPantalla = "Agregar";
+    var fncPantalla = "Ver";
 
     // Set de campos input Date
-    DateTime fecha = DateTime.Today;    
+    DateTime fecha = DateTime.Today;
     var fechaini = fecha.ToString("dd/MM/yyyy");
+
+    string procesado = "";
+    procesado = Model.EntEstatus == 1 ? "Si" : "No";
 
 }
 
 <div class="container-fluid">
-    <form asp-action="Create" method="post">
+    <form asp-action="Details" method="post">
+        @(Html.HiddenFor(c => c.Id))
+        @(Html.HiddenFor(c => c.ProductoId))
         <div class="row">
             <div class="col-lg-12 barra-titulo-form barra-titulo-form">
                 <b>@titPantalla</b> - @fncPantalla
                 <div class="nav navbar-right" style="padding-right: 10px">
-                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2" >
-                        <b>
-                            <i class="icon-checkmark3"></i>
-                        </b> Confirmar
-                    </button>
-
                     <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
                         <b>
                             <i class="icon-exit3"></i>
@@ -41,8 +40,8 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label asp-for="ProductoId" class="control-label"></label><label style="color:red;"> * </label>
-                            <select class="form-control custom-select" asp-for="ProductoId" asp-items=@ViewBag.Productos></select>
+                            <label asp-for="ProductoId" class="control-label"></label>
+                            <select class="form-control custom-select" id="IdProd" asp-items=@ViewBag.Productos disabled></select>
                             <span asp-validation-for="ProductoId" class="text-danger"></span>
                         </div>
                     </div>
@@ -55,14 +54,17 @@
                         <label asp-for="EntFecha" class="control-label"></label>
                         <input asp-for="EntFecha" class="form-control" type="text" value=@fechaini readonly />
                     </div>
-
+                    <div class="col-md-2">
+                        <label asp-for="EntEstatus" class="control-label"></label>
+                        <input id="Estatus" class="form-control" type="text" value=@procesado readonly />
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">                
+                        <div class="form-group">
                             <label class="control-label">Nombre del Producto</label>
-                            <input id="NombrePrd" class="form-control" readonly/>                
+                            <input id="NombrePrd" class="form-control" readonly />
                         </div>
                     </div>
                 </div>
@@ -72,28 +74,20 @@
                     <div class="linea"></div>
                 </div>
 
-                 <div class="row">
+                <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            
-                            <label asp-for="EntStock" class="control-label"></label><label style="color:red;"> * </label>
-                            <input asp-for="EntStock" class="form-control enteros" style="text-align:right;" />  <!-- onkeypress="return soloNumeros(event);"-->
+                            <label asp-for="EntStock" class="control-label"></label>
+                            <input asp-for="EntStock" class="form-control enteros" style="text-align:right;" readonly />
                             <span asp-validation-for="EntStock" class="text-danger"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="EntPrecioUnidad" class="control-label"></label><label style="color:red;"> * </label>
-                            <input asp-for="EntPrecioUnidad" class="form-control decimales" style="text-align:right;"   />
-                            <span asp-validation-for="EntPrecioUnidad" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label asp-for="ActualizaInv" class="control-label"></label>                            
-                            <input asp-for="ActualizaInv" type="checkbox" class="switchery-primary" style="margin-top:40px">
+                            <label asp-for="EntPrecioUnidad" class="control-label"></label>
+                            <input asp-for="EntPrecioUnidad" class="form-control decimales" style="text-align:right;" readonly />
+                            <span asp-validation-for="EntPrecioUnidad" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -106,7 +100,7 @@
                     <div class="col-md-10">
                         <div class="form-group">
                             <label asp-for="EntDetalles" class="control-label"></label>
-                            <textarea asp-for="EntDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            <textarea asp-for="EntDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
                             <span asp-validation-for="EntDetalles" class="text-danger"></span>
                         </div>
                     </div>
@@ -115,7 +109,7 @@
 
             </div>
         </div>
-        @* <input id="Salida" style="text"  hidden/> *@
+
     </form>
 </div>
 
@@ -123,30 +117,31 @@
 
 
 @section Scripts {
-    @* <script src="~/js/Libreria.js"></script> *@
+
     <script type="text/javascript">
 
-        let cadena='';
-        $("#ProductoId").val('1').trigger('change');  // Inicializa el combo con el primer valor para que no quede vacio
+        let cadena = '';
         ProductoCmb();
 
         $(document).ready(function () {
-
-            $("#ProductoId").change(function () {
-                ProductoCmb();
-            });
-
-            $("#ActualizaInv").change(function () {
-                if (document.getElementById("ActualizaInv").checked==false)
-                    alert("No se actualizará el inventario, puede hacerlo en Editar");
-            });
 
         });
 
 
         // Selección del producto a darle entrada
         function ProductoCmb() {
-            cadena = $("#ProductoId option:selected").text();
+
+            var sel = document.getElementById("IdProd");
+
+            for (var i = 0; i < sel.length; i++) {
+                var opt = sel[i];
+                if ($("#ProductoId").val() == opt.value) {
+                    $("#IdProd").val(opt.value).trigger('change')
+                }
+            }
+
+
+            cadena = $("#IdProd option:selected").text();
             cadena = cadena.substring(cadena.indexOf("-") + 1);
             $("#NombrePrd").val(cadena);
         }
@@ -156,20 +151,8 @@
             window.location.href = "/Entrada/Index";
         }
 
-        
-       
-        window.onsubmit = function () {
-
-            // if (confirm("¿ Confirma guardar y actualizar inventario ? ")) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-
-        };
-
-
     </script>
 }
+
 
 

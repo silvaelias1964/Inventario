@@ -1,0 +1,195 @@
+﻿@model Inventario.Models.EntradaViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Entradas";
+    var fncPantalla = "Editar";
+
+    // Set de campos input Date
+    DateTime fecha = DateTime.Today;
+    var fechaini = fecha.ToString("dd/MM/yyyy");
+
+    string procesado = "";
+    procesado = Model.EntEstatus == 1 ? "Si" : "No";    
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Edit" method="post">
+        @(Html.HiddenFor(c => c.Id))
+        @(Html.HiddenFor(c => c.ProductoId)) 
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    @if (procesado == "No")
+                    {
+                        <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                            <b>
+                                <i class="icon-checkmark3"></i>
+                            </b> Confirmar
+                        </button>
+                    }
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="ProductoId" class="control-label"></label>
+                            @* <select class="form-control custom-select" asp-for="ProductoId" asp-items=@ViewBag.Productos disabled></select> *@
+                            <select class="form-control custom-select" id="IdProd" asp-items=@ViewBag.Productos disabled></select>
+                            <span asp-validation-for="ProductoId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label asp-for="EntFecha" class="control-label"></label>
+                        <input asp-for="EntFecha" class="form-control" type="text" value=@fechaini readonly />
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="EntEstatus" class="control-label"></label>
+                        <input id="Estatus" class="form-control" type="text" value=@procesado readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Nombre del Producto</label>
+                            <input id="NombrePrd" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            @if (procesado == "Si")
+                            {
+                                <label asp-for="EntStock" class="control-label"></label>
+                                <input asp-for="EntStock" class="form-control enteros" style="text-align:right;" readonly />
+                            }
+                            else                        
+                            {
+                                <label asp-for="EntStock" class="control-label"></label><label style="color:red;"> * </label>
+                                <input asp-for="EntStock" class="form-control enteros" style="text-align:right;" />  <!-- onkeypress="return soloNumeros(event);"-->
+                            }
+                            <span asp-validation-for="EntStock" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            @if (procesado == "Si")
+                            {
+                                <label asp-for="EntPrecioUnidad" class="control-label"></label>
+                                <input asp-for="EntPrecioUnidad" class="form-control decimales" style="text-align:right;" readonly/>
+                            }
+                            else
+                            {
+                                <label asp-for="EntPrecioUnidad" class="control-label"></label><label style="color:red;"> * </label>
+                                <input asp-for="EntPrecioUnidad" class="form-control decimales" style="text-align:right;" />
+
+                            }
+                            <span asp-validation-for="EntPrecioUnidad" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="EntDetalles" class="control-label"></label>
+                            @if (procesado == "Si")
+                            {
+                                <textarea asp-for="EntDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
+                            }
+                            else
+                            {
+                                <textarea asp-for="EntDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            }
+                            <span asp-validation-for="EntDetalles" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        @* <input id="IdProd" value=@Model.ProductoId hidden/> *@
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        let cadena = '';
+        // $("#ProductoId").val($("#ProductoId").val()).trigger('change')
+        //$("#IdProd").val($("#IdProd").val()).trigger('change')
+        ProductoCmb();
+
+        $(document).ready(function () {
+            //$("#ProductoId").val($("#IdProd").val());
+        });
+
+
+        // Selección del producto a darle entrada
+        function ProductoCmb() {
+            //cadena = $("#ProductoId option:selected").text();
+
+            var sel = document.getElementById("IdProd");
+
+            for (var i = 0; i < sel.length; i++) {                
+                var opt = sel[i];
+                if ($("#ProductoId").val() == opt.value) {
+                    $("#IdProd").val(opt.value).trigger('change')
+                }
+            }
+
+
+            cadena = $("#IdProd option:selected").text();
+            cadena = cadena.substring(cadena.indexOf("-") + 1);
+            $("#NombrePrd").val(cadena);
+        }
+
+        // Salida
+        function Cancel() {
+            window.location.href = "/Entrada/Index";
+        }
+
+
+
+    </script>
+}
+
+

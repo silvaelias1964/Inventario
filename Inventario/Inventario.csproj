@@ -25,6 +25,7 @@
    
   <ItemGroup>
     <Folder Include="wwwroot\lib\common\" />
+    <Folder Include="wwwroot\lib\dialog\" />
     <Folder Include="wwwroot\plantilla\" />
   </ItemGroup>
 

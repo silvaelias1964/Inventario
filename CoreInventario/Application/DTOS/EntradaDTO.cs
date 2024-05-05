@@ -18,5 +18,6 @@ namespace CoreInventario.Application.DTOS
         public int Cantidad {  get; set; }      // Cantidad producto
         public string Fecha { get; set; }       // Fecha de entrada
         public int Estatus { get; set; }        // Estatus 0 Inicial / 1 procesado
+        public EntradaEstatusEnum entradaEstatus { get; set; }
     }
 }

@@ -16,10 +16,12 @@ namespace CoreInventario.Application.Interfaces.Services
 
         Task<Entrada> GetById(int id);
 
-        Task<string> Add(EntradaModel model);
+        Task<ResultProcess> Add(EntradaModel model);
 
         Task<string> Edit(EntradaModel model);
 
         Task<string> Delete(int id);
+
+        //Task<string> SumarInventario(int ProductoId, int EntStock);
     }
 }

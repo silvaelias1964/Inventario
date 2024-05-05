@@ -38,8 +38,9 @@ namespace CoreInventario.Infrastructure.Repositories
                 Nombre = c.Producto.PrdNombre,
                 Precio = c.EntPrecioUnidad,
                 Cantidad = c.EntStock,
-                Fecha = c.EntFecha.ToString(),
-                Estatus = c.EntEstatus
+                Fecha = c.EntFecha.Value.ToString("dd/MM/yyyy"),                
+                Estatus = c.EntEstatus,
+                entradaEstatus = (EntradaEstatusEnum)c.EntEstatus
 
             }).ToList();
 

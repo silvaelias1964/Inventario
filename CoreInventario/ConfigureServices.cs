@@ -13,8 +13,11 @@ namespace CoreInventario
 {
     public static class ConfigureServices
     {
-        public static IServiceCollection AddCoreInventarioServices(this IServiceCollection services, IConfiguration configuration) 
+
+
+        public static IServiceCollection AddCoreInventarioServices(this IServiceCollection services, IConfiguration configuration, string _connectionDataBase) 
         {
+            services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = _connectionDataBase });
             services.AddScoped<IProductoService, ProductoService>();
             services.AddScoped<ILibreriaService, LibreriaService>();
             services.AddScoped<IProveedorService, ProveedorService>();

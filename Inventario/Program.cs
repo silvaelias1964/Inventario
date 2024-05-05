@@ -61,7 +61,7 @@ builder.Services.AddControllersWithViews(options =>
 // builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
-builder.Services.AddCoreInventarioServices(builder.Configuration);   // Aqui los servicios de CoreInventario
+builder.Services.AddCoreInventarioServices(builder.Configuration, connectionString);   // Aqui los servicios de CoreInventario
 // Repositorios
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IProductoRepository, ProductoRepository>();

@@ -6,16 +6,18 @@
 
     string nombre = "";
     string foto = "";
-    foreach (var item in datos)
+    if (datos != null)
     {
-        nombre = item.Usuario;
-        foto = item.Foto;
+        foreach (var item in datos)
+        {
+            nombre = item.Usuario;
+            foto = item.Foto;
+        }
     }
-
 
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,7 +37,8 @@
     <link href="~/plantilla/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" />
     <link href="~/css/override.css" rel="stylesheet">
-
+    <link href="~/lib/dialog/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
+    
 </head>
 <body id="page-top">
     @*<header>
@@ -511,13 +514,16 @@
 
     <script src="~/js/Libreria.js" asp-append-version="true"></script>
 
+    <script src="~/js/Dialog.js" asp-append-version="true"></script>
+
     <!-- Page level plugins -->
     <script src="~/plantilla/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="~/plantilla/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 
     <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>    
+    <script src="~/lib/dialog/bootstrap-dialog.min.js" type="text/javascript"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

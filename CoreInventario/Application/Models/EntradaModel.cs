@@ -16,7 +16,7 @@ namespace CoreInventario.Application.Models
         public string EntDetalles { get; set; }
         public DateTime? EntFecha { get; set; }
         public int EntEstatus { get; set; }
-
+        public bool ActualizaInv { get; set; }  // Indicador de actualización de inventario
     }
 
 
