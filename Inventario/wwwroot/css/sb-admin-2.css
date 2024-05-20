@@ -11288,3 +11288,6 @@ body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
 
+.tachado {
+    text-decoration: line-through;
+}

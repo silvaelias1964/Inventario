@@ -1,4 +1,5 @@
 ﻿using CoreInventario.Domain.Common;
+using CoreInventario.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,15 +16,23 @@ namespace CoreInventario.Domain.Entities
         [MaxLength(50)]
         public string NombreUsuario { get; set; }
 
-        public string Correo { get; set; }
-
         [Required]
+        [MaxLength(255)]
+        public string Correo { get; set; }
+        
         [MaxLength(255)]
         public string Clave { get; set; }
 
         [MaxLength(255)]
         public string Foto { get; set; }
 
+        public bool IsNotificacion { get; set; }
 
+        [Required]
+        public UsuarioEstatusEnum EstatusUsuario { get; set; }
+
+        public int? RolId { get; set; }
+
+        public virtual Rol Rol { get; set; }
     }
 }

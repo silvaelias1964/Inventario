@@ -12,9 +12,9 @@ namespace CoreInventario.Application.DTOS
         public int Id { get; set; }
         public string PrdCodigo { get; set; }
         public string PrdNombre { get; set; }
-        public int CatId { get; set; }
+        public int CategoriaProductoId { get; set; }
         public string CatDescripcion { get; set;}
-        public int PrvId { get; set; }
+        public int ProveedorId { get; set; }
         public string PrvNombreCompania { get; set; }
         public int PrdEstatus { get; set; }
         public ProductoEstatusEnum productoEstatus  { get; set; }

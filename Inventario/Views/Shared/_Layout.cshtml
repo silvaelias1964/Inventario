@@ -33,11 +33,15 @@
     <link href="~/plantilla/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
-    <link href="~/plantilla/css/sb-admin-2.css" rel="stylesheet">    
+    <link href="~/css/Colors.css" rel="stylesheet" type="text/css">
+    <link href="~/plantilla/css/sb-admin-2.css" rel="stylesheet" type="text/css">
     <link href="~/plantilla/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" />
-    <link href="~/css/override.css" rel="stylesheet">
+    <link href="~/css/override.css" rel="stylesheet" type="text/css">
     <link href="~/lib/dialog/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
+    <link href="~/css/components.css" rel="stylesheet" type="text/css">
+    <link href="~/fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css">
+    <link href="~/fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css">
     
 </head>
 <body id="page-top">
@@ -122,7 +126,7 @@
                         <a class="collapse-item" asp-area="" asp-controller="Producto" asp-action="Index">Productos</a>
                         <a class="collapse-item" asp-area="" asp-controller="Proveedor" asp-action="Index">Proveedores</a>
                         <a class="collapse-item" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
-
+                        <a class="collapse-item" asp-area="" asp-controller="Rol" asp-action="Index">Roles de Usuario</a>
                     </div>
                 </div>
             </li>
@@ -391,11 +395,11 @@
                                        <img class="img-profile rounded-circle"
                                             src=@foto>
                                     }
-                                    else
-                                    {
-                                       <img class="img-profile rounded-circle"
-                                            src="~/avatar/defaultUser.png">
-                                    }
+                                    // else
+                                    // {
+                                    //    <img class="img-profile rounded-circle"
+                                    //         src="~/avatar/defaultUser.png">
+                                    // }
 
                                 }
 
@@ -524,6 +528,15 @@
     <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js"></script>    
     <script src="~/lib/dialog/bootstrap-dialog.min.js" type="text/javascript"></script>
+    <script src="~/notifications/pnotify.min.js" type="text/javascript"></script>
+    <script src="~/notifications/sweet_alert.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="~/fileinput/plugins/piexif.js"></script>
+    <script type="text/javascript" src="~/fileinput/plugins/sortable.js"></script>
+    <script type="text/javascript" src="~/fileinput/js/fileinput.js"></script>
+    <script type="text/javascript" src="~/fileinput/js/locales/es.js"></script>
+    <script type="text/javascript" src="~/fileinput/themes/fas/theme.js"></script>
+    <script type="text/javascript" src="~/fileinput/themes/explorer-fas/theme.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

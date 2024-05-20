@@ -67,9 +67,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CatId" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="CatId" asp-items=@ViewBag.Categorias></select>
-                            <span asp-validation-for="CatId" class="text-danger"></span>
+                            <label asp-for="CategoriaProductoId" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="CategoriaProductoId" asp-items=@ViewBag.Categorias></select>
+                            <span asp-validation-for="CategoriaProductoId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -77,9 +77,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="PrvId" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="PrvId" asp-items=@ViewBag.Proveedor></select>
-                            <span asp-validation-for="PrvId" class="text-danger"></span>
+                            <label asp-for="ProveedorId" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="ProveedorId" asp-items=@ViewBag.Proveedor></select>
+                            <span asp-validation-for="ProveedorId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -212,6 +212,10 @@
             });
             */
 
+        });
+
+        $('#File1').on('change', function () {
+            var newimage = "";
         });
 
 

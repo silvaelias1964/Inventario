@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using CoreInventario.Transversal.Commons;
 
 namespace Inventario.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IPathConfiguration _pathConfiguration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPathConfiguration pathConfiguration)
         {
             _logger = logger;
+            _pathConfiguration = pathConfiguration;
         }
 
         public IActionResult Index()
@@ -35,7 +38,7 @@ namespace Inventario.Controllers
                 {
                     if (nombreUsuario == "")
                     {
-                        nombreUsuario = claim.Value.ToString();
+                           nombreUsuario = claim.Value.ToString();
                     }
                     else if (foto == "")
                     {
@@ -52,7 +55,15 @@ namespace Inventario.Controllers
             //var sesion = _sesionService.SetSesion(0, nombreUsuario);
 
             ViewData["nombreUsuario"] = nombreUsuario;
-            ViewData["foto"] = foto;
+            if (foto == "")
+            {
+                ViewData["foto"] = _pathConfiguration.PathAvatar + "defaultUser.png";
+            }
+            else
+            {
+                ViewData["foto"] = _pathConfiguration.PathAvatar + foto;
+            }
+            
 
             //var sesionget = _sesionService.GetSesion();
 
@@ -71,7 +82,7 @@ namespace Inventario.Controllers
             {
                 IdUsuario = id,
                 Usuario = nombreUsuario,
-                Foto = foto
+                Foto = _pathConfiguration.PathAvatar + foto
             });
 
             HttpContext.Session.SetObject("dataUserSession", lista);

@@ -21,7 +21,7 @@ namespace Inventario.Controllers
         private readonly IMapper mapper;
         private readonly ILibreriaService libreriaService;
         private readonly IProductoService productoService;
-        //private readonly IDataBaseConfiguration connection;
+
 
         private List<SelectListItem> lstProductos;
 
@@ -31,13 +31,11 @@ namespace Inventario.Controllers
             IMapper mapper, 
             ILibreriaService libreriaService,
             IProductoService productoService)
-            //IDataBaseConfiguration connection)
         {
             this.entradaService = entradaService;
             this.mapper = mapper;
             this.libreriaService = libreriaService;
             this.productoService = productoService;
-            //this.connection = connection;
         }
 
         // Listado inicial
@@ -72,14 +70,16 @@ namespace Inventario.Controllers
                     var result = await entradaService.Add(model);                    
                     if (result.MsgProc == "Ok-Ok")
                     {
+                        TempData["mensaje"] = "El registro se ha creado correctamente";
                         return RedirectToAction(nameof(Index));
                     }
                     else if(result.MsgProc == "Ok-No") 
                     {
-                        ModelState.AddModelError(string.Empty, "Error: No se actualizó el inventario..(intente en opción Editar)");
-                        LlenarListas();
-                        return View(viewModel);
-
+                        //ModelState.AddModelError(string.Empty, "Error: No se actualizó el inventario..(intente en opción Editar)");
+                        //LlenarListas();
+                        //return View(viewModel);
+                        TempData["mensaje"] = "El registro se ha creado correctamente, pero no se actualizó el inventario.";
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -133,13 +133,16 @@ namespace Inventario.Controllers
                     var result = await entradaService.Edit(model);
                     if (result == "Ok-Ok")
                     {
+                        TempData["mensaje"] = "El registro se ha actualizado correctamente.";
                         return RedirectToAction(nameof(Index));
                     }
                     else if (result == "Ok-No")
                     {
-                        ModelState.AddModelError(string.Empty, "Error: No se actualizó el inventario..");
-                        LlenarListas();
-                        return View(viewModel);
+                        //ModelState.AddModelError(string.Empty, "Error: No se actualizó el inventario..");
+                        //LlenarListas();
+                        //return View(viewModel);
+                        TempData["mensaje"] = "El registro se ha actualizado correctamente, pero no se actualizó el inventario.";
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -201,6 +204,7 @@ namespace Inventario.Controllers
 
                 if (estado == "Ok")
                 {
+                    TempData["mensaje"] = "El registro se ha borrado correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -237,35 +241,6 @@ namespace Inventario.Controllers
             lstProductos[0].Selected = true;
             ViewBag.Productos = lstProductos;
         }
-
-
-        //public async Task<string> SumarInventario(int ProductoId, int EntStock)
-        //{
-        //    var datos = productoService.GetById(ProductoId);
-        //    if (datos == null)
-        //    {
-        //        return "Error";
-        //    }
-
-
-        //    using (SqlConnection sql = new SqlConnection(connection.Connection))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("sp_ActInventario", sql))
-        //        {
-        //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //            cmd.Parameters.Add(new SqlParameter("@p_ProductoId", ProductoId));
-        //            cmd.Parameters.Add(new SqlParameter("@p_Cantidad", EntStock));
-        //            cmd.Parameters.Add(new SqlParameter("@p_Modo", "E"));
-        //            cmd.Parameters.Add(new SqlParameter("@usuario", "Admin"));  // Debe cambiar
-
-        //            sql.Open();
-        //            cmd.ExecuteReader();
-        //        }
-        //    }
-
-        //    return "Ok";
-
-        //}
 
 
         #endregion

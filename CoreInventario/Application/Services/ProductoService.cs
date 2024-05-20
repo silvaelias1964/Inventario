@@ -75,8 +75,8 @@ namespace CoreInventario.Application.Services
                 //};
 
                 var entity = mapper.Map<Producto>(model); //Mapping con mapper
-                entity.PrvId= entity.PrvId==0 ? null: entity.PrvId;
-                entity.CatId= entity.CatId==0 ? null : entity.CatId;
+                entity.ProveedorId= entity.ProveedorId ==0 ? null: entity.ProveedorId;
+                entity.CategoriaProductoId= entity.CategoriaProductoId == 0 ? null : entity.CategoriaProductoId;
                 await unitOfWork.Producto.Add(entity);
                 unitOfWork.Producto.Save();
                 return "Ok";
@@ -107,8 +107,8 @@ namespace CoreInventario.Application.Services
                 //    PrdEstatus = model.PrdEstatus
                 //};
                 var entity = mapper.Map<Producto>(model); //Mapping con mapper               
-                entity.PrvId = entity.PrvId == 0 ? null : entity.PrvId;
-                entity.CatId = entity.CatId == 0 ? null : entity.CatId;
+                entity.ProveedorId = entity.ProveedorId == 0 ? null : entity.ProveedorId;
+                entity.CategoriaProductoId = entity.CategoriaProductoId == 0 ? null : entity.CategoriaProductoId;
                 await unitOfWork.Producto.Update(entity);
                 unitOfWork.Producto.Save();
                 return "Ok";

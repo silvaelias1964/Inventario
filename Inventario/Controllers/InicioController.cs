@@ -14,13 +14,12 @@ namespace Inventario.Controllers
     public class InicioController : Controller
     {
         private readonly IUsuarioService _usuarioServicio;
-        //private readonly ILibreriaService _libreriaService;
+        private readonly ILibreriaService _libreriaService;
 
-        public InicioController(IUsuarioService usuarioServicio) //, ILibreriaService libreriaService
+        public InicioController(IUsuarioService usuarioServicio, ILibreriaService libreriaService) 
         {
             _usuarioServicio = usuarioServicio;
-            //_libreriaService = libreriaService;
-
+            _libreriaService = libreriaService;            
         }
 
         public IActionResult Registrarse()
@@ -31,7 +30,7 @@ namespace Inventario.Controllers
         [HttpPost]
         public async Task<IActionResult> Registrarse(Usuario modelo)
         {
-            modelo.Clave = EncriptarClave(modelo.Clave);
+            modelo.Clave = _libreriaService.EncriptarClave(modelo.Clave);
 
             Usuario usuario_creado = await _usuarioServicio.SaveUsuario(modelo);
 
@@ -52,7 +51,7 @@ namespace Inventario.Controllers
         {
             Usuario usuario_encontrado = new Usuario();
 
-            usuario_encontrado = await _usuarioServicio.GetUsuario(correo, EncriptarClave(clave));
+            usuario_encontrado = await _usuarioServicio.GetUsuario(correo, _libreriaService.EncriptarClave(clave));
 
 
             if (usuario_encontrado.Id == 0 || usuario_encontrado == null)
@@ -82,17 +81,17 @@ namespace Inventario.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private string EncriptarClave(string clave)
-        {
-            StringBuilder sb = new StringBuilder();
-            using (SHA256 hash = SHA256.Create())
-            {
-                Encoding enc = Encoding.UTF8;
-                byte[] result = hash.ComputeHash(enc.GetBytes(clave));
-                foreach (byte b in result)
-                    sb.Append(b.ToString("x2"));
-            }
-            return sb.ToString();
-        }
+        //private string EncriptarClave(string clave)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    using (SHA256 hash = SHA256.Create())
+        //    {
+        //        Encoding enc = Encoding.UTF8;
+        //        byte[] result = hash.ComputeHash(enc.GetBytes(clave));
+        //        foreach (byte b in result)
+        //            sb.Append(b.ToString("x2"));
+        //    }
+        //    return sb.ToString();
+        //}
     }
 }

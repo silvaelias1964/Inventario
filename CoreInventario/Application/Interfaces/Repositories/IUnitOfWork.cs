@@ -13,5 +13,7 @@ namespace CoreInventario.Application.Interfaces.Repositories
         IProveedorRepository Proveedor { get; }
         IClienteRepository Cliente { get; }
         IEntradaRepository Entrada { get; }
+        IUsuarioRepository Usuario { get; }
+        IRolRepository Rol { get; }
     }
 }

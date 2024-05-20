@@ -1,0 +1,326 @@
+﻿@model Inventario.Models.UsuarioViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Usuario";
+    var fncPantalla = "Agregar";
+    var estado = "";
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Confirmar
+                    </button>
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label asp-for="NombreUsuario" class="control-label"></label>
+                            <input asp-for="NombreUsuario" class="form-control" />
+                            <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label asp-for="Correo" class="control-label"></label>
+                            <input asp-for="Correo" class="form-control" />
+                            <span asp-validation-for="Correo" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label asp-for="IsNotificacion" class="control-label"></label>
+                            <input asp-for="IsNotificacion" type="checkbox" class="switchery-primary" style="margin-top:1px">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="RolId" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="RolId" asp-items=@ViewBag.Roles></select>
+                            <span asp-validation-for="RolId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="EstatusUsuario" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="EstatusUsuario" asp-items=@ViewBag.Estatus></select>
+                            <span asp-validation-for="EstatusUsuario" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3" id="ImageLoad">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="thumbnail" style="width: 90%">
+
+                            @{
+                                if (!string.IsNullOrEmpty(Model.Foto))
+                                {
+                                    <img src="@Model.Foto" alt="image">
+                                }
+                                else
+                                {
+                                    <img src="~/avatar/defaultUser.png" alt="image" width="90%" style="border-style: groove;">
+                                }
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+                <div style="padding-top:25px; grid-row:2/auto">
+                    <div class="thumbnail no-padding">
+                        <div class="form-group">
+                            <div class="text-right">
+                                <input type="file" class="file-input" data-show-upload="false" accept="image/*">
+                            </div>
+                            <div class="caption text-center">
+                                <h6 class="text-semibold no-margin"><small class="display-block">Foto</small></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <button type="button" onclick="EditPass(this);">
+                            Cambiar contraseña<i class="icon-pencil7"></i>
+                        </button>
+                        <span class="label label-success" id="Estado">@estado</span>
+                    </div>
+                </div>
+
+               @*  <div class="col-lg-10">
+                    <div class="form-group">
+                        <a onclick="EditPass(this);">@Localizer["ChangeUserPassword"]<i class="icon-pencil7"></i></a>
+                        <span class="label label-success" id="Estado">@Estado</span>
+                    </div>
+                </div> *@
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- modal add page Password-->
+<div id="modalAddPass" class="modal fade">
+    <div class="modal-dialog form-validate-jquery">
+        <div class="modal-content">
+            <div class="modal-header bg-slate bg-century-gold">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">Agregar Password<i class="icon-key"></i></h6>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-10">
+                    <div class="form-group has-feedback">
+                        Clave Anterior <span class="fa fa-fw fa-eye password-icon show-password1"></span>
+                        <input id="etOldPassword" type="password" maxlength="20" class="form-control password1" value="" />
+                        
+                    </div>
+                    <div class="form-group has-feedback">
+                        Nueva Clave <span class="fa fa-fw fa-eye password-icon show-password2"></span>                        
+                        <input id="etNewPassword" type="password" maxlength="20" class="form-control password2" />                                                                        
+                    </div>
+                    <div class="form-group has-feedback">
+                        Confirma Clave <span class="fa fa-fw fa-eye password-icon show-password3"></span>
+                        <input id="etConfirmNewPassword" type="password" maxlength="20" class="form-control password3" value="" />                        
+                    </div>
+                    <div class="form-group">
+                        <div id="message">
+                            <p id="length" class="text-danger" style="font-size: small;">Debe contener un mínimo de 8 hasta 20 caracteres</p>
+                            <p id="capital" class="text-danger" style="font-size: small;">Un caracter debe ser mayúscula</p>
+                            <p id="letter" class="text-danger" style="font-size: small;">Un caracter debe ser minúscula</p>
+                            <p id="number" class="text-danger" style="font-size: small;">Un caracter numerico</p>
+                            <p id="charsp" class="text-danger" style="font-size: small;">Un caracter especial ()~&#64#$%^&*-_=+<>¿?¡!|[]{}</p>
+                            <p id="psmatch" class="text-danger" style="font-size: small;">Las contraseñas deben coincidir</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" style="margin-top:6px" id="EditPass" data-dismiss="modal" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2" onclick="submitChangePassword()" >
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Guardar
+                    </button>
+                    <button type="button" class="btn btn-dark bg-slate-600 btn-labeled btn-sm" style="height:31px; margin-top:6px" data-dismiss="modal">
+                        <b>
+                            <i class="icon-cross2"></i>
+                        </b> Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal edit page Password-->
+<div id="modalEditPass" class="modal fade">
+    <div class="modal-dialog form-validate-jquery">
+        <div class="modal-content">
+            <div class="modal-header bg-slate bg-century-gold">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="modal-title">Editar Password<i class="icon-key"></i></h6>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-10">
+                    <div class="form-group has-feedback">
+                        Clave Anterior <span class="fa fa-fw fa-eye password-icon show-password1"></span>
+                        <input id="etOldPassword" type="password" maxlength="20" class="form-control password1" value="" />
+                        
+                    </div>
+                    <div class="form-group has-feedback">
+                        Nueva Clave <span class="fa fa-fw fa-eye password-icon show-password2"></span>                        
+                        <input id="etNewPassword" type="password" maxlength="20" class="form-control password2" />                                                                        
+                    </div>
+                    <div class="form-group has-feedback">
+                        Confirma Clave <span class="fa fa-fw fa-eye password-icon show-password3"></span>
+                        <input id="etConfirmNewPassword" type="password" maxlength="20" class="form-control password3" value="" />                        
+                    </div>
+                    <div class="form-group">
+                        <div id="message">
+                            <p id="length" class="text-danger" style="font-size: small;">Debe contener un mínimo de 8 hasta 20 caracteres</p>
+                            <p id="capital" class="text-danger" style="font-size: small;">Un caracter debe ser mayúscula</p>
+                            <p id="letter" class="text-danger" style="font-size: small;">Un caracter debe ser minúscula</p>
+                            <p id="number" class="text-danger" style="font-size: small;">Un caracter numerico</p>
+                            <p id="charsp" class="text-danger" style="font-size: small;">Un caracter especial ()~&#64#$%^&*-_=+<>¿?¡!|[]{}</p>
+                            <p id="psmatch" class="text-danger" style="font-size: small;">Las contraseñas deben coincidir</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" style="margin-top:6px" id="EditPass" data-dismiss="modal" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2" onclick="submitChangePassword()" >
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Guardar
+                    </button>
+                    <button type="button" class="btn btn-dark bg-slate-600 btn-labeled btn-sm" style="height:31px; margin-top:6px" data-dismiss="modal">
+                        <b>
+                            <i class="icon-cross2"></i>
+                        </b> Cancelar
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /modal edit page Password-->
+@section Scripts {
+    <script src="~/js/PasswordCommon.js"></script>
+    <script src="~/js/PasswordEdit.js"></script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+        });
+
+        function EditPass(object) {
+            $("#modalEditPass").modal('show');            
+        }
+
+        function submitChangePassword() {
+            var oldPassword = $('#etOldPassword').val();
+            var newPassword = $('#etNewPassword').val();
+            var confirmNewPassword = $('#etConfirmNewPassword').val();
+
+            if (oldPassword != "" && newPassword != "" && confirmNewPassword != "") {
+                if (newPassword == confirmNewPassword) {
+                    var message = "";
+
+                    $.ajax({
+                        url: '/Account/ChangePassword/',
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify({ UserId: $("#Id").val(), CurrentPassword: oldPassword, NewPassword: newPassword, getMultiValues: false }),
+                        contentType: "application/json; charset=utf-8",
+                        async: true,
+                        success: function (result) {
+                            if (result.data.succeeded) {
+                                $('#Estado').text("Su contraseña ha sido modificada con éxito");
+                                $('#etOldPassword').val('');
+                                $('#etNewPassword').val('');
+                                $('#etConfirmNewPassword').val('');
+                            }
+                            else {
+                                for (var i = 0; i < result.data.errors.length; i++) {
+                                    if (result.data.errors[i].code == "PasswordMismatch") {
+                                        MsgError("Contraseña actual es incorrecta");
+                                        return;
+                                    }
+                                    message = message + result.data.errors[i].description + '.\n'
+                                }
+                                MsgError(message);
+                            }
+                        },
+                        error: function (result) {
+
+                        }
+                    });
+                }
+                else {
+                    MsgError("La nueva contraseña debe coincidir con la confirmación.");
+                }
+            }
+            else {
+                MsgError("Debe llenar todos los campos");
+            }
+        }
+
+
+        function Cancel() {
+            window.location.href = "/Usuario/Index";
+        }
+    </script>
+}
+
+

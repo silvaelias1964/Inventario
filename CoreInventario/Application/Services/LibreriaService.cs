@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -113,6 +114,63 @@ namespace CoreInventario.Application.Services
             }
             return lstEstatus;
         }
+
+        /// <summary>
+        /// Estatus Usuarios
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> EstatusUsuarioList()
+        {
+            List<SelectListItem> lstEstatus = new List<SelectListItem>();
+
+            foreach (var option in Enum.GetValues(typeof(UsuarioEstatusEnum)))
+            {
+                lstEstatus.Add(new SelectListItem { Text = Enum.GetName(typeof(UsuarioEstatusEnum), (int)option), Value = ((int)option).ToString() });
+            }
+            return lstEstatus;
+        }
+
+        /// <summary>
+        /// Listado de roles
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> RolesList()
+        {
+            List<SelectListItem> lstRoles = new List<SelectListItem>();
+            var lista = unitOfWork.Rol.GetAll();
+            if (lista != null)
+            {
+                foreach (var item in lista.Result)
+                {
+                    lstRoles.Add(new SelectListItem() { Text = item.NombreRol, Value = item.Id.ToString() });
+                }
+            }
+            else
+            {
+                lstRoles.Add(new SelectListItem() { Text = "No hay roles", Value = "0" });
+            }
+            return lstRoles;
+        }
+
+        
+
+        /// <summary>
+        /// Crear cadena encriptada
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public string EncriptarClave(string clave)
+        {
+            SHA256 sha256 = SHA256.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(clave));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
+        }
+
+
 
     }
 }

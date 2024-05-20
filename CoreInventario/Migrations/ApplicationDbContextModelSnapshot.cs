@@ -197,7 +197,7 @@ namespace CoreInventario.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("CatId")
+                    b.Property<int?>("CategoriaProductoId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreadoPor")
@@ -244,12 +244,12 @@ namespace CoreInventario.Migrations
                     b.Property<int>("PrdStockMinimo")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PrvId")
+                    b.Property<int?>("ProveedorId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CatId");
+                    b.HasIndex("CategoriaProductoId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -257,7 +257,7 @@ namespace CoreInventario.Migrations
                     b.HasIndex("PrdCodigo")
                         .IsUnique();
 
-                    b.HasIndex("PrvId");
+                    b.HasIndex("ProveedorId");
 
                     b.ToTable("Producto");
                 });
@@ -364,6 +364,43 @@ namespace CoreInventario.Migrations
                     b.ToTable("Proveedor");
                 });
 
+            modelBuilder.Entity("CoreInventario.Domain.Entities.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CodigoRol")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("CreadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NombreRol")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rol");
+                });
+
             modelBuilder.Entity("CoreInventario.Domain.Entities.Salida", b =>
                 {
                     b.Property<int>("Id")
@@ -430,16 +467,20 @@ namespace CoreInventario.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Clave")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Correo")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("CreadoPor")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("EstatusUsuario")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("FechaActualizacion")
                         .HasColumnType("datetime2");
@@ -451,12 +492,27 @@ namespace CoreInventario.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<bool>("IsNotificacion")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("RolId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Clave")
+                        .IsUnique()
+                        .HasFilter("[Clave] IS NOT NULL");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuario");
                 });
@@ -678,12 +734,12 @@ namespace CoreInventario.Migrations
                 {
                     b.HasOne("CoreInventario.Domain.Entities.CategoriaProducto", "CategoriaProducto")
                         .WithMany("Producto")
-                        .HasForeignKey("CatId")
+                        .HasForeignKey("CategoriaProductoId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CoreInventario.Domain.Entities.Proveedor", "Proveedor")
                         .WithMany("Producto")
-                        .HasForeignKey("PrvId")
+                        .HasForeignKey("ProveedorId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CategoriaProducto");
@@ -698,6 +754,15 @@ namespace CoreInventario.Migrations
                         .HasForeignKey("ProductoId");
 
                     b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.Usuario", b =>
+                {
+                    b.HasOne("CoreInventario.Domain.Entities.Rol", "Rol")
+                        .WithMany("Usuario")
+                        .HasForeignKey("RolId");
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -766,6 +831,11 @@ namespace CoreInventario.Migrations
             modelBuilder.Entity("CoreInventario.Domain.Entities.Proveedor", b =>
                 {
                     b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.Rol", b =>
+                {
+                    b.Navigation("Usuario");
                 });
 #pragma warning restore 612, 618
         }

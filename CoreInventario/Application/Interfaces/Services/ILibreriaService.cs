@@ -38,5 +38,24 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> TipoClienteList();
+
+        /// <summary>
+        /// Estatus de usuario
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> EstatusUsuarioList();
+
+        /// <summary>
+        /// Lista de Roles
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> RolesList();
+
+        /// <summary>
+        /// Crear cadena encriptada
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public string EncriptarClave(string clave);
     }
 }

@@ -57,6 +57,7 @@ namespace Inventario.Controllers
                     var result = await proveedorService.Add(model);
                     if (result == "Ok")
                     {
+                        TempData["mensaje"] = "El registro se ha creado correctamente.";
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -116,6 +117,7 @@ namespace Inventario.Controllers
                     var result = await proveedorService.Edit(model);
                     if (result == "Ok")
                     {
+                        TempData["mensaje"] = "El registro se ha actualizado correctamente.";
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -189,6 +191,7 @@ namespace Inventario.Controllers
 
                 if (estado == "Ok")
                 {
+                    TempData["mensaje"] = "El registro se ha borrado correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
                 else

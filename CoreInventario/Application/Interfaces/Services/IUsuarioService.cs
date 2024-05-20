@@ -1,4 +1,6 @@
-﻿using CoreInventario.Domain.Entities;
+﻿using CoreInventario.Application.Models;
+using CoreInventario.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +14,13 @@ namespace CoreInventario.Application.Interfaces.Services
     {
         Task<IEnumerable> GetAll();
         Task<Usuario> GetUsuario(string correo, string clave);
-        Task<Usuario> SaveUsuario(Usuario modelo);
+        Task<Usuario> SaveUsuario(Usuario modelo);       
+        Task<Usuario> GetById(int id);
+        Task<string> Add(UsuarioModel model);
+        Task<string> Edit(UsuarioModel model);
+        Task<string> Delete(int id);
+        Task<ResultProcess> CheckPass(int id, string currentPass, string newPass);
+
+        //Task<string> CopyImgTemp(IFormFile name);
     }
 }

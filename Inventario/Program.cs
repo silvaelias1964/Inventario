@@ -27,7 +27,8 @@ builder.Services.AddScoped<AuditableEntitySaveChangesInterceptor>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-
+var avatarString = builder.Configuration.GetConnectionString("Avatar") ?? throw new InvalidOperationException("Path string 'Avatar' not found.");
+var productoString = builder.Configuration.GetConnectionString("Productos") ?? throw new InvalidOperationException("Path string 'Productos' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(                    
@@ -61,7 +62,7 @@ builder.Services.AddControllersWithViews(options =>
 // builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
-builder.Services.AddCoreInventarioServices(builder.Configuration, connectionString);   // Aqui los servicios de CoreInventario
+builder.Services.AddCoreInventarioServices(builder.Configuration, connectionString, avatarString, productoString);   // Aqui los servicios de CoreInventario
 // Repositorios
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
@@ -69,6 +70,7 @@ builder.Services.AddTransient<ICategoriaProductoRepository, CategoriaProductoRep
 builder.Services.AddTransient<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
 builder.Services.AddTransient<IEntradaRepository, EntradaRepository>();
+builder.Services.AddTransient<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

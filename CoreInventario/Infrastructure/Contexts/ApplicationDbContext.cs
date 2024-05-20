@@ -25,6 +25,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<Entrada> Entrada { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Salida> Salida { get; set; }
+        public DbSet<Rol> Rol { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -48,11 +49,11 @@ namespace CoreInventario.Infrastructure.Contexts
                 entity.HasIndex(e => e.PrdCodigo).IsUnique();
                 entity.HasOne(e => e.CategoriaProducto)
                     .WithMany(c => c.Producto)
-                    .HasForeignKey("CatId")
+                    .HasForeignKey("CategoriaProductoId")
                     .OnDelete(DeleteBehavior.NoAction);
                 entity.HasOne(e => e.Proveedor)
                     .WithMany(c => c.Producto)
-                    .HasForeignKey("PrvId")
+                    .HasForeignKey("ProveedorId")
                     .OnDelete(DeleteBehavior.NoAction);
 
             });
@@ -72,6 +73,13 @@ namespace CoreInventario.Infrastructure.Contexts
                 entity.HasIndex(e => e.Id).IsUnique();
 
             });
+
+            builder.Entity<Usuario>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasIndex(e => e.Clave).IsUnique();
+            });
+
 
             // Atributos de campo
             builder.Entity<Producto>()

@@ -17,8 +17,8 @@ namespace CoreInventario.Domain.Entities
         [Required]
         [MaxLength(100)]
 	    public string PrdNombre { get; set; }                
-	    public int? CatId { get; set; }       
-        public int? PrvId { get; set; }
+	    public int? CategoriaProductoId { get; set; }       
+        public int? ProveedorId { get; set; }
         [MaxLength(20)]
         public string PrdCantPorUnidad { get; set; }
         [Required]

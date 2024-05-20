@@ -1,6 +1,7 @@
 ﻿using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Interfaces.Repositories;
 using CoreInventario.Domain.Entities;
+using CoreInventario.Domain.Enums;
 using CoreInventario.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +27,9 @@ namespace CoreInventario.Infrastructure.Repositories
             {
                 IdUsuario = c.Id,
                 NombreUsuario = c.NombreUsuario,
-                Correo = c.Correo
+                Correo = c.Correo,
+                EstatusUsuario = (int)c.EstatusUsuario,
+                usuarioEstatus = (UsuarioEstatusEnum)(ClienteEstatusEnum)c.EstatusUsuario
             }).ToList();
 
             return lista;

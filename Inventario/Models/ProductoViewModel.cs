@@ -20,11 +20,11 @@ namespace Inventario.Models
 
         [Display(Name = "Categoría Producto")]
         [Required]
-        public int CatId { get; set; }
+        public int CategoriaProductoId  { get; set; }
 
         [Display(Name = "Proveedor")]
         [Required]
-        public int PrvId { get; set; }
+        public int ProveedorId { get; set; }
 
         [Display(Name = "Cantidad")]
         [Required]        
@@ -65,8 +65,8 @@ namespace Inventario.Models
             model.Id = Id;
             model.PrdCodigo = PrdCodigo;
             model.PrdNombre = PrdNombre;
-            model.PrvId = PrvId;
-            model.CatId = CatId;
+            model.CategoriaProductoId = CategoriaProductoId;
+            model.ProveedorId = ProveedorId;
             model.PrdCantPorUnidad= PrdCantPorUnidad;
             model.PrdPrecioUnidad = PrdPrecioUnidad;
             model.PrdStockMinimo = PrdStockMinimo;
@@ -85,8 +85,8 @@ namespace Inventario.Models
             Id = model.Id;
             PrdCodigo = model.PrdCodigo;
             PrdNombre = model.PrdNombre;
-            PrvId = model.PrvId.GetValueOrDefault();
-            CatId = model.CatId.GetValueOrDefault();
+            ProveedorId = model.ProveedorId.GetValueOrDefault();
+            CategoriaProductoId = model.CategoriaProductoId.GetValueOrDefault();
             PrdCantPorUnidad = model.PrdCantPorUnidad;
             PrdPrecioUnidad = model.PrdPrecioUnidad;
             PrdStockMinimo = model.PrdStockMinimo;

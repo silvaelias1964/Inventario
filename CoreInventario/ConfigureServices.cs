@@ -1,5 +1,7 @@
 ﻿using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Services;
+using CoreInventario.Domain.Helpers;
+using CoreInventario.Transversal.Commons;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +17,13 @@ namespace CoreInventario
     {
 
 
-        public static IServiceCollection AddCoreInventarioServices(this IServiceCollection services, IConfiguration configuration, string _connectionDataBase) 
+        public static IServiceCollection AddCoreInventarioServices(
+            this IServiceCollection services, 
+            IConfiguration configuration, 
+            string _connectionDataBase,
+            string _pathAvatar,
+            string _pathProductos
+            ) 
         {
             services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = _connectionDataBase });
             services.AddScoped<IProductoService, ProductoService>();
@@ -25,6 +33,14 @@ namespace CoreInventario
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IEntradaService, EntradaService>();
             services.AddTransient<SesionService>();
+            services.AddSingleton<IPathConfiguration>(new PathConfiguration
+            {  PathAvatar  = _pathAvatar,
+               PathProductos = _pathProductos 
+            });
+            services.AddSingleton<PathProvider>();
+            services.AddSingleton<FileSanity>();
+            services.AddSingleton<UploadFile>();
+            services.AddSingleton<DeleteFile>();
             return services;
         }
     }
