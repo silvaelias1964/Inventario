@@ -20,22 +20,25 @@ namespace Inventario.Controllers
         public UploadFile uploadFile;
         public DeleteFile deleteFile;
         public PathProvider pathProvider;
+        private readonly IPathConfiguration pathConfiguration;
 
         private List<SelectListItem> lstEstatus;
         private List<SelectListItem> lstRoles;
 
         public UsuarioController(
             IUsuarioService usuarioService, 
-            ILibreriaService libreriaService, 
+            ILibreriaService libreriaService,
             UploadFile uploadFile,
-            DeleteFile deleteFile, 
-            PathProvider pathProvider)
+            DeleteFile deleteFile,
+            PathProvider pathProvider,
+            IPathConfiguration pathConfiguration)
         {
             this.usuarioService = usuarioService;
             this.libreriaService = libreriaService;
             this.uploadFile = uploadFile;
             this.deleteFile = deleteFile;
             this.pathProvider = pathProvider;
+            this.pathConfiguration = pathConfiguration;
         }
 
         public async Task<IActionResult> Index()
@@ -48,6 +51,7 @@ namespace Inventario.Controllers
         // GET: Create
         public IActionResult Create()
         {
+            ViewBag.Path = pathConfiguration.PathAvatar;
             LlenarListas();
             UsuarioViewModel data = new UsuarioViewModel();            
             return View(data);
@@ -101,6 +105,7 @@ namespace Inventario.Controllers
         #region Edit_Update
         public async Task<IActionResult> Edit(int id)
         {
+            ViewBag.Path = pathConfiguration.PathAvatar;
             LlenarListas();
             UsuarioViewModel viewModel = new UsuarioViewModel();
             if (id > 0)
@@ -156,63 +161,82 @@ namespace Inventario.Controllers
         }
         #endregion
 
-        //#region Ver
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    LlenarListas();
-        //    Entrada entrada = await entradaService.GetById(id);
-        //    EntradaViewModel viewModel = new EntradaViewModel();
-        //    viewModel.MapToViewModel(ref entrada);
-        //    return View(viewModel);
-        //}
-        //#endregion
+        #region Ver
+        public async Task<IActionResult> Details(int id)
+        {           
+            ViewBag.Path = pathConfiguration.PathAvatar;
+            LlenarListas();
+            UsuarioViewModel viewModel = new UsuarioViewModel();
+            if (id > 0)
+            {
+                Usuario usuario = await usuarioService.GetById(id);
+                viewModel.MapToViewModel(ref usuario);
+            }
+            return View(viewModel);
+        }
+        #endregion
 
-        //#region Delete
+        #region Delete
 
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    LlenarListas();
-        //    Entrada entrada = await entradaService.GetById(id);
-        //    EntradaViewModel viewModel = new EntradaViewModel();
-        //    viewModel.MapToViewModel(ref entrada);
-        //    return View(viewModel);
-        //}
+        public async Task<IActionResult> Delete(int id)
+        {
+            ViewBag.Path = pathConfiguration.PathAvatar;
+            LlenarListas();
+            UsuarioViewModel viewModel = new UsuarioViewModel();
+            if (id > 0)
+            {
+                Usuario usuario = await usuarioService.GetById(id);
+                viewModel.MapToViewModel(ref usuario);
+            }
+            return View(viewModel);
+        }
 
-        //// POST: Delete Alumnos
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Delete(EntradaViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        int id = viewModel.Id;
-        //        string estado = await entradaService.Delete(id);
+        // POST: Delete 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(UsuarioViewModel viewModel)
+        {
+            try
+            {
+                int id = viewModel.Id;
+                string foto = viewModel.Foto;
 
-        //        if (estado == "Ok")
-        //        {
-        //            TempData["mensaje"] = "El registro se ha borrado correctamente.";
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Error en el borrado de datos: " + estado);
-        //            LlenarListas();
-        //            return View(viewModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        foreach (var error in ex.Message.Split("*"))
-        //        {
-        //            ModelState.AddModelError(string.Empty, ex.Message);
-        //        }
-        //        LlenarListas();
-        //        return View(viewModel);
-        //    }
-        //}
+                string nombreArchFoto = "";
+                int pos;
+                if (foto != null)
+                {
+                    pos = foto.LastIndexOf("/");
+                    nombreArchFoto = foto.Substring(pos + 1);
+                }
 
 
-        //#endregion
+                string estado = await usuarioService.Delete(id, nombreArchFoto);
+
+                if (estado == "Ok")
+                {
+                    TempData["mensaje"] = "El registro se ha borrado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error en el borrado de datos: " + estado);
+                    LlenarListas();
+                    return View(viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                foreach (var error in ex.Message.Split("*"))
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                LlenarListas();
+                return View(viewModel);
+            }
+        }
+
+
+        #endregion
 
 
         #region Others

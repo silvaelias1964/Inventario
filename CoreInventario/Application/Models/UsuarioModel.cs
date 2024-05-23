@@ -21,5 +21,6 @@ namespace CoreInventario.Application.Models
         public int RolId { get; set; }
         public int IsConfirmPass { get; set; }
         public IFormFile imagen { get; set; }
+        public int IsChangeImg { get; set; }
     }
 }

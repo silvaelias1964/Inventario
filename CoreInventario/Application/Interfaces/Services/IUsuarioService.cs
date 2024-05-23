@@ -18,7 +18,7 @@ namespace CoreInventario.Application.Interfaces.Services
         Task<Usuario> GetById(int id);
         Task<string> Add(UsuarioModel model);
         Task<string> Edit(UsuarioModel model);
-        Task<string> Delete(int id);
+        Task<string> Delete(int id, string foto);
         Task<ResultProcess> CheckPass(int id, string currentPass, string newPass);
 
         //Task<string> CopyImgTemp(IFormFile name);

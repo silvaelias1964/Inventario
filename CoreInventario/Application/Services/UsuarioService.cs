@@ -104,9 +104,49 @@ namespace CoreInventario.Application.Services
         {
             try
             {
+                string imagenSel = "";
+                if (model.imagen != null)
+                {
+                    await this.uploadFile.SubirFichero(model.imagen, pathConfiguration.PathAvatar);
+                    if (model.imagen.FileName != null)
+                    {
+                        imagenSel = model.imagen.FileName;
+                    }
+                }
+                else
+                {
+                    if (model.IsChangeImg == 0)
+                    {
+                        imagenSel = model.Foto;
+                    }
+                }
+                if (model.IsConfirmPass == 1)  // Confirmar actualización incluyendo contraseña
+                {
+                    Usuario entity = new Usuario
+                    {                     
+                        NombreUsuario = model.NombreUsuario,
+                        Correo = model.Correo,
+                        Clave = libreriaService.EncriptarClave(model.Clave),
+                        Foto = imagenSel,
+                        IsNotificacion = model.IsNotificacion,
+                        RolId = model.RolId
+                    };
+                    await unitOfWork.Usuario.Add(entity);
+                }
+                else
+                {
+                    Usuario entity = new Usuario
+                    {                        
+                        NombreUsuario = model.NombreUsuario,
+                        Correo = model.Correo,
+                        Clave = model.Clave,
+                        Foto = imagenSel,
+                        IsNotificacion = model.IsNotificacion,
+                        RolId = model.RolId
+                    };
+                    await unitOfWork.Usuario.Add(entity);
+                }
 
-                var entity = mapper.Map<Usuario>(model); //Mapping con mapper
-                await unitOfWork.Usuario.Add(entity);
                 unitOfWork.Usuario.Save();
                 return "Ok";
             }
@@ -127,16 +167,34 @@ namespace CoreInventario.Application.Services
         {
             try
             {
-                await this.uploadFile.SubirFichero(model.imagen, pathConfiguration.PathAvatar);
+                string imagenSel = "";
+                if (model.imagen != null)
+                {
+                    await this.uploadFile.SubirFichero(model.imagen, pathConfiguration.PathAvatar);
+                    if (model.imagen.FileName != null)
+                    {
+                        imagenSel = model.imagen.FileName;
+                    }
+                }
+                else 
+                { 
+                    if(model.IsChangeImg==0) 
+                    {
+                        imagenSel = model.Foto;
+                    }
+                }
+
                 if (model.IsConfirmPass == 1)  // Confirmar actualización incluyendo contraseña
                 {
                     
+
                     Usuario entity = new Usuario
                     {
+                        Id = model.Id,
                         NombreUsuario = model.NombreUsuario,
                         Correo = model.Correo,
                         Clave =  libreriaService.EncriptarClave(model.Clave),
-                        Foto =   model.Foto,   //pathConfiguration.PathAvatar + model.Foto,
+                        Foto = imagenSel,
                         IsNotificacion = model.IsNotificacion,
                         RolId = model.RolId
                     };
@@ -146,9 +204,11 @@ namespace CoreInventario.Application.Services
                 {
                     Usuario entity = new Usuario
                     {
+                        Id = model.Id,
                         NombreUsuario = model.NombreUsuario,
                         Correo = model.Correo,
-                        Foto =  model.Foto,    //pathConfiguration.PathAvatar + model.Foto,
+                        Clave = model.Clave,
+                        Foto = imagenSel,
                         IsNotificacion = model.IsNotificacion,
                         RolId = model.RolId
                     };
@@ -173,12 +233,14 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<string> Delete(int id)
+        public async Task<string> Delete(int id, string foto)
         {
             try
             {
                 await unitOfWork.Usuario.Delete(id);
                 unitOfWork.Usuario.Save();
+
+                this.deleteFile.EliminarFichero(foto, pathConfiguration.PathAvatar);
 
                 return "Ok";
             }

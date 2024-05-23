@@ -7,6 +7,15 @@
     var titPantalla = "Usuario";
     var fncPantalla = "Editar";
     var estado = "";
+    string nombreArchFoto="";
+    int pos;
+    if (Model.Foto != null)
+    {
+        pos = Model.Foto.LastIndexOf("/");
+        nombreArchFoto = Model.Foto.Substring(pos + 1);
+    }
+    string imgDefault = "";
+    imgDefault = "/" + ViewBag.Path + "/" + "defaultUser.png";
 
 }
 
@@ -96,13 +105,11 @@
                                 if (!string.IsNullOrEmpty(Model.Foto))
                                 {
                                     <img id="currImg" src="@Model.Foto" alt="image" height="300" style="border-style: groove;">
-                                    // <label class="control-label">@Model.Foto</label>
-                                    <label id="lblImg">@Model.Foto</label>
+                                    <label id="lblImg">@nombreArchFoto</label>
                                 }
                                 else
                                 {
-                                    <img src="~/avatar/defaultUser.png" alt="image" width="90%" style="border-style: dotted;">
-                                    // <label class="control-label">-?-</label>
+                                    <img src="@imgDefault" alt="image" width="90" style="border-style: dotted;">
                                     <label>No hay imagen</label>
                                 }
                             }
@@ -112,14 +119,13 @@
                     </div>
                 </div>
 
-
                 <div class="photo">
                     <label for="foto">Foto</label>
                     <div class="prevPhoto">
                         <span class="delPhoto notBlock">X</span>
                         <label for="foto"></label>
-                        <div>
-                            <img id="img" src="<?= media(); ?>/avatar/defaultUser.png">
+                        <div>                            
+                            <img id="img" src="@imgDefault">
                         </div>
                     </div>
                     <label>Pulse click en el recuadro y elija la imagen</label>
@@ -132,20 +138,19 @@
 
 
 
-                <div class="row">
+@*                 <div class="row">
                     <div class="col-xs-6">
                         <div class="thumbnail" style="width: 90%">
                             <img id="newImg" src="" alt="Nueva imagen" height="300" style="border-style: dotted;">
                         </div>
                     </div>
                 </div>
-
-                <div style="padding-top:25px; grid-row:2/auto">
+ *@
+@*                 <div style="padding-top:25px; grid-row:2/auto">
                     <div class="thumbnail no-padding">
                         <div class="form-group">
                             <div class="text-right">
-                                @* <input id="FileImage" type="file" class="file-input" data-show-upload="false" accept="image/*"> *@
-                                @* <input  type="file" class="file-input" data-show-upload="false" accept="image/*"> *@
+                                
                                 <input type="file" asp-for="imagen" class="file-input" data-show-upload="false" accept="image/*">
                             </div>
                             <div class="caption text-center">
@@ -154,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+ *@                <div class="row">
                     <div>
                         <button type="button" onclick="EditPass(this);">
                             Cambiar contraseña<i class="icon-pencil7"></i>
@@ -165,6 +170,9 @@
             </div>
         </div>
         <input asp-for="IsConfirmPass" class="form-control" type="number" hidden />
+        <input asp-for="IsChangeImg" class="form-control" type="number" hidden />
+        <input asp-for="Foto" class="form-control" type="text" hidden />
+        <input asp-for="Clave" class="form-control" type="text" hidden />
     </form>
 </div>
 
@@ -259,7 +267,9 @@
 
         });
 
+        $('#foto').on('change', function () {
 
+        });
 
 
 
@@ -361,6 +371,7 @@
                         foto.value = "";
                         return false;
                     } else {
+                        // Archivo de imagen cambiado
                         contactAlert.innerHTML = '';
                         if (document.querySelector('#img')) {
                             document.querySelector('#img').remove();
@@ -368,6 +379,7 @@
                         document.querySelector('.delPhoto').classList.remove("notBlock");
                         var objeto_url = nav.createObjectURL(this.files[0]);
                         document.querySelector('.prevPhoto div').innerHTML = "<img id='img' src=" + objeto_url + ">";
+                        $("#IsChangeImg").val(1);
                     }
                 } else {
                     alert("No selecciono foto");
@@ -391,6 +403,11 @@
             document.querySelector('#img').remove();
         }
 
+        window.onsubmit = function () {
+            if ($("#IsChangeImg").val() == 0)  // Si no hay cambio de foto, mantener la actual
+                $("#Foto").val(document.getElementById("lblImg").textContent);
+
+        };
 
     </script>
 }

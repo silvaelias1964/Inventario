@@ -24,7 +24,19 @@ CREATE PROCEDURE sp_PasswordCheck
 )
 AS
 SET @o_Error='Error, No existe el usuario con esta clave de acceso'
-IF EXISTS(SELECT Id FROM Usuario WHERE Id = @p_Id AND Clave=@p_PassWord)   -- Existe
+IF @p_Id>0 
+BEGIN
+	IF EXISTS(SELECT Id FROM Usuario WHERE Id = @p_Id AND Clave=@p_PassWord)   -- Existe
+	BEGIN
+		SET @o_Error='Ok'
+		IF EXISTS(SELECT Id FROM Usuario WHERE Clave=@p_PassWordNew)   -- Buscar clave repetida
+		BEGIN
+			SET @o_Error='Error, la clave de acceso ya está asignada'
+			RETURN 0
+		END
+	END
+END
+ELSE
 BEGIN
 	SET @o_Error='Ok'
 	IF EXISTS(SELECT Id FROM Usuario WHERE Clave=@p_PassWordNew)   -- Buscar clave repetida
@@ -48,9 +60,9 @@ DECLARE @o_salida NVARCHAR(150),
 @p_password NVARCHAR(255),
 @p_passwordNew NVARCHAR(255)
 
-SET @p_id = 1
+SET @p_id = 0
 SET @p_password = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
-SET @p_passwordNew = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a919'
+SET @p_passwordNew = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'
 
 EXEC sp_PasswordCheck @p_id, @p_password, @p_passwordNew, @o_salida OUT
  

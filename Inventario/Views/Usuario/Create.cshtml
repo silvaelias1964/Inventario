@@ -8,6 +8,16 @@
     var fncPantalla = "Agregar";
     var estado = "";
 
+    string nombreArchFoto = "";
+    int pos;
+    if (Model.Foto != null)
+    {
+        pos = Model.Foto.LastIndexOf("/");
+        nombreArchFoto = Model.Foto.Substring(pos + 1);
+    }
+    string imgDefault = "";
+    imgDefault = "/" + ViewBag.Path + "/" + "defaultUser.png";
+    
 }
 
 <div class="container-fluid">
@@ -91,23 +101,40 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="thumbnail" style="width: 90%">
-
                             @{
                                 if (!string.IsNullOrEmpty(Model.Foto))
                                 {
-                                    <img src="@Model.Foto" alt="image">
+                                    <img id="currImg" src="@Model.Foto" alt="image" height="300" style="border-style: groove;">
+                                    <label id="lblImg">@nombreArchFoto</label>
                                 }
                                 else
                                 {
-                                    <img src="~/avatar/defaultUser.png" alt="image" width="90%" style="border-style: groove;">
+                                    <img src="@imgDefault" alt="image" width="90" style="border-style: dotted;">
+                                    <label>No hay imagen</label>
                                 }
                             }
-
 
                         </div>
                     </div>
                 </div>
-                <div style="padding-top:25px; grid-row:2/auto">
+
+                <div class="photo">
+                    <label for="foto">Foto</label>
+                    <div class="prevPhoto">
+                        <span class="delPhoto notBlock">X</span>
+                        <label for="foto"></label>
+                        <div>
+                            <img id="img" src="@imgDefault">
+                        </div>
+                    </div>
+                    <label>Pulse click en el recuadro y elija la imagen</label>
+                    <div class="upimg">
+                        <input type="file" name="imagen" id="foto">
+                    </div>
+                    <div id="form_alert"></div>
+                </div>
+
+               @*  <div style="padding-top:25px; grid-row:2/auto">
                     <div class="thumbnail no-padding">
                         <div class="form-group">
                             <div class="text-right">
@@ -118,24 +145,23 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> *@
                 <div class="row">
                     <div>
                         <button type="button" onclick="EditPass(this);">
-                            Cambiar contraseña<i class="icon-pencil7"></i>
+                            Contraseña<i class="icon-pencil7"></i>
                         </button>
                         <span class="label label-success" id="Estado">@estado</span>
                     </div>
                 </div>
 
-               @*  <div class="col-lg-10">
-                    <div class="form-group">
-                        <a onclick="EditPass(this);">@Localizer["ChangeUserPassword"]<i class="icon-pencil7"></i></a>
-                        <span class="label label-success" id="Estado">@Estado</span>
-                    </div>
-                </div> *@
             </div>
         </div>
+        <input asp-for="IsConfirmPass" class="form-control" type="number" hidden />
+        <input asp-for="IsChangeImg" class="form-control" type="number" hidden />
+        <input asp-for="Foto" class="form-control" type="text" hidden />
+        <input asp-for="Clave" class="form-control" type="text" hidden />
+
     </form>
 </div>
 
@@ -143,24 +169,19 @@
 <div id="modalAddPass" class="modal fade">
     <div class="modal-dialog form-validate-jquery">
         <div class="modal-content">
-            <div class="modal-header bg-slate bg-century-gold">
+            <div class="modal-header bg-brown">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Agregar Password<i class="icon-key"></i></h6>
+                <h6 class="modal-title">Agregar Contraseña<i class="icon-key"></i></h6>
             </div>
             <div class="modal-body">
                 <div class="col-md-10">
                     <div class="form-group has-feedback">
-                        Clave Anterior <span class="fa fa-fw fa-eye password-icon show-password1"></span>
-                        <input id="etOldPassword" type="password" maxlength="20" class="form-control password1" value="" />
-                        
+                        Nueva Contraseña <span class="fa fa-fw fa-eye password-icon show-password1"></span>                        
+                        <input id="etNewPassword" type="password" maxlength="20" class="form-control password1" />                                                                        
                     </div>
                     <div class="form-group has-feedback">
-                        Nueva Clave <span class="fa fa-fw fa-eye password-icon show-password2"></span>                        
-                        <input id="etNewPassword" type="password" maxlength="20" class="form-control password2" />                                                                        
-                    </div>
-                    <div class="form-group has-feedback">
-                        Confirma Clave <span class="fa fa-fw fa-eye password-icon show-password3"></span>
-                        <input id="etConfirmNewPassword" type="password" maxlength="20" class="form-control password3" value="" />                        
+                        Confirma Contraseña <span class="fa fa-fw fa-eye password-icon show-password2"></span>
+                        <input id="etConfirmNewPassword" type="password" maxlength="20" class="form-control password2" value="" />                        
                     </div>
                     <div class="form-group">
                         <div id="message">
@@ -196,66 +217,11 @@
 </div>
 
 
-<!-- modal edit page Password-->
-<div id="modalEditPass" class="modal fade">
-    <div class="modal-dialog form-validate-jquery">
-        <div class="modal-content">
-            <div class="modal-header bg-slate bg-century-gold">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Editar Password<i class="icon-key"></i></h6>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-10">
-                    <div class="form-group has-feedback">
-                        Clave Anterior <span class="fa fa-fw fa-eye password-icon show-password1"></span>
-                        <input id="etOldPassword" type="password" maxlength="20" class="form-control password1" value="" />
-                        
-                    </div>
-                    <div class="form-group has-feedback">
-                        Nueva Clave <span class="fa fa-fw fa-eye password-icon show-password2"></span>                        
-                        <input id="etNewPassword" type="password" maxlength="20" class="form-control password2" />                                                                        
-                    </div>
-                    <div class="form-group has-feedback">
-                        Confirma Clave <span class="fa fa-fw fa-eye password-icon show-password3"></span>
-                        <input id="etConfirmNewPassword" type="password" maxlength="20" class="form-control password3" value="" />                        
-                    </div>
-                    <div class="form-group">
-                        <div id="message">
-                            <p id="length" class="text-danger" style="font-size: small;">Debe contener un mínimo de 8 hasta 20 caracteres</p>
-                            <p id="capital" class="text-danger" style="font-size: small;">Un caracter debe ser mayúscula</p>
-                            <p id="letter" class="text-danger" style="font-size: small;">Un caracter debe ser minúscula</p>
-                            <p id="number" class="text-danger" style="font-size: small;">Un caracter numerico</p>
-                            <p id="charsp" class="text-danger" style="font-size: small;">Un caracter especial ()~&#64#$%^&*-_=+<>¿?¡!|[]{}</p>
-                            <p id="psmatch" class="text-danger" style="font-size: small;">Las contraseñas deben coincidir</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <div class="nav navbar-right" style="padding-right: 10px">
-                    <button type="submit" style="margin-top:6px" id="EditPass" data-dismiss="modal" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2" onclick="submitChangePassword()" >
-                        <b>
-                            <i class="icon-checkmark3"></i>
-                        </b> Guardar
-                    </button>
-                    <button type="button" class="btn btn-dark bg-slate-600 btn-labeled btn-sm" style="height:31px; margin-top:6px" data-dismiss="modal">
-                        <b>
-                            <i class="icon-cross2"></i>
-                        </b> Cancelar
-                    </button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- /modal edit page Password-->
 @section Scripts {
     <script src="~/js/PasswordCommon.js"></script>
-    <script src="~/js/PasswordEdit.js"></script>
+    <script src="~/js/PasswordAdd.js"></script>
 
     <script type="text/javascript">
 
@@ -265,41 +231,59 @@
         });
 
         function EditPass(object) {
-            $("#modalEditPass").modal('show');            
+            $("#modalAddPass").modal('show');            
         }
 
+
         function submitChangePassword() {
-            var oldPassword = $('#etOldPassword').val();
+            //var oldPassword = $('#etOldPassword').val();
             var newPassword = $('#etNewPassword').val();
             var confirmNewPassword = $('#etConfirmNewPassword').val();
 
-            if (oldPassword != "" && newPassword != "" && confirmNewPassword != "") {
+            if (newPassword != "" && confirmNewPassword != "") {
                 if (newPassword == confirmNewPassword) {
                     var message = "";
 
                     $.ajax({
-                        url: '/Account/ChangePassword/',
+                        url: '/Usuario/ChangePassword/',
                         type: "POST",
                         dataType: "json",
-                        data: JSON.stringify({ UserId: $("#Id").val(), CurrentPassword: oldPassword, NewPassword: newPassword, getMultiValues: false }),
+                        data: JSON.stringify({ UserId: $("#Id").val(), CurrentPassword: newPassword, NewPassword: newPassword, getMultiValues: false }),
                         contentType: "application/json; charset=utf-8",
                         async: true,
                         success: function (result) {
-                            if (result.data.succeeded) {
-                                $('#Estado').text("Su contraseña ha sido modificada con éxito");
-                                $('#etOldPassword').val('');
-                                $('#etNewPassword').val('');
-                                $('#etConfirmNewPassword').val('');
+                            if (result.data.result.msgProc == 'Ok') {
+                                var countErr = 0;
+                                if (document.getElementById("length").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (document.getElementById("capital").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (document.getElementById("letter").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (document.getElementById("number").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (document.getElementById("charsp").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (document.getElementById("psmatch").className == "text-danger")
+                                    countErr = countErr + 1;
+                                if (countErr == 0) {
+                                    $('#Estado').text("Contraseña aceptada");
+                                    $("#Clave").val($('#etNewPassword').val());
+                                    $('#etNewPassword').val();
+                                    $('#etConfirmNewPassword').val('');
+                                    
+                                } else {
+                                    $('#Estado').text("La Contraseña no cumple con el estandar mínimo aceptable, aunque puede guardarla.");
+                                }
+                                showProcessDialog("Ok", "Cambio de contraseña aceptado..");
+                                $("#IsConfirmPass").val(1);
                             }
                             else {
-                                for (var i = 0; i < result.data.errors.length; i++) {
-                                    if (result.data.errors[i].code == "PasswordMismatch") {
-                                        MsgError("Contraseña actual es incorrecta");
-                                        return;
-                                    }
-                                    message = message + result.data.errors[i].description + '.\n'
-                                }
-                                MsgError(message);
+
+                                $('#Estado').text(result.data.result.msgProc);
+                                showFailedDialog("Error", result.data.result.msgProc);
+                                $("#IsConfirmPass").val(0);
+                                return;
                             }
                         },
                         error: function (result) {
@@ -308,18 +292,90 @@
                     });
                 }
                 else {
-                    MsgError("La nueva contraseña debe coincidir con la confirmación.");
+                    $("#IsConfirmPass").val(0);
+                    showFailedDialog("Error", "La nueva contraseña debe coincidir con la confirmación.");
                 }
             }
             else {
-                MsgError("Debe llenar todos los campos");
+                $("#IsConfirmPass").val(0);
+                showFailedDialog("Error", "Debe llenar todos los campos");
             }
         }
 
+
+               
 
         function Cancel() {
             window.location.href = "/Usuario/Index";
         }
+
+        if (document.querySelector("#foto")) {
+            var foto = document.querySelector("#foto");
+            foto.onchange = function (e) {
+                var uploadFoto = document.querySelector("#foto").value;
+                var fileimg = document.querySelector("#foto").files;
+                var nav = window.URL || window.webkitURL;
+                var contactAlert = document.querySelector('#form_alert');
+                if (uploadFoto != '') {
+                    var type = fileimg[0].type;
+                    var name = fileimg[0].name;
+                    if (type != 'image/jpeg' && type != 'image/jpg' && type != 'image/png') {
+                        contactAlert.innerHTML = '<p class="errorArchivo">El archivo no es válido.</p>';
+                        if (document.querySelector('#img')) {
+                            document.querySelector('#img').remove();
+                        }
+                        document.querySelector('.delPhoto').classList.add("notBlock");
+                        foto.value = "";
+                        return false;
+                    } else {
+                        // Archivo de imagen cambiado
+                        contactAlert.innerHTML = '';
+                        if (document.querySelector('#img')) {
+                            document.querySelector('#img').remove();
+                        }
+                        document.querySelector('.delPhoto').classList.remove("notBlock");
+                        var objeto_url = nav.createObjectURL(this.files[0]);
+                        document.querySelector('.prevPhoto div').innerHTML = "<img id='img' src=" + objeto_url + ">";
+                        $("#IsChangeImg").val(1);
+                    }
+                } else {
+                    alert("No selecciono foto");
+                    if (document.querySelector('#img')) {
+                        document.querySelector('#img').remove();
+                    }
+                }
+            }
+        }
+
+        if (document.querySelector(".delPhoto")) {
+            var delPhoto = document.querySelector(".delPhoto");
+            delPhoto.onclick = function (e) {
+                removePhoto();
+            }
+        }
+
+        function removePhoto() {
+            document.querySelector('#foto').value = "";
+            document.querySelector('.delPhoto').classList.add("notBlock");
+            document.querySelector('#img').remove();
+        }
+
+        window.onsubmit = function () {
+
+            if ($("#IsConfirmPass").val() == 0) {
+                showFailedDialog("Error", "Debe crear una contraseña.");
+                return false;
+            }
+            else
+            { 
+
+            }
+
+            if ($("#IsChangeImg").val() == 0)  // Si no hay cambio de foto, mantener la actual
+                $("#Foto").val(document.getElementById("lblImg").textContent);
+
+        };
+
     </script>
 }
 

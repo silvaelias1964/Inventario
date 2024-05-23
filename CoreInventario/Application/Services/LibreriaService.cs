@@ -161,6 +161,9 @@ namespace CoreInventario.Application.Services
         /// <returns></returns>
         public string EncriptarClave(string clave)
         {
+            if (clave == "" || clave == null)
+                return "";
+
             SHA256 sha256 = SHA256.Create();
             ASCIIEncoding encoding = new ASCIIEncoding();
             byte[] stream = null;
@@ -168,6 +171,18 @@ namespace CoreInventario.Application.Services
             stream = sha256.ComputeHash(encoding.GetBytes(clave));
             for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
             return sb.ToString();
+
+
+            //StringBuilder sb = new StringBuilder();
+            //using (SHA256 hash = SHA256.Create())
+            //{
+            //    Encoding enc = Encoding.UTF8;
+            //    byte[] result = hash.ComputeHash(enc.GetBytes(clave));
+            //    foreach (byte b in result)
+            //        sb.Append(b.ToString("x2"));
+            //}
+
+            //return sb.ToString();
         }
 
 

@@ -42,7 +42,9 @@ namespace Inventario.Models
 
         public int IsConfirmPass { get; set; }
 
-        public IFormFile imagen { get; set; }
+        public IFormFile? imagen { get; set; }
+
+        public int IsChangeImg { get; set; }
 
         /// <summary>
         /// Pasar los datos de la vista al modelo
@@ -59,6 +61,7 @@ namespace Inventario.Models
             model.RolId = RolId;
             model.IsConfirmPass = IsConfirmPass;
             model.imagen = imagen;
+            model.IsChangeImg = IsChangeImg;
             
         }
 

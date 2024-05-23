@@ -57,11 +57,11 @@ namespace Inventario.Controllers
             ViewData["nombreUsuario"] = nombreUsuario;
             if (foto == "")
             {
-                ViewData["foto"] = _pathConfiguration.PathAvatar + "defaultUser.png";
+                ViewData["foto"] = "/"+_pathConfiguration.PathAvatar + "/" + "defaultUser.png";
             }
             else
             {
-                ViewData["foto"] = _pathConfiguration.PathAvatar + foto;
+                ViewData["foto"] = "/"+_pathConfiguration.PathAvatar + "/" + foto;
             }
             
 
@@ -82,7 +82,7 @@ namespace Inventario.Controllers
             {
                 IdUsuario = id,
                 Usuario = nombreUsuario,
-                Foto = _pathConfiguration.PathAvatar + foto
+                Foto = "/"+_pathConfiguration.PathAvatar + "/" + foto
             });
 
             HttpContext.Session.SetObject("dataUserSession", lista);

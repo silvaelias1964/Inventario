@@ -1,4 +1,4 @@
-﻿/// Library for Edit password
+﻿/// Library for Add password
 var myInput1 = document.getElementById("etNewPassword");
 var myInput2 = document.getElementById("etConfirmNewPassword");
 
@@ -15,7 +15,7 @@ myInput1.onfocus = function () {
 }
 
 // When the user starts to type something inside the etNewPassword field
-myInput1.onkeyup = function () {    
+myInput1.onkeyup = function () {
     // Validate lowercase letters
     var lowerCaseLetters = /[a-z]/g;
     if (myInput1.value.match(lowerCaseLetters)) {
@@ -57,7 +57,7 @@ myInput1.onkeyup = function () {
         length.classList.remove("text-success");
         length.classList.add("text-danger");
     }
-   
+
     // Validate character special        
     var ischarsp = validate_specchar(myInput1.value);
     if (ischarsp == true) {
@@ -80,7 +80,7 @@ myInput1.onkeyup = function () {
 
 }
 
-myInput2.onkeyup = function () {    
+myInput2.onkeyup = function () {
     if (document.getElementById("etNewPassword").value == document.getElementById("etConfirmNewPassword").value) {
         psmatch.classList.remove("text-danger");
         psmatch.classList.add("text-success");
@@ -88,7 +88,7 @@ myInput2.onkeyup = function () {
         psmatch.classList.remove("text-success");
         psmatch.classList.add("text-danger");
 
-    }        
+    }
 }
 
 
@@ -97,8 +97,7 @@ window.addEventListener("load", function () {
     // icon to be able to interact with the element
     showPassword1 = document.querySelector('.show-password1');
     showPassword2 = document.querySelector('.show-password2');
-    showPassword3 = document.querySelector('.show-password3');
-
+    
     showPassword1.addEventListener('click', () => {
         // input elements of type password
         var password1 = document.querySelector('.password1');
@@ -127,19 +126,7 @@ window.addEventListener("load", function () {
 
     })
 
-    showPassword3.addEventListener('click', () => {
-        // input elements of type password
-        var password3 = document.querySelector('.password3');
-
-        if (password3.type === "text") {
-            password3.type = "password"
-            showPassword3.classList.remove('fa-eye-slash');
-        } else {
-            password3.type = "text"
-            showPassword3.classList.toggle("fa-eye-slash");
-        }
-
-    })
+    
 
 });
 
