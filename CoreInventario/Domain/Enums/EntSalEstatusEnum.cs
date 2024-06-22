@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CoreInventario.Domain.Enums
 {    
-    public enum EntradaEstatusEnum : int
+    public enum EntSalEstatusEnum : int
     {
         No = 0,
         Si = 1

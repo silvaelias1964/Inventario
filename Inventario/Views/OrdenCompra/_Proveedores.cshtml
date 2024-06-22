@@ -1,0 +1,95 @@
+﻿@using CoreInventario.Application.Models;
+@model List<ProveedorModel>
+
+
+<div class="modal-body">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">Id</th>
+                        <th style="text-align:center;">Código</th>
+                        <th style="text-align:center;">Nombre Proveedor</th>
+                        <th style="text-align:center;">Contacto</th>
+                        <th style="text-align:center;">Título Contacto</th>
+                        <th style="text-align:center;">Correo Electrónico</th>
+                        <th style="text-align:center;">Ciudad</th>
+                        <th style="text-align:center;">Página Web</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var formid = @item.Id.ToString();
+
+                        <tr data-dtid="@formid">
+                            <td data-id="@formid" id="idr">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvCodigo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvNombreCompania)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvContacto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvTituloContacto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvCorreoE1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvCiudad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrvPagWeb)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $('#dataTable').DataTable({
+            language: {
+                url: '/plantilla/vendor/datatables/es-ES.json',
+            },
+            select: {
+                style: 'single'
+            }
+        });
+
+        var table = $('#dataTable').DataTable();
+        $('#dataTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+            $('#dataTable').click(function () {
+                var table = $('#dataTable').DataTable();
+                var row = table.row('.selected');
+                var data = $('#dataTable').dataTable().fnGetData(row);
+                
+                $("#IdProveedor").val(data[0]);  // Proveedor seleccionado
+            });
+
+     
+
+    });
+</script>

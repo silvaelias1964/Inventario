@@ -20,12 +20,15 @@ namespace CoreInventario.Infrastructure.Contexts
         // DbSets
         public DbSet<CategoriaProducto> CategoriaProducto { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<Proveedor> Proveedor { get; set; }        
+        public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Entrada> Entrada { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Salida> Salida { get; set; }
         public DbSet<Rol> Rol { get; set; }
+        public DbSet<UnidadMedida> UnidadMedida {get; set;}
+        public DbSet<OrdenCompra> OrdenCompra { get; set; }
+        public DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -58,6 +61,15 @@ namespace CoreInventario.Infrastructure.Contexts
 
             });
 
+            builder.Entity<OrdenCompraDetalle>(entity =>
+            {                
+                entity.HasOne(e => e.UnidadMedida)
+                    .WithMany(c => c.OrdenCompraDetalle)
+                    .HasForeignKey("UnidadMedidaId")
+                    .OnDelete(DeleteBehavior.NoAction);
+
+            });
+
             builder.Entity<Entrada>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();                
@@ -80,6 +92,20 @@ namespace CoreInventario.Infrastructure.Contexts
                 entity.HasIndex(e => e.Clave).IsUnique();
             });
 
+            builder.Entity<OrdenCompra>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasMany(e => e.OrdenCompraDetalles)
+                    .WithOne(e => e.OrdenCompra).HasForeignKey("OrdenCompraId")
+                    .OnDelete(DeleteBehavior.ClientCascade);
+            });
+
+            builder.Entity<OrdenCompraDetalle>(entity =>
+            {
+                entity.HasIndex(e =>e.Id).IsUnique();
+                entity.HasIndex(e => e.ProductoId);                
+            });
+
 
             // Atributos de campo
             builder.Entity<Producto>()
@@ -90,9 +116,22 @@ namespace CoreInventario.Infrastructure.Contexts
                 .Property(p => p.EntPrecioUnidad)
                 .HasColumnType("decimal(18,2)");
 
-            builder.Entity<Salida>()
-                .Property(p => p.SalPrecioUnidad)
+            builder.Entity<OrdenCompra>()
+                .Property(p => p.OccIVA)
                 .HasColumnType("decimal(18,2)");
+
+            builder.Entity<OrdenCompra>()
+                .Property(p => p.OccDescuento)
+                .HasColumnType("decimal(18,2)");
+
+            builder.Entity<OrdenCompra>()
+                .Property(p => p.OccGasto)
+                .HasColumnType("decimal(18,2)");
+
+
+            //builder.Entity<Salida>()
+            //    .Property(p => p.SalPrecioUnidad)
+            //    .HasColumnType("decimal(18,2)");
 
 
         }

@@ -14,6 +14,8 @@ namespace CoreInventario.Transversal.Commons
     {
         public string PathAvatar { get; set; }
         public string PathProductos { get; set; }
+        public string PathFactor1 { get; set; }
+        public string PathFactor2 { get; set; }
     }
 
 }

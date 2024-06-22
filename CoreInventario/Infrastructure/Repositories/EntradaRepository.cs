@@ -40,7 +40,7 @@ namespace CoreInventario.Infrastructure.Repositories
                 Cantidad = c.EntStock,
                 Fecha = c.EntFecha.Value.ToString("dd/MM/yyyy"),                
                 Estatus = c.EntEstatus,
-                entradaEstatus = (EntradaEstatusEnum)c.EntEstatus
+                entradaEstatus = (EntSalEstatusEnum)c.EntEstatus
 
             }).ToList();
 

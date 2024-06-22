@@ -101,6 +101,7 @@ namespace Inventario.Controllers
             ProductoViewModel viewModel = new ProductoViewModel();
             viewModel.MapToViewModel(ref producto);
 
+            //var factor = libreriaService.FactorMoneda();
 
             //var file = viewModel.File1;
 
@@ -399,19 +400,12 @@ namespace Inventario.Controllers
         {
 
             public int Id { get; set; }
-
             public byte[] Image { get; set; }
-
             public string ImageType { get; set; }
-
             public string Url { get; set; }
-
             public int MediaFileType { get; set; }
-
             public string FileName { get; set; }
-
             public string ContentType { get; set; }
-
 
         }
 

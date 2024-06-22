@@ -5,6 +5,7 @@ using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,6 +121,28 @@ namespace CoreInventario.Application.Services
             }
         }
 
+
+        /// <summary>
+        /// Filtrado de Proveedores por Estatus
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable GetAllByStatus()
+        {
+            var entities = unitOfWork.Proveedor.GetAllByStatus(1);
+            //return entities;
+            return mapper.Map<List<ProveedorModel>>(entities);
+        }
+
+        /// <summary>
+        /// Traer datos de un proveedor por Id (asincronica)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Proveedor GetByIdNoAsync(int id)
+        {
+            Proveedor entities = unitOfWork.Proveedor.GetByID(id);
+            return entities;
+        }
 
     }
 }

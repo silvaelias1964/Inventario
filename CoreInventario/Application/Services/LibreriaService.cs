@@ -4,22 +4,31 @@ using CoreInventario.Domain.Entities;
 using CoreInventario.Domain.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using CoreInventario.Application.Models;
+using CoreInventario.Transversal.Commons;
+using Newtonsoft.Json.Linq;
 
 namespace CoreInventario.Application.Services
 {
     public class LibreriaService : ILibreriaService
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IPathConfiguration pathConfiguration;
 
-        public LibreriaService(IUnitOfWork unitOfWork)
+        public LibreriaService(IUnitOfWork unitOfWork,IPathConfiguration pathConfiguration)
         {
             this.unitOfWork = unitOfWork;
+            this.pathConfiguration = pathConfiguration;
         }
 
         /// <summary>
@@ -142,7 +151,7 @@ namespace CoreInventario.Application.Services
             {
                 foreach (var item in lista.Result)
                 {
-                    lstRoles.Add(new SelectListItem() { Text = item.NombreRol, Value = item.Id.ToString() });
+                    lstRoles.Add(new SelectListItem() { Text = item.RolNombre, Value = item.Id.ToString() });
                 }
             }
             else
@@ -185,6 +194,70 @@ namespace CoreInventario.Application.Services
             //return sb.ToString();
         }
 
+        /// <summary>
+        /// Extraer el factor dolar del día
+        /// </summary>
+        /// <returns>FactorMonedaModel</returns>
+        public FactorMonedaModel FactorMoneda()
+        {
+            var client = new HttpClient();
+
+            HttpClient _httpclie;
+            HttpRequestMessage _httpreq;
+            string serialapi = "";
+            string querystring = "";
+            _httpclie = new HttpClient();
+            string url = pathConfiguration.PathFactor1;
+            _httpclie.BaseAddress = new Uri(url);
+            _httpclie.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpreq = new HttpRequestMessage();
+            _httpreq.Method = HttpMethod.Get;
+            _httpreq.RequestUri = new Uri(_httpclie.BaseAddress.AbsoluteUri + querystring + serialapi);
+            HttpResponseMessage _httpresp = _httpclie.SendAsync(_httpreq).Result;
+            if (_httpresp.StatusCode == HttpStatusCode.OK)
+            {
+                string jsonstring = _httpresp.Content.ReadAsStringAsync().Result;
+
+                dynamic jsonObj = JObject.Parse(jsonstring);
+
+                //List<FactorMonedaModel> datos = JsonConvert.DeserializeObject<List<FactorMonedaModel>>(jsonstring);
+                //FactMoneda datos = JsonConvert.DeserializeObject<FactMoneda>(jsonstring);
+
+                var datos=new List<FactorMonedaModel>();
+                datos.Add(new FactorMonedaModel
+                {
+                    currency = "Dolar",
+                    date = jsonObj.datetime.date,
+                    exchange = jsonObj.monitors.usd.price
+                });
+
+
+                return datos[0];
+
+            }
+            else
+            {
+
+                List<FactorMonedaModel> datos = new List<FactorMonedaModel>();
+                datos.Add(new FactorMonedaModel() { currency = "", date = new DateTime().ToShortDateString(), exchange = 0 });
+                return datos[0];
+            }
+        }
+
+        /// <summary>
+        /// Estatus Ordenes de compra
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> EstatusOdcList()
+        {
+            List<SelectListItem> lstEstatus = new List<SelectListItem>();
+
+            foreach (var option in Enum.GetValues(typeof(OdcEstatusEnum)))
+            {
+                lstEstatus.Add(new SelectListItem { Text = Enum.GetName(typeof(OdcEstatusEnum), (int)option), Value = ((int)option).ToString() });
+            }
+            return lstEstatus;
+        }
 
 
     }

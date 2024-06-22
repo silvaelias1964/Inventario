@@ -12,11 +12,11 @@ namespace CoreInventario.Domain.Entities
     {
         [MaxLength(10)]
         [Required]
-        public string CodigoRol { get; set; }
+        public string RolCodigo { get; set; }
 
         [MaxLength(100)]
         [Required]
-        public string NombreRol { get; set; }
+        public string RolNombre { get; set; }
 
         public virtual ICollection<Usuario> Usuario { get; set; }
     }

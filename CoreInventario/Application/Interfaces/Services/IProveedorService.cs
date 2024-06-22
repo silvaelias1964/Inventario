@@ -20,5 +20,9 @@ namespace CoreInventario.Application.Interfaces.Services
         Task<string> Edit(ProveedorModel model);
 
         Task<string> Delete(int id);
+
+        IEnumerable GetAllByStatus();
+
+        Proveedor GetByIdNoAsync(int id);
     }
 }

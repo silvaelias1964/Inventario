@@ -10,7 +10,10 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-
+/*
+    Personalizada por Elias E. Silva P.
+    Fecha: 16/08/2023
+*/
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
@@ -229,6 +232,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: 0.5rem;
+  color: black;
 }
 
 button {
@@ -1489,23 +1493,18 @@ pre code {
   color: #858796;
 }
 
-    .table th,
-    .table td {
-        padding: 0.1rem; /*padding: 0.75rem; */
-        vertical-align: top;
-        border-top: 1px solid #e3e6f0;
-        padding-bottom: 0.1rem;
-        padding-left: 0.1px;
-    }
+.table th,
+.table td {
+    padding: 0.1rem; /*padding: 0.75rem; */
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    padding-bottom: 0.1rem;
+    padding-left: 0.1px;
+}
 
 .table thead th {
   vertical-align: bottom;
   border-bottom: 2px solid #e3e6f0;
-}
-
-.table tr.selected {
-    background-color: #3e3e8a;
-    color: white;
 }
 
 .table tbody + tbody {
@@ -6499,8 +6498,14 @@ button.bg-dark:focus {
 }
 
 .bg-white {
-  background-color: #fff !important;
+    /*background-color: #fff !important;*/
+    background-color: #c9b77d !important;   /* Inventario marron*/
 }
+
+.bg-blue-1 {    
+    background-color: #007cc7 !important; /* Inventario*/
+}
+
 
 .bg-transparent {
   background-color: transparent !important;
@@ -9909,7 +9914,10 @@ a:focus {
 
 .bg-gradient-primary {
     background-color: #4e73df;
-    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);    
+    /*background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);*/
+    /*background-image: linear-gradient(180deg, #8697bc 10%, #000207 100%);*/
+    /* background-image: linear-gradient(180deg, #C9B77D 20%, #000207 100%); inventario marron*/
+    background-image: linear-gradient(180deg, #007CC7 20%, #000207 100%); /*inventario azul */
     background-size: cover;
 }
 
@@ -10380,16 +10388,17 @@ a:focus {
   margin: 0 0 1rem 0;
 }
 
-.sidebar .nav-item .collapse .collapse-inner .collapse-header,
-.sidebar .nav-item .collapsing .collapse-inner .collapse-header {
-  margin: 0;
-  white-space: nowrap;
-  padding: .5rem 1.5rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  font-size: 0.65rem;
-  color: #b7b9cc;
-}
+    .sidebar .nav-item .collapse .collapse-inner .collapse-header,
+    .sidebar .nav-item .collapsing .collapse-inner .collapse-header {
+        margin: 0;
+        white-space: nowrap;
+        padding: .5rem 1.5rem;
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: 0.65rem;
+        /*color: #b7b9cc;*/
+        color: #252011;    /*Inventario*/
+    }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item {
@@ -10686,7 +10695,8 @@ a:focus {
 }
 
 .sidebar-dark .sidebar-brand {
-  color: #fff;
+   /* color: #fff;*/
+    color: #0c0d0e;   /*Inventario*/
 }
 
 .sidebar-dark hr.sidebar-divider {
@@ -11288,6 +11298,92 @@ body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
 
-.tachado {
-    text-decoration: line-through;
+/*Nuevo*/
+.table tr.selected {
+    background-color: #b7b9cc;
+    color: white;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #e3e6f0;
+    background-color: #4e73df;
+    color: white;
+}
+
+.navbar-right {
+    float: right !important;
+    margin-right: -20px;
+    padding-bottom: inherit;
+}
+
+/* Css para manejo de fotos del formulario  */
+.prevPhoto {
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #CCC;
+    position: relative;
+    cursor: pointer;
+    background: url(../avatar/defaultUser.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin: auto;
+}
+
+.prevPhoto label {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.prevPhoto img {
+    width: 100%;
+    height: 100%;
+}
+
+.upimg, .notBlock {
+    display: none !important;
+}
+
+.errorArchivo {
+    font-size: 16px;
+    font-family: arial;
+    color: #cc0000;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.delPhoto {
+    color: #FFF;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    background: red;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    z-index: 10;
+}
+
+#tbl_list_productos img {
+    width: 50px;
+}
+
+.imgProductoDelete {
+    width: 175px;
 }

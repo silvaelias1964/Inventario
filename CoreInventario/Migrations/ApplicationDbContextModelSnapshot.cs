@@ -185,6 +185,140 @@ namespace CoreInventario.Migrations
                     b.ToTable("Entrada");
                 });
 
+            modelBuilder.Entity("CoreInventario.Domain.Entities.OrdenCompra", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OccDescuento")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("OccDireccion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("OccEstatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("OccFechaEmision")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("OccFechaOrden")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("OccFechaVencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OccGasto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OccIVA")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OccMismaDireccion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OccNombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("OccNroOrden")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("OccTelefono1")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("OccTelefono2")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("OccTelefono3")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("ProveedorId");
+
+                    b.ToTable("OrdenCompra");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.OrdenCompraDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OcdCantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrdenCompraId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnidadMedidaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("OrdenCompraId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.HasIndex("UnidadMedidaId");
+
+                    b.ToTable("OrdenCompraDetalle");
+                });
+
             modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
                 {
                     b.Property<int>("Id")
@@ -376,11 +510,6 @@ namespace CoreInventario.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("CodigoRol")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<string>("CreadoPor")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -391,7 +520,12 @@ namespace CoreInventario.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NombreRol")
+                    b.Property<string>("RolCodigo")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("RolNombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -438,9 +572,6 @@ namespace CoreInventario.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("SalPrecioUnidad")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("SalStock")
                         .HasColumnType("int");
 
@@ -452,6 +583,43 @@ namespace CoreInventario.Migrations
                     b.HasIndex("ProductoId");
 
                     b.ToTable("Salida");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.UnidadMedida", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActualizadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreadoPor")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("FechaActualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UniCodigo")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("UniDescripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UnidadMedida");
                 });
 
             modelBuilder.Entity("CoreInventario.Domain.Entities.Usuario", b =>
@@ -730,6 +898,43 @@ namespace CoreInventario.Migrations
                     b.Navigation("Producto");
                 });
 
+            modelBuilder.Entity("CoreInventario.Domain.Entities.OrdenCompra", b =>
+                {
+                    b.HasOne("CoreInventario.Domain.Entities.Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proveedor");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.OrdenCompraDetalle", b =>
+                {
+                    b.HasOne("CoreInventario.Domain.Entities.OrdenCompra", "OrdenCompra")
+                        .WithMany("OrdenCompraDetalles")
+                        .HasForeignKey("OrdenCompraId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("CoreInventario.Domain.Entities.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoreInventario.Domain.Entities.UnidadMedida", "UnidadMedida")
+                        .WithMany("OrdenCompraDetalle")
+                        .HasForeignKey("UnidadMedidaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("OrdenCompra");
+
+                    b.Navigation("Producto");
+
+                    b.Navigation("UnidadMedida");
+                });
+
             modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
                 {
                     b.HasOne("CoreInventario.Domain.Entities.CategoriaProducto", "CategoriaProducto")
@@ -821,6 +1026,11 @@ namespace CoreInventario.Migrations
                     b.Navigation("Producto");
                 });
 
+            modelBuilder.Entity("CoreInventario.Domain.Entities.OrdenCompra", b =>
+                {
+                    b.Navigation("OrdenCompraDetalles");
+                });
+
             modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
                 {
                     b.Navigation("Entrada");
@@ -836,6 +1046,11 @@ namespace CoreInventario.Migrations
             modelBuilder.Entity("CoreInventario.Domain.Entities.Rol", b =>
                 {
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CoreInventario.Domain.Entities.UnidadMedida", b =>
+                {
+                    b.Navigation("OrdenCompraDetalle");
                 });
 #pragma warning restore 612, 618
         }

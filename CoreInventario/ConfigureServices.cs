@@ -22,7 +22,9 @@ namespace CoreInventario
             IConfiguration configuration, 
             string _connectionDataBase,
             string _pathAvatar,
-            string _pathProductos
+            string _pathProductos,
+            string _pathFactor1,
+            string _pathFactor2
             ) 
         {
             services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = _connectionDataBase });
@@ -32,10 +34,14 @@ namespace CoreInventario
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IEntradaService, EntradaService>();
+            services.AddScoped<ISalidaService, SalidaService>();
+            services.AddScoped<IOrdenCompraService, OrdenCompraService>();
             services.AddTransient<SesionService>();
             services.AddSingleton<IPathConfiguration>(new PathConfiguration
             {  PathAvatar  = _pathAvatar,
-               PathProductos = _pathProductos 
+               PathProductos = _pathProductos,
+               PathFactor1 = _pathFactor1,
+               PathFactor2 = _pathFactor2
             });
             services.AddSingleton<PathProvider>();
             services.AddSingleton<FileSanity>();

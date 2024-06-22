@@ -230,8 +230,9 @@ th {
 }
 
 label {
-  display: inline-block;
-  margin-bottom: 0.5rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    color: black;
 }
 
 button {
@@ -6498,8 +6499,13 @@ button.bg-dark:focus {
 
 .bg-white {
     /*background-color: #fff !important;*/
-    background-color: #c9b77d !important;   /*inventario*/
+    background-color: #c9b77d !important;   /* Inventario marron*/
 }
+
+.bg-blue-1 {    
+    background-color: #007cc7 !important; /* Inventario*/
+}
+
 
 .bg-transparent {
   background-color: transparent !important;
@@ -9910,7 +9916,8 @@ a:focus {
     background-color: #4e73df;
     /*background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);*/
     /*background-image: linear-gradient(180deg, #8697bc 10%, #000207 100%);*/
-    background-image: linear-gradient(180deg, #C9B77D 20%, #000207 100%);   /*inventario*/
+    /* background-image: linear-gradient(180deg, #C9B77D 20%, #000207 100%); inventario marron*/
+    background-image: linear-gradient(180deg, #007CC7 20%, #000207 100%); /*inventario azul */
     background-size: cover;
 }
 

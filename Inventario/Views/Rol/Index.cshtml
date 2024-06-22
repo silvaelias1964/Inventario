@@ -58,18 +58,18 @@
                     {
 
                         var formid = @item.Id.ToString();
-                        var formcampo1 = @item.CodigoRol;
-                        var formcampo2 = @item.NombreRol;
+                        var formcampo1 = @item.RolCodigo;
+                        var formcampo2 = @item.RolNombre;
 
                         <tr data-dtid="@formid" class="tablareg">
                             <td data-id="@formid" id="idr">
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CodigoRol)
+                                @Html.DisplayFor(modelItem => item.RolCodigo)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.NombreRol)
+                                @Html.DisplayFor(modelItem => item.RolNombre)
                             </td>
 
                             <td>
@@ -298,7 +298,7 @@
                 var id = 0;
                 $.ajax({
                     url: '@Url.Action("Create", "Rol")',
-                    data: { Id: id, CodigoRol: name, NombreRol: descrip, Usuario: null },
+                    data: { Id: id, RolCodigo: name, RolNombre: descrip, Usuario: null },
                     dataType: "json",
                     type: 'POST'
                 })
@@ -346,7 +346,7 @@
 
                 $.ajax({
                     url: '@Url.Action("Edit", "Rol")',
-                    data: { Id: id, CodigoRol: name, NombreRol: descrip, Usuario: null },
+                    data: { Id: id, RolCodigo: name, RolNombre: descrip, Usuario: null },
                     dataType: "json",
                     type: 'POST'
                 })
@@ -378,7 +378,7 @@
 
                 $.ajax({
                     url: '@Url.Action("Delete", "Rol")',
-                    data: { Id: id, CodigoRol: name, NombreRol: descrip, Usuario: null },
+                    data: { Id: id, RolCodigo: name, RolNombre: descrip, Usuario: null },
                     dataType: "json",
                     type: 'POST'
                 })

@@ -11,15 +11,21 @@ namespace CoreInventario.Infrastructure.Repositories
         public IEntradaRepository Entrada { get; }
         public IUsuarioRepository Usuario { get; }
         public IRolRepository Rol { get; }
+        public ISalidaRepository Salida { get; }
+        public IOrdenCompraRepository OrdenCompra { get; }
+        public IOrdenCompraDetalleRepository OrdenCompraDetalle { get; }
 
         public UnitOfWork(
             ICategoriaProductoRepository categoriaProducto, 
-            IProductoRepository producto, 
-            IProveedorRepository proveedor, 
+            IProductoRepository producto,
+            IProveedorRepository proveedor,
             IClienteRepository cliente,
             IEntradaRepository entrada,
             IUsuarioRepository usuario,
-            IRolRepository rol)
+            IRolRepository rol,
+            ISalidaRepository salida,
+            IOrdenCompraRepository ordenCompra,
+            IOrdenCompraDetalleRepository ordenCompraDetalle)
         {
             CategoriaProducto = categoriaProducto;
             Producto = producto;
@@ -28,6 +34,9 @@ namespace CoreInventario.Infrastructure.Repositories
             Entrada = entrada;
             Usuario = usuario;
             Rol = rol;
+            Salida = salida;
+            OrdenCompra = ordenCompra;
+            OrdenCompraDetalle = ordenCompraDetalle;
         }
 
         public void Dispose()

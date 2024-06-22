@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
 using CoreInventario.Transversal.Commons;
+using CoreInventario.Application.Services;
+using CoreInventario.Application.Interfaces.Services;
 
 namespace Inventario.Controllers
 {
@@ -14,11 +16,13 @@ namespace Inventario.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPathConfiguration _pathConfiguration;
+        private readonly ILibreriaService _libreriaService;
 
-        public HomeController(ILogger<HomeController> logger, IPathConfiguration pathConfiguration)
+        public HomeController(ILogger<HomeController> logger, IPathConfiguration pathConfiguration, ILibreriaService libreriaService)
         {
             _logger = logger;
             _pathConfiguration = pathConfiguration;
+            _libreriaService = libreriaService;
         }
 
         public IActionResult Index()
@@ -86,6 +90,9 @@ namespace Inventario.Controllers
             });
 
             HttpContext.Session.SetObject("dataUserSession", lista);
+
+            var factor = _libreriaService.FactorMoneda();
+            ViewData["factorCambio"] = factor.exchange;
 
 
             return View();

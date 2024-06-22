@@ -1,0 +1,411 @@
+﻿@*View de Index de Form de Unidad de Medida*@
+@using CoreInventario.Domain.Entities;
+@model IEnumerable<UnidadMedida>
+
+@{
+    ViewBag.Title = "Index";
+    var proceso = ViewBag.proceso;
+
+    var titPantalla = "Unidades de Medida";
+    var titCampo0 = "Id";
+    var titCampo1 = "Código";
+    var titCampo2 = "Descripción";
+
+
+}
+
+<!-- Mostrar mensaje en el index si se grabó correctamente -->
+@if (TempData["mensaje"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["mensaje"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            @*Boton Agregar*@
+            <div class="row">
+                <div class="col">
+                    <h2>@titPantalla</h2>
+                </div>
+                <div class="col">
+                    <div class="nav navbar-right" style="margin-right: -7px;">
+                        <button type="button" class="btn bg-slate-600 btn-labeled btn-sm" data-toggle="modal" data-target="#modalForm" data-proceso="A">
+                            <b>
+                                <i class="fa fa-sticky-note btn-dark btn-sm"> Nuevo</i>
+                            </b>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">@titCampo0</th>
+                        <th style="text-align:center;">@titCampo1</th>
+                        <th style="text-align:center;">@titCampo2</th>
+                        <th style="width: 25%; text-align:center;">Opciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        var formid = @item.Id.ToString();
+                        var formcampo1 = @item.UniCodigo;
+                        var formcampo2 = @item.UniDescripcion;
+
+                        <tr data-dtid="@formid" class="tablareg">
+                            <td data-id="@formid" id="idr">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UniCodigo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UniDescripcion)
+                            </td>
+
+                            <td>
+                                @*Botonera*@
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="nav navbar-right" style="margin-right: -7px;">
+                                            <button type="button" class="btn bg-slate-600 btn-labeled btn-sm btn-modificar-modopago" data-toggle="modal" data-target="#modalFormEdit" data-dtid="@formid" data-dtcampo1="@formcampo1" data-dtcampo2="@formcampo2">
+                                                <b>
+                                                    <i class="fa fa-pencil-square btn-dark btn-sm"> Editar</i>
+                                                </b>
+                                            </button>
+                                            <button type="button" class="btn bg-slate-600 btn-labeled btn-sm btn-eliminar-modopago" data-toggle="modal" data-target="#modalFormElim" data-dtid="@formid" data-dtcampo1="@formcampo1" data-dtcampo2="@formcampo2">
+                                                <b>
+                                                    <i class="fa fa-trash btn-dark btn-sm"> Borrar</i>
+                                                </b>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+@*Formulario de agregar*@
+<div class="modal fade" id="modalForm" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">X</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">@titPantalla - Agregar</h4>
+                <p class="proceso"></p>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="inputName">@titCampo1</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Introduce el código" />
+                        <label for="inputDescrip">@titCampo2</label>
+                        <input type="text" class="form-control" id="inputDescrip" placeholder="Introduce el nombre o descripción" />
+                    </div>
+                </form>
+                <p class="statusMsg"></p>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm('A')">Confirmar</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Formulario de Editar*@
+<div class="modal fade" id="modalFormEdit" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm())
+            {
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">X</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">@titPantalla - Editar</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" id="inputId" name="dtid" />
+
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="input_Name">@titCampo1</label>
+                            <input type="text" class="form-control" id="input_Name" placeholder="Introduce el código " />
+                            <label for="input_Descrip">@titCampo2</label>
+                            <input type="text" class="form-control" id="input_Descrip" placeholder="Introduce el nombre o descripción" />
+                        </div>
+                    </form>
+                    <p class="statusMsg"></p>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm('E')">Confirmar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*Formulario de Eliminar*@
+<div class="modal fade" id="modalFormElim" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm())
+            {
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">X</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">@titPantalla - Eliminar</h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <input type="hidden" id="inputId1" name="dtid" />
+
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="inputName1">@titCampo1</label>
+                            <input type="text" class="form-control" id="inputName1" readonly />
+                            <label for="inputDescrip1">@titCampo2</label>
+                            <input type="text" class="form-control" id="inputDescrip1" readonly />
+
+                        </div>
+                    </form>
+                    <p class="statusMsg"></p>
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm('B')">Confirmar</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script src="~/lib/common/libreria.js"></script>
+    <script type='text/javascript'>
+
+
+        $(document).ready(function () {
+
+            $('#dataTable').DataTable({
+                language: {
+                    url: '/plantilla/vendor/datatables/es-ES.json',
+                },
+                select: {
+                    style: 'single'
+                }
+            });
+
+            var table = $('#dataTable').DataTable();
+            $('#dataTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                } else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+
+        });
+
+
+        $(".btn-modificar-modopago").click(function () {
+            // Valores previamente guardados en la BD
+            var id = $(this).data("dtid");
+            var dtcampo1 = $(this).data("dtcampo1");
+            var dtcampo2 = $(this).data("dtcampo2");
+
+            //Setear los inputs con los valores previos para mostrar y editar
+            $("#inputId").val(id);
+            $("#input_Name").val(dtcampo1);
+            $("#input_Descrip").val(dtcampo2);
+
+        });
+
+        $(".btn-eliminar-modopago").click(function () {
+            // Valores previamente guardados en la BD
+            var id = $(this).data("dtid");
+            var dtcampo1 = $(this).data("dtcampo1");
+            var dtcampo2 = $(this).data("dtcampo2");
+
+            //Setear los inputs con los valores previos para mostrar y editar
+            $("#inputId1").val(id);
+            $("#inputName1").val(dtcampo1);
+            $("#inputDescrip1").val(dtcampo2);
+
+        });
+
+        function submitContactForm(opcion) {
+            //Agregar
+            if (opcion == 'A') {
+                var name = $('#inputName').val();
+
+                if (name.trim() == '') {
+                    alert('Por favor introduce el código');
+                    $('#inputName').focus();
+                    return false;
+                }
+
+                var descrip = $('#inputDescrip').val();
+
+                if (descrip.trim() == '') {
+                    alert('Por favor introduce el nombre o descripción');
+                    $('#inputDescrip').focus();
+                    return false;
+                }
+
+
+                var id = 0;
+                $.ajax({
+                    url: '@Url.Action("Create", "UnidadMedida")',
+                    data: { Id: id, UniCodigo: name, UniDescripcion: descrip, Usuario: null },
+                    dataType: "json",
+                    type: 'POST'
+                })
+                    .done(function (result) {
+                        if (result.success == true) {
+                            $('#inputName').val('');
+                            $('#inputDescrip').val('');
+
+                            $('.statusMsg').html('<span style="color:green;">Guardado correctamente</p>');
+                        } else {
+                            $('.statusMsg').html('<span style="color:red;">Error al guardar, por favor intente nuevamente</span>');
+                        }
+                    }).fail(function (xhr, status, error) {
+                        $('.statusMsg').html('<span style="color:red;">Algún problema ha ocurrido, por favor intente nuevamente</span>');
+                    })
+                    .always(function () {
+                        $('.submitBtn').removeAttr("disabled");
+                        $('.modal-body').css('opacity', '');
+                        $('.statusMsg').show("slow").delay(2000).hide("slow");
+                        location.reload();
+                    });
+
+
+            }
+            //Editar
+            if (opcion == 'E') {
+
+                var id = $("#inputId").val();
+                var name = $("#input_Name").val();
+                var descrip = $("#input_Descrip").val();
+
+                if (name == '') {
+                    alert('Por favor introduce el código');
+                    $('#input_Name').focus();
+                    return false;
+                }
+
+                var descrip = $('#input_Descrip').val();
+                if (descrip.trim() == '') {
+                    alert('Por favor introduce el nombre o descripción');
+                    $('#input_Descrip').focus();
+                    return false;
+                }
+
+
+                $.ajax({
+                    url: '@Url.Action("Edit", "UnidadMedida")',
+                    data: { Id: id, UniCodigo: name, UniDescripcion: descrip, Usuario: null },
+                    dataType: "json",
+                    type: 'POST'
+                })
+                    .done(function (result) {
+                        if (result.success == true) {
+                            $('#input_Name').val('');
+                            $('#input_Descrip').val('');
+                            $('.statusMsg').html('<span style="color:green;">Guardado correctamente</p>');
+                        } else {
+                            $('.statusMsg').html('<span style="color:red;">Error al guardar, por favor intente nuevamente</span>');
+                        }
+                    }).fail(function (xhr, status, error) {
+                        $('.statusMsg').html('<span style="color:red;">Algún problema ha ocurrido, por favor intente nuevamente</span>');
+                    })
+                    .always(function () {
+                        $('.submitBtn').removeAttr("disabled");
+                        $('.modal-body').css('opacity', '');
+                        $('.statusMsg').show("slow").delay(2000).hide("slow");
+                        location.reload();
+                    });
+
+            }
+            //Eliminar
+            if (opcion == 'B') {
+
+                var id = $("#inputId1").val();
+                var name = $("#inputName1").val();
+                var descrip = $("#inputDescrip1").val();
+
+                $.ajax({
+                    url: '@Url.Action("Delete", "UnidadMedida")',
+                    data: { Id: id, UniCodigo: name, UniDescripcion: descrip, Usuario: null },
+                    dataType: "json",
+                    type: 'POST'
+                })
+                    .done(function (result) {
+                        if (result.success == true) {
+                            $('#inputName1').val('');
+                            $('#inputDescrip1').val('');
+                            $('.statusMsg').html('<span style="color:green;">Eliminado correctamente</p>');
+                        } else {
+                            $('.statusMsg').html('<span style="color:red;">Error al eliminar, por favor intente nuevamente</span>');
+                        }
+                    }).fail(function (xhr, status, error) {
+                        alert('error fail function');
+                        $('.statusMsg').html('<span style="color:red;">Algún problema ha ocurrido, por favor intente nuevamente</span>');
+                    })
+                    .always(function () {
+                        $('.submitBtn').removeAttr("disabled");
+                        $('.modal-body').css('opacity', '');
+                        $('.statusMsg').show("slow").delay(2000).hide("slow");
+                        location.reload();
+                    });
+
+            }
+
+
+        }
+    </script>
+}
+

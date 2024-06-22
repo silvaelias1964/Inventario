@@ -1,5 +1,6 @@
 ﻿using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Interfaces.Repositories;
+using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Domain.Enums;
 using CoreInventario.Domain.Helpers;
@@ -42,6 +43,44 @@ namespace CoreInventario.Infrastructure.Repositories
         {
             return context.Proveedor.FromSqlRaw($"SELECT * FROM Proveedor WHERE Id = {id}")
                 .FirstOrDefault();
+        }
+
+        public IEnumerable<ProveedorModel> GetAllByStatus(int status)
+        {
+            //return context.Proveedor.FromSqlRaw($"SELECT * FROM Proveedor WHERE PrvEstatus = {status}");
+                //.FirstOrDefault();
+
+            //var list = context.Proveedor.FromSqlRaw($"SELECT * FROM Proveedor WHERE PrvEstatus = {status}").ToList();
+
+            //var lista = context.Proveedor.ToList().Where(c=>c.PrvEstatus == status);
+            //return (IEnumerable<ProveedorModel>)lista;
+
+
+            var lista = context.Proveedor.Select(c => new ProveedorModel
+            {
+                Id = c.Id,
+                PrvCodigo = c.PrvCodigo,
+                PrvNombreCompania = c.PrvNombreCompania,
+                PrvContacto = c.PrvContacto,
+                PrvEstatus = c.PrvEstatus,
+                PrvCiudad = c.PrvCiudad,
+                PrvCodigoPostal = c.PrvCodigoPostal,
+                PrvCorreoE1 = c.PrvCorreoE1,
+                PrvCorreoE2 = c.PrvCorreoE2,
+                PrvDireccion = c.PrvDireccion,
+                PrvPagWeb = c.PrvPagWeb,
+                PrvRedSocial1 = c.PrvRedSocial1,
+                PrvRedSocial2 = c.PrvRedSocial2,
+                PrvTelefono1 = c.PrvTelefono1,
+                PrvTelefono2 = c.PrvTelefono2,
+                PrvTelefono3 = c.PrvTelefono3,
+                PrvRegion=c.PrvRegion,
+                PrvTituloContacto=c.PrvContacto
+
+            }).ToList().Where(c => c.PrvEstatus == status);
+
+            return lista;
+
         }
 
         public async Task Add(Proveedor proveedor)

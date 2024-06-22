@@ -1,0 +1,155 @@
+﻿@model Inventario.Models.SalidaViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Salidas";
+    var fncPantalla = "Editar";
+
+    // Set de campos input Date
+    DateTime fecha = DateTime.Today;
+    var fechaini = fecha.ToString("dd/MM/yyyy");
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Edit" method="post">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Confirmar
+                    </button>
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="ProductoId" class="control-label"></label><label style="color:red;"> * </label>
+                            <select class="form-control custom-select" asp-for="ProductoId" asp-items=@ViewBag.Productos></select>
+                            <span asp-validation-for="ProductoId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label asp-for="SalFecha" class="control-label"></label>
+                        <input asp-for="SalFecha" class="form-control" type="text" value=@fechaini readonly />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Nombre del Producto</label>
+                            <input id="NombrePrd" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+
+                            <label asp-for="SalStock" class="control-label"></label><label style="color:red;"> * </label>
+                            <input asp-for="SalStock" class="form-control enteros" style="text-align:right;" />  <!-- onkeypress="return soloNumeros(event);"-->
+                            <span asp-validation-for="SalStock" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @*   <div class="col-md-3">
+                    <div class="form-group">
+                    <label asp-for="SalPrecioUnidad" class="control-label"></label><label style="color:red;"> * </label>
+                    <input asp-for="SalPrecioUnidad" class="form-control decimales" style="text-align:right;" />
+                    <span asp-validation-for="SalPrecioUnidad" class="text-danger"></span>
+                    </div>
+                    </div> *@
+
+                   
+
+                </div>
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="SalDetalles" class="control-label"></label>
+                            <textarea asp-for="SalDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            <span asp-validation-for="SalDetalles" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        @* <input id="Salida" style="text"  hidden/> *@
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+    @* <script src="~/js/Libreria.js"></script> *@
+    <script type="text/javascript">
+
+        let cadena = '';
+        $("#ProductoId").val('1').trigger('change');  // Inicializa el combo con el primer valor para que no quede vacio
+        ProductoCmb();
+
+        $(document).ready(function () {
+
+            $("#ProductoId").change(function () {
+                ProductoCmb();
+            });
+
+           
+
+        });
+
+
+        // Selección del producto a darle entrada
+        function ProductoCmb() {
+            cadena = $("#ProductoId option:selected").text();
+            cadena = cadena.substring(cadena.indexOf("-") + 1);
+            $("#NombrePrd").val(cadena);
+        }
+
+        // Salida
+        function Cancel() {
+            window.location.href = "/Salida/Index";
+        }
+
+
+    </script>
+}
+
+

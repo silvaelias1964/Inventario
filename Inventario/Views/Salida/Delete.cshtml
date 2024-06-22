@@ -1,0 +1,163 @@
+﻿@model Inventario.Models.SalidaViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Salidas";
+    var fncPantalla = "Borrar";
+
+    // Set de campos input Date
+    DateTime fecha = DateTime.Today;
+    var fechaini = fecha.ToString("dd/MM/yyyy");
+    string procesado = "";
+    procesado = Model.SalEstatus == 1 ? "Si" : "No";
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Delete" method="post">
+        @(Html.HiddenFor(c => c.Id))
+        @(Html.HiddenFor(c => c.ProductoId))
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    @if (procesado == "No")
+                    {
+                        <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                            <b>
+                                <i class="icon-checkmark3"></i>
+                            </b> Confirmar
+                        </button>
+                    }
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+        <div class="row">
+            <div class="col-lg-12">
+            @if (procesado == "No")
+            {
+                <div class="alert alert-danger">
+                    <strong>¿ Está seguro de eliminar el registro ?</strong>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <strong>No puede eliminar el registro, porque ya fué procesado</strong>
+                </div>
+            }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                        <label asp-for="ProductoId" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="ProductoId" asp-items=@ViewBag.Productos disabled></select>
+                            <span asp-validation-for="ProductoId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label asp-for="Id" class="control-label"></label>
+                        <input asp-for="Id" class="form-control" readonly />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label asp-for="SalFecha" class="control-label"></label>
+                        <input asp-for="SalFecha" class="form-control" type="text" value=@fechaini readonly />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Nombre del Producto</label>
+                            <input id="NombrePrd" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="SalStock" class="control-label"></label>
+                            <input asp-for="SalStock" class="form-control enteros" style="text-align:right;" readonly/>  
+                            <span asp-validation-for="SalStock" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="SalDetalles" class="control-label"></label>
+                            <textarea asp-for="SalDetalles" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
+                            <span asp-validation-for="SalDetalles" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    
+</div>
+
+
+
+
+@section Scripts {
+    @* <script src="~/js/Libreria.js"></script> *@
+    <script type="text/javascript">
+
+        let cadena = '';
+        $("#ProductoId").val('1').trigger('change');  // Inicializa el combo con el primer valor para que no quede vacio
+        ProductoCmb();
+
+        $(document).ready(function () {
+
+            $("#ProductoId").change(function () {
+                ProductoCmb();
+            });
+
+
+
+        });
+
+
+        // Selección del producto a darle entrada
+        function ProductoCmb() {
+            cadena = $("#ProductoId option:selected").text();
+            cadena = cadena.substring(cadena.indexOf("-") + 1);
+            $("#NombrePrd").val(cadena);
+        }
+
+        // Salida
+        function Cancel() {
+            window.location.href = "/Salida/Index";
+        }
+
+
+    </script>
+}
+
+
+

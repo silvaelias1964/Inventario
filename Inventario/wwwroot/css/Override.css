@@ -1,14 +1,14 @@
 /*Personalizacion site*/
 
 .barra-titulo-form {
-    background-color: #C0A572;
+    background-color: #007cc7;
     color: whitesmoke;
     font-size: large;
 }
 
 .barra-separador-form {
     font-style: oblique;
-    background-color: #C0A572;
+    background-color: #007CC7; /*#C0A572*/
     color: whitesmoke;
     align-content: center;
     font-size: small;
@@ -16,7 +16,7 @@
 }
 
 .linea {
-    border-top: 2px solid #7d5143f5;
+    border-top: 2px solid  #007cc7; /*#7d5143f5;*/
     height: 2px;
     padding: 0;
 }

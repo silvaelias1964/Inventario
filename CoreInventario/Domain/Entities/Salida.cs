@@ -13,8 +13,8 @@ namespace CoreInventario.Domain.Entities
         //[Required]
         public int? ProductoId { get; set; }
 
-        [Required]
-        public decimal SalPrecioUnidad { get; set; }
+        //[Required]
+        //public decimal SalPrecioUnidad { get; set; }
 
         [Required]
         public int SalStock { get; set; }

@@ -25,6 +25,7 @@ namespace CoreInventario.Transversal.Mappers
             CreateMap<Proveedor, ProveedorModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Cliente, ClienteModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Entrada, EntradaModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<Salida, SalidaModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
 
 
             // Entity to DTO
@@ -48,6 +49,15 @@ namespace CoreInventario.Transversal.Mappers
              .ForPath(x => x.EntFecha, x => x.MapFrom(y => y.Fecha))
              .ForPath(x => x.EntEstatus, x => x.MapFrom(y => y.Estatus));
 
+            CreateMap<Salida, SalidaDTO>().ReverseMap()
+             .ForPath(x => x.Id, x => x.MapFrom(y => y.Id))
+             .ForPath(x => x.ProductoId, x => x.MapFrom(y => y.ProductoId))
+              .ForPath(x => x.Producto.PrdCodigo, x => x.MapFrom(y => y.PrdCodigo))
+             .ForPath(x => x.Producto.PrdNombre, x => x.MapFrom(y => y.Nombre))
+             //.ForPath(x => x.SalPrecioUnidad, x => x.MapFrom(y => y.Precio))
+             .ForPath(x => x.SalStock, x => x.MapFrom(y => y.Cantidad))
+             .ForPath(x => x.SalFecha, x => x.MapFrom(y => y.Fecha))
+             .ForPath(x => x.SalEstatus, x => x.MapFrom(y => y.Estatus));
 
 
             //CreateMap<>

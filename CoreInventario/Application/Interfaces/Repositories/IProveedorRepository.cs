@@ -1,4 +1,5 @@
 ﻿using CoreInventario.Application.DTOS;
+using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace CoreInventario.Application.Interfaces.Repositories
         IEnumerable<ProveedorDTO> GetAll();
 
         Proveedor GetByID(int id);
+
+        IEnumerable<ProveedorModel> GetAllByStatus(int status);
 
         Task Add(Proveedor proveedor);
 

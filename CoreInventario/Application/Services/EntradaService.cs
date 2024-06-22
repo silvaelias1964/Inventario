@@ -60,7 +60,7 @@ namespace CoreInventario.Application.Services
         }
 
         /// <summary>
-        /// Agregar productos
+        /// Agregar entrada
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -154,7 +154,7 @@ namespace CoreInventario.Application.Services
 
 
         /// <summary>
-        /// Borrar un producto
+        /// Borrar una entrada
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
