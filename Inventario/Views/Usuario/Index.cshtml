@@ -59,7 +59,7 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
+                    <tr >
                         <th style="text-align:center;">
                             Id
                         </th>
@@ -76,7 +76,7 @@
 
                         var formid = @item.IdUsuario.ToString();
 
-                        <tr data-dtid="@formid">
+                        <tr data-dtid="@formid" style="color:black;">
                             <td data-id="@formid" id="idr">
                                 @Html.DisplayFor(modelItem => item.IdUsuario)
                             </td>

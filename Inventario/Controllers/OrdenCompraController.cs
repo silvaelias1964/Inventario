@@ -8,7 +8,10 @@ using CoreInventario.Domain.Entities;
 using Inventario.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.ConstrainedExecution;
 using static Inventario.Controllers.ProductoController;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Inventario.Controllers
 {
@@ -19,17 +22,25 @@ namespace Inventario.Controllers
         private readonly IMapper mapper;
         private readonly ILibreriaService libreriaService;
         private readonly IProveedorService proveedorService;
+        private readonly IProductoService productoService;
 
         private List<SelectListItem> lstEstatusOcc;
-        private List<SelectListItem> lstProveedores;
+        private List<SelectListItem> lstProductos;
+        private List<SelectListItem> lstUnidadesMedida;
 
         // Constructor
-        public OrdenCompraController(IOrdenCompraService ordenCompraService, IMapper mapper, ILibreriaService libreriaService, IProveedorService proveedorService)
+        public OrdenCompraController(
+            IOrdenCompraService ordenCompraService, 
+            IMapper mapper, 
+            ILibreriaService libreriaService, 
+            IProveedorService proveedorService,
+            IProductoService productoService)
         {
             this.ordenCompraService = ordenCompraService;
             this.mapper = mapper;
             this.libreriaService = libreriaService;                
             this.proveedorService = proveedorService;
+            this.productoService = productoService;
         }
 
         // Listado inicial
@@ -234,10 +245,16 @@ namespace Inventario.Controllers
             lstEstatusOcc[0].Selected = true;
             ViewBag.Estatus = lstEstatusOcc;
 
-            // Lista proveedores
-            lstProveedores = libreriaService.ProveedorList();
-            lstProveedores[0].Selected = true;
-            ViewBag.Proveedores = lstProveedores;
+            // Lista productos
+            lstProductos = libreriaService.ProductosList();
+            lstProductos[0].Selected = true;
+            ViewBag.Productos = lstProductos;
+
+            // Lista unidades de medida
+            lstUnidadesMedida = libreriaService.UnidadMedidaList();
+            lstUnidadesMedida[0].Selected = true;
+            ViewBag.UnidadesMedida = lstUnidadesMedida;
+
         }
 
         /// <summary>
@@ -251,7 +268,11 @@ namespace Inventario.Controllers
             return PartialView("_Proveedores",lista);
         }
 
-
+        /// <summary>
+        /// Buscar proveedor
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult BuscaProveedor(int Id)
         {
@@ -273,6 +294,61 @@ namespace Inventario.Controllers
             //}
             
             return Json(proveedor);
+
+        }
+
+        /// <summary>
+        /// Buscar un producto
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> BuscaProducto(int Id) 
+        {
+            Producto producto= await productoService.GetById(Id);            
+            string codigo="";
+            string nombre="";
+            string cantPorUnidad = "";
+            decimal precioUnidad=0;
+            int stockMinimo=0;
+            int stock = 0;
+            
+            if (producto != null)
+            {                
+                codigo = producto.PrdCodigo;
+                nombre = producto.PrdNombre;
+                cantPorUnidad = producto.PrdCantPorUnidad;
+                precioUnidad = producto.PrdPrecioUnidad;
+                stockMinimo = producto.PrdStockMinimo;
+                stock = producto.PrdStock;
+            }
+            var response = new
+            {
+                jcodigo = codigo,
+                jnombre = nombre,
+                jcantPorUnidad = cantPorUnidad,
+                jprecioUnidad = precioUnidad.ToString(),
+                jstockMinimo = stockMinimo.ToString(),
+                jstock = stock.ToString()
+            };
+            return Json(response);
+
+        
+        }
+
+        [HttpPost]
+        public IActionResult BuscaProductoNA(int Id) 
+        {
+            var response = new
+            {
+                jcodigo = "1",
+                jnombre = "2",
+                jcantPorUnidad = "3",
+                jprecioUnidad = "4",
+                jstockMinimo = "5",
+                jstock = "6"
+            };
+            return Json(response);
 
         }
 

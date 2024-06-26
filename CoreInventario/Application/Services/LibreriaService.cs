@@ -259,6 +259,54 @@ namespace CoreInventario.Application.Services
             return lstEstatus;
         }
 
+        /// <summary>
+        /// Lista de productos
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> ProductosList()
+        {
+            List<SelectListItem> lstResultado = new List<SelectListItem>();
+
+            var lista = unitOfWork.Producto.GetAll();
+            if (lista.Count() > 0)
+            {
+                foreach (var item in lista)
+                {
+                    lstResultado.Add(new SelectListItem() { Text = item.PrdNombre, Value = item.Id.ToString() });
+                }
+            }
+            else
+            {
+                lstResultado.Add(new SelectListItem() { Text = "No hay productos", Value = "0" });
+            }   
+            return lstResultado;
+        }
+
+        /// <summary>
+        /// Lista de unidades de medida
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> UnidadMedidaList()
+        {
+            List<SelectListItem> lstUnidad = new List<SelectListItem>();
+            var lista = unitOfWork.UnidadMedida.GetAll();
+            if (lista != null)
+            {
+                foreach (var item in lista.Result)
+                {
+                    lstUnidad.Add(new SelectListItem() { Text = item.UniDescripcion, Value = item.Id.ToString() });
+                }
+            }
+            else
+            {
+                lstUnidad.Add(new SelectListItem() { Text = "No hay unidades de medida", Value = "0" });
+            }
+
+            return lstUnidad;
+        }
+
+
+
 
     }
 }

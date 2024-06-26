@@ -18,6 +18,7 @@ namespace CoreInventario.Application.Interfaces.Repositories
         ISalidaRepository Salida { get; }
         IOrdenCompraRepository OrdenCompra { get; }
         IOrdenCompraDetalleRepository OrdenCompraDetalle { get; }
+        IUnidadMedidaRepository UnidadMedida { get; }
 
     }
 }

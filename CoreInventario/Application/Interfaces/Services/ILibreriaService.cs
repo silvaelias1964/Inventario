@@ -70,5 +70,18 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> EstatusOdcList();
+
+        /// <summary>
+        /// Lista de productos
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> ProductosList();
+
+        /// <summary>
+        /// Lista de unidades de medida
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> UnidadMedidaList();
+
     }
 }

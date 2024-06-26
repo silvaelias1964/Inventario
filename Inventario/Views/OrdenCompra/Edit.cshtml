@@ -76,7 +76,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div id="BarraTituloProv" class="barra-separador-form">Datos del Proveedor (Click aqui para abrir/cerrar)</div>
+                    <div id="BarraTituloProv" class="barra-separador-form">Datos del Proveedor                                                 
+                        <button type="button"  class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                            Click aqui para abrir/cerrar
+                        </button>
+                    </div>
                 </div>
 
                 <div id="DatosProv">
@@ -200,42 +204,46 @@
                                                 precioUnidad = Model.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad;
                                                 precioUnidadFmt = String.Format("{0:#,##0.00}", precioUnidad);    //ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-es"));
                                                 
-                                                    <tr role="row" class="odd">
-                                                        <!-- role="row" class="odd" -->
-                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
-                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
-                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].UnidadMedidaId)
-                                                        <td style="color:black;">
-                                                            @codigo
-                                                        </td>
-                                                        <td style="color:black;">
-                                                            @nombre
-                                                        </td>
-                                                        <td style="text-align:center;color:black;">
-                                                            @cantidad
-                                                        </td>
-                                                        <td style="color:black;color:black;">
-                                                            @unidadMedida
-                                                        </td>
-                                                        <td style="text-align:right;color:black;">
-                                                            @precioUnidadFmt
-                                                        </td>
-                                                        <td style="text-align:right;color:black;">
-                                                            @importeFmt
-                                                        </td>
-                                                        <td style="text-align:right;color:black;">
-                                                            @montoIvaFmt
-                                                        </td>
-                                                        <td style="text-align:right;color:black;">
-                                                            @subTotalFmt
-                                                        </td>
+                                                                    <tr role="row" class="odd">
+                                                                        <!-- role="row" class="odd" -->
+                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
+                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
+                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].UnidadMedidaId)
+                                                                        <td style="color:black;">
+                                                                            @codigo
+                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                        </td>
+                                                                        <td style="color:black;">
+                                                                            @nombre
+                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdNombre, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                        </td>
+                                                                        <td style="text-align:center;color:black;">
+                                                                            @cantidad
+                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                        </td>
+                                                                        <td style="color:black;color:black;">
+                                                                            @unidadMedida
+                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].UnidadMedida.UniDescripcion, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                        </td>
+                                                                        <td style="text-align:right;color:black;">
+                                                                            @precioUnidadFmt
+                                                                        </td>
+                                                                        <td style="text-align:right;color:black;">
+                                                                            @importeFmt
+                                                                        </td>
+                                                                        <td style="text-align:right;color:black;">
+                                                                            @montoIvaFmt
+                                                                        </td>
+                                                                        <td style="text-align:right;color:black;">
+                                                                            @subTotalFmt
+                                                                        </td>
 
-                                                        <td style="text-align:center;color:black;">
-                                                            <a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>
-                                                            <a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>
-                                                        </td>
+                                                                        <td style="text-align:center;color:black;">
+                                                                            <a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>
+                                                                            <a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>
+                                                                        </td>
 
-                                                    </tr>
+                                                                    </tr>
                                             }
                                         }
                                     }
@@ -313,13 +321,13 @@
     </form>
 </div>
 
-<!-- modal search-->
+<!-- modal busqueda de proveedores-->
 <div id="modalSearch" class="modal fade">
     <div class="modal-dialog form-validate-jquery" style="max-width:90%">
         <div class="modal-content">
             <div class="modal-header bg-blue">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h6 class="modal-title">Agregar Actividad</h6>
+                <h4 class="modal-title">Buscar Proveedor</h4>
+                <button type="button" class="close" data-dismiss="modal">X</button>                
             </div>
 
             <div id="cajaGrid">
@@ -328,6 +336,59 @@
             <div class="modal-footer">
                 <div class="nav navbar-right" style="padding-right: 10px;">
                     <button type="submit" id="Buscar" class="btn bg-success btn-labeled btn-sm" data-dismiss="modal" style="color:white;" onclick="SearchProv()">
+                        <b>
+                            <i class="glyphicon glyphicon-floppy-saved"></i>
+                        </b> Confirmar
+                    </button>
+                    <button type="button" class="btn bg-danger btn-labeled btn-sm" data-dismiss="modal" style="margin-top: 0px;color:white;">
+                        <b>
+                            <i class="glyphicon glyphicon-floppy-remove"></i>
+                        </b> Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal add row-->
+<div id="modalAddRow" class="modal fade">
+    <div class="modal-dialog form-validate-jquery">
+        <div class="modal-content">
+            <div class="modal-header bg-blue">
+                <h4 class="modal-title">Agregar Productos</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>                
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label class="control-label">Productos</label>
+                        <select class="form-control custom-select" id="ProductoId" asp-items=@ViewBag.Productos onblur="BuscaProducto();"></select>
+                    </div>
+
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label class="control-label">Cantidad</label>
+                        <input id="Cantidad" class="form-control" type="number" />
+                    </div>
+
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label class="control-label">Unidad de Medida</label>
+                        <select class="form-control custom-select" id="UnidadMedidaId" asp-items=@ViewBag.UnidadesMedida></select>
+                    </div>
+
+                </div>
+                <input id="jcodigo" type="text" hidden />
+                <input id="jnombre" type="text" hidden />
+                <input id="jcantPorUnidad" type="text" hidden />
+                <input id="jprecioUnidad" type="text" hidden />
+                <input id="jstockMinimo" type="text" hidden />
+                <input id="jstock" type="text" hidden />
+            </div>
+
+            <div class="modal-footer">
+                <div class="nav navbar-right" style="padding-right: 10px;">
+                    <button type="submit" id="addRowTable" class="btn bg-success btn-labeled btn-sm" style="color:white;">
                         <b>
                             <i class="glyphicon glyphicon-floppy-saved"></i>
                         </b> Confirmar
@@ -434,32 +495,63 @@
 
         // Agregar linea a la tabla
         $('#addRowTable').on('click', function () {
+            //BuscaProducto();
             var idNumber = GetLastChildId($('#tablaDetalle'));
             var table = $('#tablaDetalle')[0].children[1];
 
-            var fecha_ini = $('#FechaIni').val();  // formatDate($('#FechaIni').val());
-            var fecha_fin = $('#FechaFin').val();  // formatDate($('#FechaFin').val());
+            var codigo = $('#jcodigo').val();
+            var nombre = $('#jnombre').val();
+            var cantidad = $('#Cantidad').val();
+            if (cantidad.search(',') != -1) {
+                cantidad = cantidad.replace(',', '.');
+            } 
 
-
+            var unidadMedida = $('#jcantPorUnidad').val();
+            var precioUnidad = $('#jprecioUnidad').val();
+            if (precioUnidad.search(',') != -1) {
+                precioUnidad = precioUnidad.replace(',', '.');
+            }
+            var importe = Number(precioUnidad)*Number(cantidad);  //parseFloat(precioUnidad)*parseFloat(cantidad);
+            importe = importe.toFixed(2);
+            var montoIva = importe * 0.12;
+            montoIva = montoIva.toFixed(2);
+            var subTotal = Number(importe) + Number(montoIva);
+            subTotal = Number(subTotal);
+            subTotal = subTotal.toFixed(2);
             $(table).append(
                 '<tr role="row" class="odd">' +
+                '<input data-val="true" data-val-required="The Id field is required." id="OrdenCompraDetalleModels_' + idNumber + '__Id" name="OrdenCompraDetalleModels[' + idNumber + '].Id" type = "hidden" value="0">'+
+                '<input data-val="true" data-val-required="The ProductoId field is required." id="OrdenCompraDetalleModels_' + idNumber + '__ProductoId" name="OrdenCompraDetalleModels[' + idNumber + '].ProductoId" type="hidden" value="' + $('#ProductoId').val() +'">'+
+                '<input data-val="true" data-val-required="The UnidadMedidaId field is required." id="OrdenCompraDetalleModels_" + idNumber + "__UnidadMedidaId" name="OrdenCompraDetalleModels[" + idNumber + "].UnidadMedidaId" type="hidden" value="'+ $('#UnidadMedidaId').val()+'">'+
 
-                '<input data-val="true" id="CronogramaDetalleModels_' + idNumber + '__Id" name="CronogramaDetalleModels[' + idNumber + '].Id" type="hidden" value="0">' +
-                '<input data-val="true" id="CronogramaDetalleModels_' + idNumber + '__ActividadId" name="CronogramaDetalleModels[' + idNumber + '].Actividad.Id" type="hidden" value="' + $('#IdActividad').val() + '">' +
-                '<input data-val="true" id="CronogramaDetalleModels_' + idNumber + '__EstatusId" name="CronogramaDetalleModels[' + idNumber + '].EstatusId" type="hidden" value="' + $('#IdEstatus').val() + '">' +
-                '<td>' +
-                '<input class="input-lg valid" id="CronogramaDetalleModels_' + idNumber + '__Actividad_NombreActividad" name="CronogramaDetalleModels[' + idNumber + '].Actividad.NombreActividad" readonly="readonly" type="text" value="' + $("#IdActividad option:selected").text() + '" aria-invalid="false">' +
+                '<td style="color:black;">' +
+                codigo+
+                '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdCodigo" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdCodigo" readonly="readonly" type="text" value="' + codigo + '" aria-invalid="false" hidden>' +
                 '</td>' +
-                '<td>' +
-                '<input class="input-lg valid" id="CronogramaDetalleModels_' + idNumber + '__FechaInicio" name="CronogramaDetalleModels[' + idNumber + '].FechaInicio" readonly="readonly" type="text" value="' + fecha_ini + '" aria-invalid="false">' +
+                '<td style="color:black;">' +
+                nombre+
+                '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdNombre" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdNombre" readonly="readonly" type="text" value="' + nombre + '" aria-invalid="false" hidden>' +
                 '</td>' +
-                '<td>' +
-                '<input class="input-lg valid" id="CronogramaDetalleModels_' + idNumber + '__FechaFin" name="CronogramaDetalleModels[' + idNumber + '].FechaFin" readonly="readonly" type="text" value="' + fecha_fin + '" aria-invalid="false">' +
+                '<td style="text-align:center;color:black;">' +
+                cantidad+
                 '</td>' +
-                '<td>' +
-                '<input class="input-lg valid" id="CronogramaDetalleModels_' + idNumber + '__Estatus" name="CronogramaDetalleModels[' + idNumber + '].Estatus" readonly="readonly" type="text" value="' + $("#IdEstatus option:selected").text() + '" aria-invalid="false">' +
+                '<td style="color:black;color:black;">' +
+                unidadMedida+
                 '</td>' +
-                '<td class="icons-list">' +
+                '<td style="text-align:right;color:black;">' +
+                precioUnidad +
+                '</td>' +
+                '<td style="text-align:right;color:black;">' +
+                importe +
+                '</td>' +
+                '<td style="text-align:right;color:black;">' +
+                montoIva +
+                '</td>' +
+                '<td style="text-align:right;color:black;">' +
+                subTotal +
+                '</td>' +
+
+                '<td style="text-align:center;color:black;">' +
                 '<a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>  ' +
                 '<a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>' +
                 '</td>' +
@@ -544,6 +636,30 @@
         function Cancel() {
             window.location.href = "/OrdenCompra/Index";
         }
+
+        // Buscar datos adicionales del producto seleccionado
+        function BuscaProducto() {
+            var Id;
+            Id = 0;
+            Id = $("#ProductoId").val();            
+            $.ajax({
+                url: '@Url.Action("BuscaProducto", "OrdenCompra")',
+                type: 'POST',
+                data: { id: Id },                
+                success: function (result) {
+                    $("#jcodigo").val(result.jcodigo);
+                    //document.getElementById("jcodigo").value = result.jcodigo;
+                    $("#jnombre").val(result.jnombre);
+                    $("#jcantPorUnidad").val(result.jcantPorUnidad);
+                    $("#jprecioUnidad").val(result.jprecioUnidad);
+                    $("#jstockMinimo").val(result.jstockMinimo);
+                    $("#jstock").val(result.jstock);
+                },
+                error: function (result) {
+                }
+            });
+        }
+
     </script>
 }
 

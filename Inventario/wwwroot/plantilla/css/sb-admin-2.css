@@ -11301,7 +11301,7 @@ body.sidebar-toggled footer.sticky-footer {
 /*Nuevo*/
 .table tr.selected {
     background-color: #b7b9cc;
-    color: white;
+    color: blue;
 }
 
 .table thead th {
