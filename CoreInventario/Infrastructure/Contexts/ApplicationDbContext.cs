@@ -29,6 +29,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<UnidadMedida> UnidadMedida {get; set;}
         public DbSet<OrdenCompra> OrdenCompra { get; set; }
         public DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
+        public DbSet<Parametro> Parametros { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -50,6 +51,7 @@ namespace CoreInventario.Infrastructure.Contexts
             {
                 entity.HasIndex(e => e.Id).IsUnique();
                 entity.HasIndex(e => e.PrdCodigo).IsUnique();
+                entity.HasIndex(e => e.PrdNombre);
                 entity.HasOne(e => e.CategoriaProducto)
                     .WithMany(c => c.Producto)
                     .HasForeignKey("CategoriaProductoId")
@@ -61,13 +63,13 @@ namespace CoreInventario.Infrastructure.Contexts
 
             });
 
-            builder.Entity<OrdenCompraDetalle>(entity =>
-            {                
-                entity.HasOne(e => e.UnidadMedida)
-                    .WithMany(c => c.OrdenCompraDetalle)
-                    .HasForeignKey("UnidadMedidaId")
-                    .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<OrdenCompra>(entity =>
+            {
+                //entity.HasOne(e => e.UnidadMedida)                
+                //entity.WithMany(c => c.OrdenCompraDetalle).HasForeignKey("UnidadMedidaId").OnDelete(DeleteBehavior.NoAction);
 
+                entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasMany(e => e.OrdenCompraDetalles).WithOne(e=>e.OrdenCompra).HasForeignKey("OrdenCompraId").OnDelete(DeleteBehavior.NoAction);  
             });
 
             builder.Entity<Entrada>(entity =>

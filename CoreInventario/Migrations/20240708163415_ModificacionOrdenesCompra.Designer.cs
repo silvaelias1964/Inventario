@@ -4,6 +4,7 @@ using CoreInventario.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreInventario.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708163415_ModificacionOrdenesCompra")]
+    partial class ModificacionOrdenesCompra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,8 +241,8 @@ namespace CoreInventario.Migrations
                     b.Property<decimal>("OccIVA")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("OccMismaDireccion")
-                        .HasColumnType("bit");
+                    b.Property<int>("OccMismaDireccion")
+                        .HasColumnType("int");
 
                     b.Property<string>("OccNroOrden")
                         .IsRequired()

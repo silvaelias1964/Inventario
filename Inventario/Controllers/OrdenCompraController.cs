@@ -6,15 +6,18 @@ using CoreInventario.Application.Models;
 using CoreInventario.Application.Services;
 using CoreInventario.Domain.Entities;
 using Inventario.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.Runtime.ConstrainedExecution;
 using static Inventario.Controllers.ProductoController;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Inventario.Controllers
 {
+    [Authorize]
     public class OrdenCompraController : Controller
     {
         // Repositorios
@@ -254,6 +257,8 @@ namespace Inventario.Controllers
             lstUnidadesMedida = libreriaService.UnidadMedidaList();
             lstUnidadesMedida[0].Selected = true;
             ViewBag.UnidadesMedida = lstUnidadesMedida;
+
+            ViewBag.IVA = libreriaService.ValParametros("IVA");
 
         }
 

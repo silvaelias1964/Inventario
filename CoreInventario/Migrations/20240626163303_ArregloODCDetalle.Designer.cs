@@ -4,6 +4,7 @@ using CoreInventario.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoreInventario.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240626163303_ArregloODCDetalle")]
+    partial class ArregloODCDetalle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,10 +210,6 @@ namespace CoreInventario.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OccCorreosElec")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<decimal>("OccDescuento")
                         .HasColumnType("decimal(18,2)");
 
@@ -238,21 +237,29 @@ namespace CoreInventario.Migrations
                     b.Property<decimal>("OccIVA")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("OccMismaDireccion")
-                        .HasColumnType("bit");
+                    b.Property<int>("OccMismaDireccion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OccNombre")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("OccNroOrden")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<string>("OccObservaciones")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("OccTelefono1")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
-                    b.Property<string>("OccTelefonos")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("OccTelefono2")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<string>("OccTelefono3")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("ProveedorId")
                         .HasColumnType("int");
@@ -313,45 +320,6 @@ namespace CoreInventario.Migrations
                     b.HasIndex("UnidadMedidaId");
 
                     b.ToTable("OrdenCompraDetalle");
-                });
-
-            modelBuilder.Entity("CoreInventario.Domain.Entities.Parametro", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ActualizadoPor")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("CreadoPor")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("FechaActualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PrmNombre")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PrmTipo")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PrmValor")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Parametros");
                 });
 
             modelBuilder.Entity("CoreInventario.Domain.Entities.Producto", b =>
@@ -425,8 +393,6 @@ namespace CoreInventario.Migrations
 
                     b.HasIndex("PrdCodigo")
                         .IsUnique();
-
-                    b.HasIndex("PrdNombre");
 
                     b.HasIndex("ProveedorId");
 

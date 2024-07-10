@@ -26,6 +26,8 @@ namespace CoreInventario.Transversal.Mappers
             CreateMap<Cliente, ClienteModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Entrada, EntradaModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
             CreateMap<Salida, SalidaModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<OrdenCompra, OrdenCompraModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
+            CreateMap<OrdenCompraDetalle, OrdenCompraDetalleModel>().ReverseMap().IgnoreAllPropertiesWithAnInaccessibleSetter();
 
 
             // Entity to DTO

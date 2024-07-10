@@ -5,6 +5,7 @@ using CoreInventario.Domain.Entities;
 using CoreInventario.Infrastructure.Repositories;
 using CoreInventario.Migrations;
 using Inventario.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +15,7 @@ using Entrada = CoreInventario.Domain.Entities.Entrada;
 
 namespace Inventario.Controllers
 {
+    [Authorize]
     public class EntradaController : Controller
     {
         // Iniciar repositorios

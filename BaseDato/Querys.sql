@@ -44,3 +44,11 @@ WHERE        (Prices.PriceAllDate = '2022-05-24')
 
 
 
+GO
+SET IDENTITY_INSERT [dbo].[OrdenCompraDetalle] ON 
+
+INSERT [dbo].[OrdenCompraDetalle] ([Id], [ProductoId], [OcdCantidad], [UnidadMedidaId], [OrdenCompraId], [FechaCreacion], [CreadoPor], [FechaActualizacion], [ActualizadoPor]) VALUES (1, 1, 20, 2, 2, CAST(N'2024-06-14T00:00:00.0000000' AS DateTime2), N'Admin', NULL, NULL)
+INSERT [dbo].[OrdenCompraDetalle] ([Id], [ProductoId], [OcdCantidad], [UnidadMedidaId], [OrdenCompraId], [FechaCreacion], [CreadoPor], [FechaActualizacion], [ActualizadoPor]) VALUES (2, 2, 15, 2, 2, CAST(N'2024-06-14T00:00:00.0000000' AS DateTime2), N'Admin', NULL, NULL)
+INSERT [dbo].[OrdenCompraDetalle] ([Id], [ProductoId], [OcdCantidad], [UnidadMedidaId], [OrdenCompraId], [FechaCreacion], [CreadoPor], [FechaActualizacion], [ActualizadoPor]) VALUES (3, 3, 10, 2, 2, CAST(N'2024-06-14T00:00:00.0000000' AS DateTime2), N'Admin', NULL, NULL)
+SET IDENTITY_INSERT [dbo].[OrdenCompraDetalle] OFF
+

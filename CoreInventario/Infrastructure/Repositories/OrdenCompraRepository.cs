@@ -48,8 +48,8 @@ namespace CoreInventario.Infrastructure.Repositories
 
         public OrdenCompra GetByID(int id)
         {
-            return context.OrdenCompra.FromSqlRaw($"SELECT * FROM OrdenCompra WHERE Id = {id}")
-                .FirstOrDefault();
+            return context.OrdenCompra.FromSqlRaw($"SELECT * FROM OrdenCompra WHERE Id = {id}").FirstOrDefault();
+            //return context.Set<OrdenCompra>().Find(id);  // Tambien puede usarse esta busqueda
         }
 
         public async Task Add(OrdenCompra ordenCompra)
@@ -105,10 +105,10 @@ namespace CoreInventario.Infrastructure.Repositories
                 Id = c.Id,
                 ProductoId = c.ProductoId,
                 OcdCantidad = c.OcdCantidad,
-                UnidadMedidaId = c.UnidadMedidaId,
+                //UnidadMedidaId = c.UnidadMedidaId,
                 Producto = c.Producto,
-                OrdenCompra = c.OrdenCompra,
-                UnidadMedida = c.UnidadMedida
+                OrdenCompra = c.OrdenCompra
+                //UnidadMedida = c.Producto.PrdCantPorUnidad
 
             }).ToList().Where(c => c.OrdenCompra.Id.Equals(id));
             return lista;

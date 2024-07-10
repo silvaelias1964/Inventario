@@ -265,10 +265,15 @@ function Formato(monto) {
     return totalPrecioUsd;
 }
 
-// Formateo de monto currency
+// Formateo de monto currency de formato 0,00 a 0.00
 function FormatoCurr(monto) {
     let montoimp = 0;
     let montostr = "";
+   
+    var n = monto.indexOf(",");
+    if (n > 0) {
+        monto = monto.replace(",", ".");
+    }
     montostr = monto;
     montoimp = Number(montostr);
     montoimp = montoimp.toFixed(2);
@@ -450,5 +455,38 @@ function ValidateHour(dtmRecDate, dtmRecTime) {
         //console.log(exception.message);
         //console.log(exception.name);
     }
+}
+
+function FormateaNum(monto) {
+
+    let amount = monto;
+    let newAmount = new Intl.NumberFormat().format(amount)
+
+    console.log(newAmount);
+
+    let newAmount1 = new Intl.NumberFormat('en-US',
+        { style: 'decimal' }).format(amount);
+
+    let newAmount2 = new Intl.NumberFormat('en-US',
+        { style: 'percent' }).format(amount);
+
+    console.log(newAmount1);
+    console.log(newAmount2);
+
+    let pounds = Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+        maximumSignificantDigits: 3,
+    });
+    console.log('Pounds: ${pounds.format(monto)}');
+
+    let euro = Intl.NumberFormat('en-DE', {
+        style: 'currency',
+        currency: 'EUR',
+        useGrouping: false,
+    });
+
+    console.log('Euro: ${euro.format(monto)}');
+
 }
 

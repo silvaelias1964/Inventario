@@ -1,11 +1,12 @@
 ﻿using CoreInventario.Application.Interfaces.Repositories;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventario.Controllers
 {
-    
+    [Authorize]
     public class CategoriaProductoController : Controller
     {
         // Inicializar el repositorio, Inicio

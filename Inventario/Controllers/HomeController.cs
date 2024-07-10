@@ -9,9 +9,11 @@ using System.Security.Claims;
 using CoreInventario.Transversal.Commons;
 using CoreInventario.Application.Services;
 using CoreInventario.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inventario.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

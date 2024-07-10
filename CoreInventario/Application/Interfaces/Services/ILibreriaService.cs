@@ -1,4 +1,5 @@
-﻿using CoreInventario.Application.Models;
+﻿using CoreInventario.Application.DTOS;
+using CoreInventario.Application.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -82,6 +83,13 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> UnidadMedidaList();
+
+        /// <summary>
+        /// Traer parametro
+        /// </summary>
+        /// <param name="valor"></param>
+        /// <returns></returns>
+        List<ParametroDTO> ValParametros(string valor);
 
     }
 }

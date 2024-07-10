@@ -8,10 +8,16 @@ namespace Inventario.Models
 {
     public class OrdenCompraViewModel
     {
+
+        public OrdenCompraViewModel()
+        {
+            OrdenCompraDetalleModels = new List<OrdenCompraDetalleModel>();
+        }
+
         [Display(Name="Id")]
         public int Id { get; set; }
 
-        [Display(Name = "Orden de Compra Nro.")]
+        [Display(Name = "ODC Nro.")]
         public string OccNroOrden { get; set; }
 
         [Display(Name = "Fecha Emisión")]
@@ -41,6 +47,20 @@ namespace Inventario.Models
         [Display(Name = "Estatus")]
         public int OccEstatus { get; set; }
 
+        [Display(Name ="Dirección")]
+        public string? OccDireccion { get; set; }
+
+        [Display(Name = "Teléfonos")]
+        public string? OccTelefonos { get; set; }
+
+        [Display(Name = "Correos Electrónicos")]
+        public string? OccCorreosElec { get; set; }
+
+        [Display(Name = "Observaciones")]
+        public string? OccObservaciones { get; set; }
+
+        public bool OccMismaDireccion { get; set; }
+
         public virtual IList<OrdenCompraDetalleModel> OrdenCompraDetalleModels { get; set; }
 
         /// <summary>
@@ -59,6 +79,10 @@ namespace Inventario.Models
             model.OccIVA = OccIVA;
             model.OccDescuento = OccDescuento;
             model.OccEstatus = OccEstatus;
+            model.OccDireccion = OccDireccion;
+            model.OccTelefonos = OccTelefonos;
+            model.OccCorreosElec = OccCorreosElec;
+            model.OccMismaDireccion = OccMismaDireccion;
             model.OrdenCompraDetalleModels = OrdenCompraDetalleModels;
         }
 
@@ -78,6 +102,11 @@ namespace Inventario.Models
             OccIVA = model.OccIVA;
             OccDescuento = model.OccDescuento;
             OccEstatus = model.OccEstatus;
+            OccDireccion = model.OccDireccion;
+            OccTelefonos = model.OccTelefonos;
+            OccCorreosElec = model.OccCorreosElec;
+            OccMismaDireccion = model.OccMismaDireccion;
+
             OrdenCompraDetalleModels = model.OrdenCompraDetalleModels;
         }
 

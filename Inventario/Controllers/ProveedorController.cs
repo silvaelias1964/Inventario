@@ -3,11 +3,13 @@ using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using Inventario.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventario.Controllers
 {
+    [Authorize]
     public class ProveedorController : Controller
     {
         // Iniciar repositorios

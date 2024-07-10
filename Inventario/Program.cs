@@ -77,7 +77,9 @@ builder.Services.AddTransient<ISalidaRepository, SalidaRepository>();
 builder.Services.AddTransient<IUnidadMedidaRepository, UnidadMedidaRepository>();
 builder.Services.AddTransient<IOrdenCompraRepository, OrdenCompraRepository>();
 builder.Services.AddTransient<IOrdenCompraDetalleRepository, OrdenCompraDetalleRepository>();
+builder.Services.AddScoped<IParametroRepository, ParametroRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 
 #region Automapper
@@ -97,7 +99,7 @@ builder.Services.AddControllers();
 builder.Services.AddResponseCaching();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
 });
 
 builder.Services.AddMvc();
@@ -108,7 +110,7 @@ builder.Services.AddDistributedMemoryCache();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())   // IsProduction()
 {
     app.UseMigrationsEndPoint();
 }

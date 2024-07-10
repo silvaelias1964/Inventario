@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using CoreInventario.Application.Models;
 using CoreInventario.Transversal.Commons;
 using Newtonsoft.Json.Linq;
+using CoreInventario.Application.DTOS;
 
 namespace CoreInventario.Application.Services
 {
@@ -267,7 +268,7 @@ namespace CoreInventario.Application.Services
         {
             List<SelectListItem> lstResultado = new List<SelectListItem>();
 
-            var lista = unitOfWork.Producto.GetAll();
+            var lista = unitOfWork.Producto.GetAll().OrderBy(e=>e.PrdNombre);
             if (lista.Count() > 0)
             {
                 foreach (var item in lista)
@@ -305,7 +306,33 @@ namespace CoreInventario.Application.Services
             return lstUnidad;
         }
 
+        /// <summary>
+        /// Traer parametro
+        /// </summary>
+        /// <param name="valor"></param>
+        /// <returns></returns>
+        public List<ParametroDTO> ValParametros(string valor)     //ParametroDTO ValParametros(string valor)
+        {
+            //ParametroDTO result = new ParametroDTO();
+            List<ParametroDTO> result = new List<ParametroDTO>();
 
+            var registro = unitOfWork.Parametro.GetByNombre(valor);
+            if(registro != null )
+            {
+                //result.Nombre = registro.PrmNombre;
+                //result.Valor = registro.PrmValor;
+                //result.Tipo = registro.PrmTipo;
+                result.Add(new ParametroDTO
+                {
+                    Id = registro.Id,
+                    Nombre= registro.PrmNombre,
+                    Tipo = registro.PrmTipo,
+                    Valor = registro.PrmValor
+                });
+
+            }
+            return result;
+        }
 
 
     }

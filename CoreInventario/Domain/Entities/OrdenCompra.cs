@@ -40,18 +40,19 @@ namespace CoreInventario.Domain.Entities
         [Required]
         public int OccEstatus { get; set; }
 
-        [MaxLength(100)]
-        public string OccNombre { get; set; }
         [MaxLength(500)]
-        public string OccDireccion { get; set; }
-        [MaxLength(25)]
-        public string OccTelefono1 { get; set; }
-        [MaxLength(25)]
-        public string OccTelefono2 { get; set; }
-        [MaxLength(25)]
-        public string OccTelefono3 { get; set; }
+        public string? OccDireccion { get; set; }
 
-        public int OccMismaDireccion { get; set; }
+        [MaxLength(100)]
+        public string? OccTelefonos { get; set; }
+
+        [MaxLength(100)]
+        public string? OccCorreosElec { get; set; }
+
+        [MaxLength(255)]
+        public string? OccObservaciones { get; set; }
+
+        public bool OccMismaDireccion { get; set; }
 
         public virtual Proveedor Proveedor { get; set; }
 

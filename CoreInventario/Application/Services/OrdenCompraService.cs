@@ -55,6 +55,11 @@ namespace CoreInventario.Application.Services
                 OccDescuento = entities.OccDescuento,
                 OccGasto =  entities.OccGasto,
                 OccIVA = entities.OccIVA,
+                OccCorreosElec = entities.OccCorreosElec,
+                OccTelefonos = entities.OccTelefonos,
+                OccDireccion = entities.OccDireccion,
+                OccMismaDireccion= entities.OccMismaDireccion,
+                OccObservaciones = entities.OccObservaciones,
                 OccEstatus = entities.OccEstatus                
             };
             // Detalle
@@ -66,10 +71,10 @@ namespace CoreInventario.Application.Services
                     Id = item.Id,
                     ProductoId = item.ProductoId,
                     OcdCantidad = item.OcdCantidad,
-                    UnidadMedidaId = item.UnidadMedidaId,
+                    //UnidadMedidaId = item.UnidadMedidaId,
                     OrdenCompra = item.OrdenCompra,
-                    Producto=item.Producto,
-                    UnidadMedida=item.UnidadMedida
+                    Producto=item.Producto
+                    //UnidadMedida=item.UnidadMedida
                 });
             }
 
@@ -99,6 +104,11 @@ namespace CoreInventario.Application.Services
                     OccDescuento = model.OccDescuento,
                     OccGasto = model.OccGasto,
                     OccIVA = model.OccIVA,
+                    OccCorreosElec = model.OccCorreosElec,
+                    OccTelefonos = model.OccTelefonos,
+                    OccDireccion = model.OccDireccion,
+                    OccMismaDireccion = model.OccMismaDireccion,
+                    OccObservaciones = model.OccObservaciones,
                     OccEstatus = model.OccEstatus
                 };
                 
@@ -109,7 +119,7 @@ namespace CoreInventario.Application.Services
                     detalles.Id = item.Id;
                     detalles.ProductoId = item.ProductoId;
                     detalles.OcdCantidad = item.OcdCantidad;
-                    detalles.UnidadMedidaId = item.UnidadMedidaId;
+                    //detalles.UnidadMedidaId = item.UnidadMedidaId;
                     entity.AddOrdenCompraDetalle(detalles);
 
                 }
@@ -141,21 +151,54 @@ namespace CoreInventario.Application.Services
 
                 var entity = unitOfWork.OrdenCompra.GetByID(model.Id);
 
-               
+
                 // Borrado previo                
                 unitOfWork.OrdenCompraDetalle.Delete(entity.Id);
-
                 // Agregar nuevamente
                 foreach (var item in model.OrdenCompraDetalleModels)
                 {
                     var detalles = new OrdenCompraDetalle();
-                    detalles.Id = item.Id;
+                    //detalles.Id = item.Id;
                     detalles.ProductoId = item.ProductoId;
                     detalles.OcdCantidad = item.OcdCantidad;
-                    detalles.UnidadMedidaId = item.UnidadMedidaId;
-
+                    //detalles.UnidadMedidaId = item.UnidadMedidaId;
                     entity.AddOrdenCompraDetalle(detalles);
                 }
+
+
+                // Detalle
+                //var detalle = unitOfWork.OrdenCompra.GetByIDDetal(entity.Id);
+                //foreach (var item in detalle)
+                //{
+                //    entity.OrdenCompraDetalles.Add(new OrdenCompraDetalle()
+                //    {
+                //        Id = item.Id,
+                //        ProductoId = item.ProductoId,
+                //        OcdCantidad = item.OcdCantidad,                        
+                //        OrdenCompra = item.OrdenCompra,
+                //        Producto = item.Producto
+                //    });
+                //}
+
+
+                //var lstDetalles = entity.OrdenCompraDetalles.ToList();
+                //foreach (var item in lstDetalles)
+                //{
+                //    var result = entity.OrdenCompraDetalles.FirstOrDefault(c => c.Id == item.Id);
+                //    entity.RemoveOrdenCompraDetalle(result);
+                //}
+
+                //foreach (var item in model.OrdenCompraDetalleModels)
+                //{
+                //    var detalles = new OrdenCompraDetalle();
+                //    detalles.Id = item.Id;
+                //    detalles.ProductoId = item.ProductoId;
+                //    detalles.OcdCantidad = item.OcdCantidad;
+                //    //detalles.UnidadMedidaId = item.UnidadMedidaId;
+                //    entity.AddOrdenCompraDetalle(detalles);
+                //}
+
+
                 // Datos de la cabecera
 
                 entity.OccNroOrden = model.OccNroOrden;
@@ -166,6 +209,12 @@ namespace CoreInventario.Application.Services
                 entity.OccDescuento = model.OccDescuento;
                 entity.OccGasto = model.OccGasto;
                 entity.OccIVA = model.OccIVA;
+                entity.OccCorreosElec = model.OccCorreosElec;
+                entity.OccTelefonos = model.OccTelefonos;
+                entity.OccDireccion = model.OccDireccion;
+                entity.OccMismaDireccion = model.OccMismaDireccion;
+                entity.OccObservaciones = model.OccObservaciones;
+
                 entity.OccEstatus = model.OccEstatus;
                 
 

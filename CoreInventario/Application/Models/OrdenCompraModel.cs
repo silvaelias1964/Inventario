@@ -34,13 +34,12 @@ namespace CoreInventario.Application.Models
         public decimal OccGasto { get; set; }
         public int OccEstatus { get; set; }
 
-        public int OccMismaDireccion { get; set; }
-        public string OccNombre { get; set; }
+        public bool OccMismaDireccion { get; set; }
         public string OccDireccion { get; set; }
-        public string OccTelefono1 { get; set; }
-        public string OccTelefono2 { get; set; }
-        public string OccTelefono3 { get; set; }
-        
+        public string OccTelefonos { get; set; }
+        public string OccCorreosElec { get; set; }
+        public string OccObservaciones { get; set; }
+
         public virtual Proveedor Proveedor { get; set; }
         public virtual IList<OrdenCompraDetalleModel> OrdenCompraDetalleModels { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿@model Inventario.Models.OrdenCompraViewModel
 
 
+
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,8 +11,22 @@
     // Set de campos input Date
     DateTime fecha = DateTime.Today;
     var fechadia = fecha.ToString("yyyy-MM-dd");
-    double iva;
-    iva = 0.12;
+
+    var impuesto = ViewBag.IVA[0].Valor;
+    double iva;    
+    var ProductoId = ViewBag.Productos[0].Value;
+
+    var nombreImp = ViewBag.IVA[0].Nombre;
+    iva = Convert.ToInt16(impuesto);
+
+    if (ViewBag.IVA[0].Tipo=="Porcentaje")
+    {
+        nombreImp = nombreImp + " (%)";
+    }
+
+    bool isMismaDirec;
+
+    //isMismaDirec = Model.OccMismaDireccion == 1 ? true : false;    
 
 }
 
@@ -75,15 +90,27 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div id="BarraTituloProv" class="barra-separador-form">Datos del Proveedor                                                 
-                        <button type="button"  class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
-                            Click aqui para abrir/cerrar
-                        </button>
+                    <div id="BarraTituloProv" class="barra-separador-form">
+                        <b style="vertical-align:middle;">Datos del Proveedor</b>
+                        <div class="nav navbar-right" style="padding-right: 10px">
+                            <button type="button" class="btn btn-dark bg-slate-600 btn-labeled btn-sm" style="font-size:smaller">
+                                Click aqui para abrir/cerrar
+                            </button>
+                         </div>
                     </div>
                 </div>
 
                 <div id="DatosProv">
+                    <div class="row">
+                        <div class="checkbox checkbox-switchery">
+                            <label>
+                                ¿ Usa la misma dirección del proveedor ? : 
+                                <input asp-for="OccMismaDireccion" type="checkbox"  class="switchery-primary" >
+                            </label>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-10">
                             <div class="form-group">
@@ -136,6 +163,18 @@
 
                     <div class="form-group">
                         <div class="table-responsive ">
+                            @{
+                                string totImporteFmt = "";
+                                string totIvaFmt = "";
+                                string totSubTotalFmt = "";
+                                decimal totImporte;
+                                decimal totIva;
+                                decimal totSubTotal;
+                                totImporte = 0;
+                                totIva = 0;
+                                totSubTotal = 0;
+
+                            }
                             <table class="table table-striped table-bordered" id="tablaDetalle" role="grid" aria-describedby="DataTables_Table_0_info">
                                 <thead>
                                     <tr class="bg-gradient-dark" role="row">                                        
@@ -149,7 +188,7 @@
                                             Cantidad
                                         </th>
                                         <th tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
-                                            Unidad Medida
+                                            Cant.x Unidad
                                         </th>
                                         <th tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
                                             Costo Unitario
@@ -157,10 +196,7 @@
                                         <th tabindex="5" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
                                             Importe
                                         </th>
-                                        <th tabindex="6" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
-                                            IVA
-                                        </th>
-                                        <th tabindex="7" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                         <th tabindex="7" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
                                             SubTotal
                                         </th>
                                         <th tabindex="8" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
@@ -188,136 +224,254 @@
                                             string unidadMedida;
                                             decimal precioUnidad;
                                             string precioUnidadFmt;
+
+
                                             for (int i = 0; i < Model.OrdenCompraDetalleModels.Count; i++)
                                             {
                                                 codigo = Model.OrdenCompraDetalleModels[i].Producto.PrdCodigo;
                                                 importe = Model.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad * Model.OrdenCompraDetalleModels[i].OcdCantidad;
-                                                importeFmt = String.Format("{0:#,##0.00}", importe);
-                                                montoIva = importe * Convert.ToDecimal(iva);
-                                                montoIvaFmt = String.Format("{0:#,##0.00}", montoIva);
-                                                subTotal = importe + montoIva;
-                                                subTotalFmt = String.Format("{0:#,##0.00}", subTotal);
+                                                importeFmt = importe.ToString().Replace(",", "."); //String.Format("{0:#,##0.00}", importe);
+                                                                                 //montoIva = importe * Convert.ToDecimal(iva);
+                                                                                 //montoIvaFmt = String.Format("{0:#,##0.00}", montoIva);
+                                                subTotal = importe; //+ montoIva;
+                                                subTotalFmt = subTotal.ToString().Replace(",", ".");  //  String.Format("{0:#,##0.00}", subTotal);
                                                 nombre = Model.OrdenCompraDetalleModels[i].Producto.PrdNombre;
                                                 cantidad = Model.OrdenCompraDetalleModels[i].OcdCantidad;
-                                                unidadMedida = Model.OrdenCompraDetalleModels[i].UnidadMedida.UniDescripcion;
-
+                                                //unidadMedida = Model.OrdenCompraDetalleModels[i].UnidadMedida.UniDescripcion;
+                                                unidadMedida = Model.OrdenCompraDetalleModels[i].Producto.PrdCantPorUnidad;
                                                 precioUnidad = Model.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad;
-                                                precioUnidadFmt = String.Format("{0:#,##0.00}", precioUnidad);    //ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-es"));
-                                                
-                                                                    <tr role="row" class="odd">
-                                                                        <!-- role="row" class="odd" -->
-                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
-                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
-                                                                        @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].UnidadMedidaId)
-                                                                        <td style="color:black;">
-                                                                            @codigo
-                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
-                                                                        </td>
-                                                                        <td style="color:black;">
-                                                                            @nombre
-                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdNombre, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
-                                                                        </td>
-                                                                        <td style="text-align:center;color:black;">
-                                                                            @cantidad
-                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
-                                                                        </td>
-                                                                        <td style="color:black;color:black;">
-                                                                            @unidadMedida
-                                                                            @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].UnidadMedida.UniDescripcion, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
-                                                                        </td>
-                                                                        <td style="text-align:right;color:black;">
-                                                                            @precioUnidadFmt
-                                                                        </td>
-                                                                        <td style="text-align:right;color:black;">
-                                                                            @importeFmt
-                                                                        </td>
-                                                                        <td style="text-align:right;color:black;">
-                                                                            @montoIvaFmt
-                                                                        </td>
-                                                                        <td style="text-align:right;color:black;">
-                                                                            @subTotalFmt
-                                                                        </td>
+                                                precioUnidadFmt = precioUnidad.ToString().Replace(",", "."); //String.Format("{0:#,##0.00}", precioUnidad);    //ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-es"));
 
-                                                                        <td style="text-align:center;color:black;">
-                                                                            <a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>
-                                                                            <a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>
-                                                                        </td>
+                                                totImporte = totImporte + importe;
+                                                //totIva = totIva + montoIva;
+                                                totSubTotal = totSubTotal + subTotal;
 
-                                                                    </tr>
-                                            }
+                                                totImporteFmt = totImporte.ToString().Replace(",", ".");   //   String.Format("{0:#,##0.00}", totImporte);
+                                                //totIvaFmt = String.Format("{0:#,##0.00}", totIva);
+                                                totSubTotalFmt = totSubTotal.ToString().Replace(",", ".");  // String.Format("{0:#,##0.00}", totSubTotal);
+
+                                                                                <tr role="row" class="odd">
+                                                                                    <!-- role="row" class="odd" -->
+                                                                                    @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
+                                                                                    @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
+
+                                                                                    <td style="color:black;">
+                                                                                        @codigo
+                                                                                        @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                                    </td>
+                                                                                    <td style="color:black;">
+                                                                                        @nombre
+                                                                                        @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdNombre, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                                    </td>
+                                                                                    <td style="text-align:center;color:black;">
+                                                                                        @cantidad
+                                                                                        @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                                    </td>
+                                                                                    <td style="color:black;color:black;font-size:small">
+                                                                                        @unidadMedida
+                                                                                        @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCantPorUnidad, new { @class = "input-lg", @readonly = "readonly", @hidden="true" })
+                                                                                    </td>
+                                                                                    <td style="text-align:right;color:black;">
+                                                                                        @precioUnidadFmt
+                                                                                    </td>
+                                                                                    <td style="text-align:right;color:black;">
+                                                                                        @importeFmt
+                                                                                    </td>
+
+                                                                                    <td style="text-align:right;color:black;">
+                                                                                        @subTotalFmt
+                                                                                    </td>
+
+                                                                                    <td style="text-align:center;color:black;">
+                                                                                        <a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>
+                                                                                        <a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>
+                                                                                    </td>
+
+                                                                                </tr>
+                                            }                                
+
                                         }
+
+
                                     }
+
                                 </tbody>
 
                             </table>
-                            <div class="nav navbar-left" style="padding-right: 10px">
-                                <button type="button" class="btn bg-info-600 btn-labeled btn-sm" data-toggle="modal" data-target="#modalAddRow">
-                                    <b>
-                                        <i class="icon-plus3"></i>
-                                    </b> Agregar
-                                </button>
-                            </div>
+                            <!-- <input id="SubImporte" class="form-control" hidden value=@totImporte /> -->
+                            <input id="SubIva" class="form-control" hidden value=@totIva />
+                            <!-- <input id="SubTot" class="form-control" hidden value=@totSubTotal /> -->
+                            <table class="table table-striped table-bordered" id="tablaDetalleTotal" role="grid" aria-describedby="DataTables_Table_0_info">
+                                <thead>
+                                    <tr class="bg-gradient-dark" role="row">
+                                        <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 25%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 6%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="5" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="7" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                        <th tabindex="8" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                            
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr role="row" class="odd">
+                                        <td style="color:black;">
+                                            <button type="button" class="btn btn-labeled btn-sm" data-toggle="modal" data-target="#modalAddRow" style="background:#4E73DF; color:white;">
+                                                <b>
+                                                    <i class="icon-plus3"></i>
+                                                </b> Agregar
+                                            </button>
+                                        </td>
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                        <td style="color:black;color:black;">
+                                        </td>                                        
+                                        <td style="text-align:right;color:black;font-weight: bold;">
+                                            SubTotales:
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">                                            
+                                            <input id="SubImporte" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" value=@totImporteFmt readonly />
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">                                            
+                                            <input id="SubTot" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" value=@totSubTotalFmt readonly />
+                                        </td>
+
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                        <td style="color:black;color:black;">
+                                        </td>
+                                        <td style="text-align:right;color:red;font-weight: bold;">                                            
+                                            Descuento (%):
+                                        </td>
+                                        <td style="text-align:right;color:red;font-weight: bold;">
+                                            <input id="Descuento" class="form-control decimales" type="text" style="height:29px; text-align:right;color:black;" onblur="PorcDescuento();" />
+                                        </td>
+                                        <td style="text-align:right;color:red;font-weight: bold;">
+                                            <input id="TotDescuento" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly />
+                                        </td>
+
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                        <td style="color:black;color:black;">
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">
+                                            @nombreImp:
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">
+                                            <input id="Iva" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" value=@iva onblur="PorcIva();" />
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">
+                                            <input id="TotIva" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly />
+                                        </td>
+
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                        <td style="color:black;color:black;">
+                                        </td>
+                                        
+                                        <td style="text-align:right;color:black;font-weight: bold;" colspan="2">
+                                            Gastos Adicionales:
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">
+                                            <input id="Gasto" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" onblur="Gastos();" />
+                                        </td>
+
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                    </tr>
+                                    <tr role="row" class="odd">
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="color:black;">
+                                        </td>
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                        <td style="color:black;color:black;">
+                                        </td>
+                                        <td style="text-align:right;color:black;font-weight: bold;">                                            
+                                        </td>
+                                        <td style="text-align:right;color:blue;font-weight: bold;">
+                                            Total Orden:
+                                        </td>
+                                        <td style="text-align:right;color:blue;font-weight: bold;">
+                                            <input id="TotalODC" class="form-control" type="text" style="height:29px; text-align:right; color:black;font-weight:bold;" readonly />
+                                        </td>
+
+                                        <td style="text-align:center;color:black;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="linea"></div>
+
                         </div>
                     </div>
 
                 </div>
-                @*
-                <div class="row">
-                <div class="linea"></div>
-                </div>
-                <div class="row">
-                <div class="col-md-10">
-                <div class="form-group">
-                <label asp-for="CliDireccion" class="control-label"></label>
-                <textarea asp-for="CliDireccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
-                <span asp-validation-for="CliDireccion" class="text-danger"></span>
-                </div>
-                </div>
-                </div>
 
                 <div class="row">
-                <div class="linea"></div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="OccObservaciones" class="control-label"></label>
+                            <textarea asp-for="OccObservaciones" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" ></textarea>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="row">
-                <div class="col-md-3">
-                <div class="form-group">
-                <label asp-for="CliTelefono1" class="control-label"></label>
-                <input asp-for="CliTelefono1" class="form-control" />
-                <span asp-validation-for="CliTelefono1" class="text-danger"></span>
-                </div>
-                </div>
-                <div class="col-md-3">
-                <div class="form-group">
-                <label asp-for="CliTelefono2" class="control-label"></label>
-                <input asp-for="CliTelefono2" class="form-control" />
-                <span asp-validation-for="CliTelefono2" class="text-danger"></span>
-                </div>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-md-5">
-                <div class="form-group">
-                <label asp-for="CliCorreoE" class="control-label"></label>
-                <input asp-for="CliCorreoE" class="form-control" />
-                <span asp-validation-for="CliCorreoE" class="text-danger"></span>
-                </div>
-                </div>
-                </div>
-
-
-                <div class="row">
-                <div class="col-md-2">
-                <div class="form-group">
-                <label asp-for="CliEstatus" class="control-label"></label>
-                <select class="form-control custom-select" asp-for="CliEstatus" asp-items=@ViewBag.Estatus></select>
-                <span asp-validation-for="CliEstatus" class="text-danger"></span>
-                </div>
-                </div>
-                </div> *@
 
             </div>
         </div>
+        
+        <input id="ProductoInicial" class="form-control" hidden value=@ProductoId />
+        <input asp-for="OccIVA" class="form-control" hidden />
+        <input asp-for="OccDescuento" class="form-control" hidden />
+        <input asp-for="OccGasto" class="form-control" hidden />
+        <input asp-for="OccDireccion" class="form-control" hidden />
+        <input asp-for="OccTelefonos" class="form-control" hidden />
+        <input asp-for="OccCorreosElec" class="form-control" hidden />
     </form>
 </div>
 
@@ -352,7 +506,7 @@
 </div>
 
 
-<!-- modal add row-->
+<!-- modal add row Agregar Item -->
 <div id="modalAddRow" class="modal fade">
     <div class="modal-dialog form-validate-jquery">
         <div class="modal-content">
@@ -369,13 +523,13 @@
 
                     <div class="form-group has-feedback has-feedback-left">
                         <label class="control-label">Cantidad</label>
-                        <input id="Cantidad" class="form-control" type="number" />
+                        <input id="Cantidad" class="form-control decimales" type="text" onblur="ValidaCantidad();"/>
                     </div>
 
-                    <div class="form-group has-feedback has-feedback-left">
-                        <label class="control-label">Unidad de Medida</label>
-                        <select class="form-control custom-select" id="UnidadMedidaId" asp-items=@ViewBag.UnidadesMedida></select>
-                    </div>
+                    <!-- <div class="form-group has-feedback has-feedback-left">
+                         <label class="control-label">Unidad de Medida</label> 
+                         <select class="form-control custom-select" id="UnidadMedidaId" asp-items= ViewBag.UnidadesMedida></select>
+                     </div> -->
 
                 </div>
                 <input id="jcodigo" type="text" hidden />
@@ -408,11 +562,22 @@
 
 @section Scripts {
     <script src="~/js/Libreria.js"></script>
+    <script src="~/js/currency.min.js"></script>
     <script type="text/javascript">
+
+        const SINFP = value => currency(value, { symbol: '', decimal: '.', separator: ',' });
 
         $("#DatosProv").hide();
 
         $("#IdProveedor").val($("#ProveedorId").val());
+
+        var direccion;
+        var telefonos;
+        var correos;
+        direccion="";
+        telefonos="";
+        correos="";
+
 
         $(document).ready(function () {
 
@@ -420,7 +585,13 @@
             if ($("#IdProveedor").val() != 0) {
                 SearchProv();
             }
+            PorcDescuento();
+            PorcIva();
+            Gastos();
 
+            direccion=$('#DireccionProv').val();     
+            telefonos=$('#TelefonosProv').val();
+            correos  =$('#CorreosProv').val();
         });
 
         // Buscar proveedor
@@ -469,6 +640,10 @@
                     error: function (result) {
                     }
                 });
+                direccion = $('#DireccionProv').val();
+                telefonos = $('#TelefonosProv').val();
+                correos = $('#CorreosProv').val();
+
             }
         }
 
@@ -495,7 +670,16 @@
 
         // Agregar linea a la tabla
         $('#addRowTable').on('click', function () {
-            //BuscaProducto();
+            
+            var IdProd;
+            IdProd = $("#ProductoId").val();
+            var CodProd;
+            CodProd = $("#jcodigo").val();
+            if (IdProd !== "" && CodProd=="") {
+                
+                BuscaProducto();
+            }
+
             var idNumber = GetLastChildId($('#tablaDetalle'));
             var table = $('#tablaDetalle')[0].children[1];
 
@@ -504,8 +688,9 @@
             var cantidad = $('#Cantidad').val();
             if (cantidad.search(',') != -1) {
                 cantidad = cantidad.replace(',', '.');
-            } 
-
+            }
+            if (cantidad == "")
+                cantidad = 1;
             var unidadMedida = $('#jcantPorUnidad').val();
             var precioUnidad = $('#jprecioUnidad').val();
             if (precioUnidad.search(',') != -1) {
@@ -515,51 +700,70 @@
             importe = importe.toFixed(2);
             var montoIva = importe * 0.12;
             montoIva = montoIva.toFixed(2);
-            var subTotal = Number(importe) + Number(montoIva);
+            var subTotal = Number(importe); //+ Number(montoIva);
             subTotal = Number(subTotal);
             subTotal = subTotal.toFixed(2);
-            $(table).append(
-                '<tr role="row" class="odd">' +
-                '<input data-val="true" data-val-required="The Id field is required." id="OrdenCompraDetalleModels_' + idNumber + '__Id" name="OrdenCompraDetalleModels[' + idNumber + '].Id" type = "hidden" value="0">'+
-                '<input data-val="true" data-val-required="The ProductoId field is required." id="OrdenCompraDetalleModels_' + idNumber + '__ProductoId" name="OrdenCompraDetalleModels[' + idNumber + '].ProductoId" type="hidden" value="' + $('#ProductoId').val() +'">'+
-                '<input data-val="true" data-val-required="The UnidadMedidaId field is required." id="OrdenCompraDetalleModels_" + idNumber + "__UnidadMedidaId" name="OrdenCompraDetalleModels[" + idNumber + "].UnidadMedidaId" type="hidden" value="'+ $('#UnidadMedidaId').val()+'">'+
 
-                '<td style="color:black;">' +
-                codigo+
-                '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdCodigo" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdCodigo" readonly="readonly" type="text" value="' + codigo + '" aria-invalid="false" hidden>' +
-                '</td>' +
-                '<td style="color:black;">' +
-                nombre+
-                '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdNombre" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdNombre" readonly="readonly" type="text" value="' + nombre + '" aria-invalid="false" hidden>' +
-                '</td>' +
-                '<td style="text-align:center;color:black;">' +
-                cantidad+
-                '</td>' +
-                '<td style="color:black;color:black;">' +
-                unidadMedida+
-                '</td>' +
-                '<td style="text-align:right;color:black;">' +
-                precioUnidad +
-                '</td>' +
-                '<td style="text-align:right;color:black;">' +
-                importe +
-                '</td>' +
-                '<td style="text-align:right;color:black;">' +
-                montoIva +
-                '</td>' +
-                '<td style="text-align:right;color:black;">' +
-                subTotal +
-                '</td>' +
+            var importeCtr= $('#SubImporte').val();
+            importeCtr = Number(FormatoCurr(importeCtr));
+            var montoRes = Number(importe) + importeCtr
+            //FormateaNum(montoRes);
+            //$('#SubImporte').val(SINFP(montoRes).format());
+            $('#SubImporte').val(currency(montoRes));
 
-                '<td style="text-align:center;color:black;">' +
-                '<a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>  ' +
-                '<a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>' +
-                '</td>' +
-                '</tr>'
-            );
+            //$('#SubImporte').val(Number(importe) + importeCtr);
 
-            CleanModalAdd();
+            var subTotCtr = $('#SubTot').val();
+            subTotCtr = Number(FormatoCurr(subTotCtr));
+            var subTotRes = Number(subTotal) + subTotCtr;
+            $('#SubTot').val(currency(subTotRes));
 
+            PorcDescuento();
+            PorcIva();
+            Gastos();
+            if (codigo !== "") { 
+                $(table).append(
+                    '<tr role="row" class="odd">' +
+                    '<input data-val="true" data-val-required="The Id field is required." id="OrdenCompraDetalleModels_' + idNumber + '__Id" name="OrdenCompraDetalleModels[' + idNumber + '].Id" type = "hidden" value="0">'+
+                    '<input data-val="true" data-val-required="The ProductoId field is required." id="OrdenCompraDetalleModels_' + idNumber + '__ProductoId" name="OrdenCompraDetalleModels[' + idNumber + '].ProductoId" type="hidden" value="' + $('#ProductoId').val() +'">'+                
+
+                    '<td style="color:black;">' +
+                    codigo+
+                    '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdCodigo" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdCodigo" readonly="readonly" type="text" value="' + codigo + '" aria-invalid="false" hidden>' +
+                    '</td>' +
+                    '<td style="color:black;">' +
+                    nombre+
+                    '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__Producto_PrdNombre" name="OrdenCompraDetalleModels[' + idNumber + '].Producto.PrdNombre" readonly="readonly" type="text" value="' + nombre + '" aria-invalid="false" hidden>' +
+                    '</td>' +
+                    '<td style="text-align:center;color:black;">' +
+                    '<input class="input-lg valid" id="OrdenCompraDetalleModels_' + idNumber + '__OcdCantidad" name="OrdenCompraDetalleModels[' + idNumber + '].OcdCantidad" readonly="readonly" type="text" value="' + cantidad + '" aria-invalid="false" hidden>' +
+                    cantidad+
+                    '</td>' +
+                    '<td style="color:black;color:black;font-size:small">' +
+                    unidadMedida+
+                    '</td>' +
+                    '<td style="text-align:right;color:black;">' +
+                    precioUnidad +
+                    '</td>' +
+                    '<td style="text-align:right;color:black;">' +
+                    importe +
+                    '</td>' +
+                    //'<td style="text-align:right;color:black;">' +
+                    //montoIva +
+                    //'</td>' +
+                    '<td style="text-align:right;color:black;">' +
+                    subTotal +
+                    '</td>' +
+
+                    '<td style="text-align:center;color:black;">' +
+                    '<a onclick="EditRow(this);"><i class="icon-pencil7"></i></a>  ' +
+                    '<a onclick="DeleteRow(this);"><i class="icon-trash"></i></a>' +
+                    '</td>' +
+                    '</tr>'
+                );
+            
+                CleanModalAdd();
+            }
         });
 
         function GetLastChildId(parentElement) {
@@ -577,6 +781,26 @@
                 }
             }
             var parentTbody = object.parentNode;
+
+            var itemImporte = object.children[7].textContent;
+            var itemSubTotal= object.children[8].textContent;
+
+            var subImporte = $('#SubImporte').val();
+            if (subImporte == "")
+                subImporte = 0;
+
+            var subSubTot= $('#SubTot').val();
+            if (subSubTot == "")
+                subSubTot = 0;
+
+            $('#SubImporte').val(currency(Number(subImporte) - Number(itemImporte)));
+            $('#SubTot').val(currency(Number(subSubTot)-Number(itemSubTotal)));
+
+            PorcDescuento();
+            PorcIva();
+            Gastos();
+
+
             $(object).remove();
         }
 
@@ -626,22 +850,14 @@
         }
 
 
-
-        // Actualizar datos al salir      
-        window.onsubmit = function () {
-            $("#ProveedorId").val($("#IdProveedor").val());            
-        };
-
-
-        function Cancel() {
-            window.location.href = "/OrdenCompra/Index";
-        }
-
         // Buscar datos adicionales del producto seleccionado
         function BuscaProducto() {
             var Id;
             Id = 0;
             Id = $("#ProductoId").val();            
+            if (Id == "") {
+                Id = $("#ProductoInicial").val();
+            }
             $.ajax({
                 url: '@Url.Action("BuscaProducto", "OrdenCompra")',
                 type: 'POST',
@@ -659,6 +875,158 @@
                 }
             });
         }
+
+        // Calculo de descuento, por Porcentaje
+        function PorcDescuento() { 
+            var porcImpCtr = $('#Descuento').val();
+            var porcentaje = Number(FormatoCurr(porcImpCtr));
+            var importeCtr = $('#SubImporte').val();
+            var importe = Number(FormatoCurr(importeCtr));
+            var calcImporte = importe - ((porcentaje * 0.01) * importe);
+            $('#TotDescuento').val(calcImporte.toFixed(2));        
+            TotalizaODC();
+        }
+
+        // Calculo del IVA, por porcentaje 
+        function PorcIva() {
+            var porcIva = $('#Iva').val();
+            var porcentaje = Number(FormatoCurr(porcIva));
+            var descuentoCtr = $('#TotDescuento').val();
+            var descuento = Number(FormatoCurr(descuentoCtr));
+            var calcIva = descuento * (porcentaje * 0.01);
+            $('#TotIva').val(calcIva.toFixed(2));
+            TotalizaODC();
+        }
+
+        // Calculo de gastos
+        function Gastos() {
+            var mtoGasto=$('#Gasto').val();
+            var gasto = Number(FormatoCurr(mtoGasto));
+            if (gasto >= 0) {
+                TotalizaODC();
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function TotalizaODC() {
+            var subDescuento = $('#TotDescuento').val();
+            var iva = $('#TotIva').val();
+            var gasto = $('#Gasto').val();
+
+            var tDescuento = 0;
+            if (subDescuento != "") 
+                tDescuento=Number(subDescuento);
+
+            var tIva = 0;
+            if(iva!=0)
+                tIva=Number(iva);
+
+            var tGasto = 0;
+            if(gasto!=0)
+                tGasto=Number(gasto);
+
+            var total=0;
+            total = tDescuento + tIva + tGasto;
+
+            var totalFmt = FormatoCurr(total.toString());
+
+            $('#TotalODC').val(totalFmt);
+
+        }
+
+        // Validar cantidad
+        function ValidaCantidad() {
+            var valor = $('#Cantidad').val();
+            var cantidad = Number(valor);
+            if (cantidad > 0) {                
+                return true;
+            } else {
+                if (cantidad == 0) {
+                    $('#Cantidad').val(1);
+                } else {
+                    return false;
+                }                
+            }
+
+        }
+
+        // Check de misma direccion
+        $('#OccMismaDireccion').on('change', function () {
+            var valor = document.getElementById('OccMismaDireccion').checked;
+            if (valor == false) {
+                document.getElementById('DireccionProv').readOnly = false;
+                document.getElementById('TelefonosProv').readOnly = false;
+                document.getElementById('CorreosProv').readOnly = false;
+                if (confirm("¿ Borra el contenido de la dirección, teléfonos y correos electrónicos ? ")) {
+                    direccion = $('#DireccionProv').val();
+                    telefonos = $('#TelefonosProv').val();
+                    correos = $('#CorreosProv').val();
+
+                    $('#DireccionProv').val('');     
+                    $('#TelefonosProv').val('');
+                    $('#CorreosProv').val('');
+
+                } 
+
+            } else {
+                document.getElementById('DireccionProv').readOnly = true;
+                document.getElementById('TelefonosProv').readOnly = true;
+                document.getElementById('CorreosProv').readOnly = true;
+                $('#DireccionProv').val(direccion);
+                $('#TelefonosProv').val(telefonos);
+                $('#CorreosProv').val(correos);
+
+            }
+
+        });
+
+        // Actualizar datos al salir
+        window.onsubmit = function () {
+            $("#ProveedorId").val($("#IdProveedor").val());
+            $("#OccIVA").val($("#Iva").val());
+            $("#OccDescuento").val($("#Descuento").val());
+            $("#OccGasto").val($("#Gasto").val());
+            if ($("#OccIVA").val() == "")
+                $("#OccIVA").val(0);
+            if ($("#OccDescuento").val() == "")
+                $("#OccDescuento").val(0);
+            if ($("#OccGasto").val() == "")
+                $("#OccGasto").val(0);
+
+            var valor = document.getElementById('OccMismaDireccion').checked;
+            if (valor == false) {
+                $("#OccDireccion").val($('#DireccionProv').val());
+                $("#OccTelefonos").val($('#TelefonosProv').val());
+                $("#OccCorreosElec").val($('#CorreosProv').val());
+            }
+            else {                
+                $("#OccDireccion").val("");
+            }
+        };
+
+        function Cancel() {
+            window.location.href = "/OrdenCompra/Index";
+        }
+
+
+
+
+        // function MismaDireccion() {
+        //     var valor = $('#OccMismaDireccion').val();
+        //     if (valor == "true") {
+        //         document.getElementById('DireccionProv').readOnly = false;
+        //         document.getElementById('TelefonosProv').readOnly = false;
+        //         document.getElementById('CorreosProv').readOnly = false;
+        //     } else {
+        //         document.getElementById('DireccionProv').readOnly = true;
+        //         document.getElementById('TelefonosProv').readOnly = true;
+        //         document.getElementById('CorreosProv').readOnly = true;
+        //     }
+
+        // }
+
 
     </script>
 }

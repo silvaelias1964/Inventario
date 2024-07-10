@@ -13,9 +13,9 @@ namespace CoreInventario.Application.Models
         public int Id { get; set; }
         public int ProductoId { get; set; }
         public int OcdCantidad { get; set; }
-        public int UnidadMedidaId { get; set; }
+        //public int UnidadMedidaId { get; set; }
         public virtual OrdenCompra OrdenCompra { get; set; }
         public virtual Producto Producto { get; set; }
-        public virtual UnidadMedida UnidadMedida { get; set; }
+        //public virtual UnidadMedida UnidadMedida { get; set; }
     }
 }
