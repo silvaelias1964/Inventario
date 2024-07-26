@@ -1,0 +1,743 @@
+﻿@model Inventario.Models.OrdenCompraViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Orden de Compra";
+    var fncPantalla = "Borrar";
+    // Set de campos input Date
+    DateTime fecha = DateTime.Today;
+    var fechadia = fecha.ToString("yyyy-MM-dd");
+
+    var impuesto = ViewBag.IVA[0].Valor;
+    double iva;
+    var ProductoId = ViewBag.Productos[0].Value;
+
+    var nombreImp = ViewBag.IVA[0].Nombre;
+    iva = Convert.ToInt16(impuesto);
+
+    if (ViewBag.IVA[0].Tipo == "Porcentaje")
+    {
+        nombreImp = nombreImp + " (%)";
+    }
+
+    string procesado = "";
+    procesado = Model.OccEstatus == 1 ? "Si" : "No";
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Delete">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    @if (procesado == "No")
+                    {
+                        <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                            <b>
+                                <i class="icon-checkmark3"></i>
+                            </b> Confirmar
+                        </button>
+                    }
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-12">
+            @if (procesado == "No")
+            {
+                <div class="alert alert-danger">
+                    <strong>¿ Está seguro de eliminar el registro ?</strong>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <strong>No puede eliminar el registro, porque ya fué procesado</strong>
+                </div>
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="OccNroOrden" class="control-label"></label>
+                        <input asp-for="OccNroOrden" class="form-control" readonly />
+                        <span asp-validation-for="OccNroOrden" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label asp-for="OccFechaEmision" class="control-label"></label>
+                        <div class="input-group date">
+                            <div class="input-group-addon input-group-append">
+                                <input asp-for="OccFechaEmision" class="form-control" type="text" disabled="disabled" />
+                                <div class="input-group-text">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OccFechaEmision" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="OccEstatus" class="control-label"></label>
+                    <input asp-for="Estatus" class="form-control" readonly />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" readonly />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label">Proveedor</label>
+                        <input id="NombreProv" class="form-control" readonly />
+                        <input asp-for="ProveedorId" class="form-control" hidden />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div id="BarraTituloProv" class="barra-separador-form">
+                    <b style="vertical-align:middle;">Datos del Proveedor</b>
+                    <div class="nav navbar-right" style="padding-right: 10px">
+                        <button type="button" class="btn btn-dark bg-slate-600 btn-labeled btn-sm" style="font-size:smaller">
+                            Click aqui para abrir/cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="DatosProv">
+                <div class="row">
+                    <div class="checkbox checkbox-switchery">
+                        <label>
+                            Misma dirección del proveedor:
+                            <input asp-for="OccMismaDireccion" type="checkbox" class="switchery-primary" disabled="disabled">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label class="control-label">Dirección</label>
+                            <textarea id="DireccionProv" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label class="control-label">Teléfonos</label>
+                            <input id="TelefonosProv" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label class="control-label">Correos Electrónicos</label>
+                            <input id="CorreosProv" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="linea"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label asp-for="OccFechaOrden" class="control-label"></label>
+                        <div class="input-group date">
+                            <div class="input-group-addon input-group-append">
+                                <input asp-for="OccFechaOrden" class="form-control" type="text" disabled="disabled" />
+                                <div class="input-group-text">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OccFechaOrden" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group has-feedback has-feedback-left">
+                        <label asp-for="OccFechaVencimiento" class="control-label"></label>
+                        <div class="input-group date">
+                            <div class="input-group-addon input-group-append">
+                                <input asp-for="OccFechaVencimiento" class="form-control" type="text" disabled="disabled" />
+                                <div class="input-group-text">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="OccFechaVencimiento" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="linea"></div>
+            </div>
+            <div class="row">
+
+                <div class="form-group">
+                    <div class="table-responsive ">
+                        @{
+                            string totImporteFmt = "";
+                            string totIvaFmt = "";
+                            string totSubTotalFmt = "";
+                            decimal totImporte;
+                            decimal totIva;
+                            decimal totSubTotal;
+                            totImporte = 0;
+                            totIva = 0;
+                            totSubTotal = 0;
+
+                        }
+                        <table class="table table-striped table-bordered" id="tablaDetalle" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr class="bg-gradient-dark" role="row">
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                        Código
+                                    </th>
+                                    <th tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 25%; text-align:center;">
+                                        Descripción
+                                    </th>
+                                    <th tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                        Cant.x Unidad
+                                    </th>
+                                    <th tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 6%; text-align:center;">
+                                        Cantidad
+                                    </th>
+                                    <th tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                        Costo Unitario
+                                    </th>
+                                    <th tabindex="5" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
+                                        Importe
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.OrdenCompraDetalleModels != null)
+                                    {
+                                        string actividad = "";
+                                        string estatus = "";
+
+                                        estatus = "Activo";
+                                        decimal importe = 0;
+                                        string importeFmt;
+                                        decimal montoIva = 0;
+                                        string montoIvaFmt;
+                                        decimal subTotal = 0;
+                                        string subTotalFmt;
+                                        string codigo;
+                                        string nombre;
+                                        long cantidad;
+                                        string unidadMedida;
+                                        decimal precioUnidad;
+                                        string precioUnidadFmt;
+
+
+                                        for (int i = 0; i < Model.OrdenCompraDetalleModels.Count; i++)
+                                        {
+                                            codigo = Model.OrdenCompraDetalleModels[i].Producto.PrdCodigo;
+                                            importe = Model.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad * Model.OrdenCompraDetalleModels[i].OcdCantidad;
+                                            importeFmt = importe.ToString().Replace(",", "."); //String.Format("{0:#,##0.00}", importe);
+                                            subTotal = importe; //+ montoIva;
+                                            subTotalFmt = subTotal.ToString().Replace(",", ".");  //  String.Format("{0:#,##0.00}", subTotal);
+                                            nombre = Model.OrdenCompraDetalleModels[i].Producto.PrdNombre;
+                                            cantidad = Model.OrdenCompraDetalleModels[i].OcdCantidad;
+                                            unidadMedida = Model.OrdenCompraDetalleModels[i].Producto.PrdCantPorUnidad;
+                                            precioUnidad = Model.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad;
+                                            precioUnidadFmt = precioUnidad.ToString().Replace(",", "."); //String.Format("{0:#,##0.00}", precioUnidad);    //ToString("C", System.Globalization.CultureInfo.GetCultureInfo("es-es"));
+
+                                            totImporte = totImporte + importe;
+                                            totSubTotal = totSubTotal + subTotal;
+
+                                            totImporteFmt = totImporte.ToString().Replace(",", ".");   //   String.Format("{0:#,##0.00}", totImporte);
+                                            totSubTotalFmt = totSubTotal.ToString().Replace(",", ".");  // String.Format("{0:#,##0.00}", totSubTotal);
+
+                                            <tr role="row" class="odd">
+                                                @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
+                                                @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
+                                                @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].OrdenCompraId)
+                                                <td style="color:black;">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
+                                                </td>
+                                                <td style="color:black;">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdNombre, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
+                                                </td>
+                                                <td style="color:black;font-size:small">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCantPorUnidad, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
+                                                </td>
+                                                <td style="text-align:right;color:black;">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;" })
+                                                </td>
+                                                <td style="text-align:right;color:black;">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;" })
+                                                </td>
+                                                <td style="text-align:right;color:black;">
+                                                    @importeFmt
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+
+                        </table>
+
+                        <input id="SubIva" class="form-control" hidden value=@totIva />
+                        <input id="SubTot" class="form-control" type="text" value=@totSubTotalFmt hidden />
+                        <!-- Area de linea de agregar, Totales -->
+                        <table class="table table-striped table-bordered" id="tablaDetalleTotal" role="grid" aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                                <tr class="bg-gradient-dark" role="row">
+                                    <th tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 12%; text-align:center;"></th>
+                                    <th tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 31%; text-align:center;"></th>
+                                    <th tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 13%; text-align:center;"></th>
+                                    <th tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 8%; text-align:center;"></th>
+                                    <th tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 11%; text-align:center;"></th>
+                                    <th tabindex="5" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 13%; text-align:center;"></th>
+                                    <th tabindex="6" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr role="row" class="odd">
+                                    <td style="color:black;"></td>
+                                    <td style="color:black;"></td>
+                                    <td style="text-align:center;color:black;"></td>
+                                    <td colspan="2" style="text-align:right;color:black;color:black;font-weight: bold;">
+                                        SubTotales:
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;">
+                                        <input id="SubImporte" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" value=@totImporteFmt readonly />
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;"></td>
+                                </tr>
+                                <tr role="row" class="odd">
+                                    <td style="color:black;"></td>
+                                    <td style="color:black;"></td>
+                                    <td style="text-align:right;color:red;font-weight: bold;" colspan="2">
+                                        Descuento (%):
+                                    </td>
+                                    <td style="color:black;color:black;">
+                                        <input id="Descuento" class="form-control decimales" type="text" style="height:29px; text-align:right;color:black;" onblur="PorcDescuento();">
+                                    </td>
+                                    <td style="text-align:right;color:red;font-weight: bold;">
+                                        <input id="TotDescuento" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly="">
+                                    </td>
+                                    <td style="text-align:right;color:red;font-weight: bold;"></td>
+                                </tr>
+                                <tr role="row" class="odd">
+                                    <td style="color:black;"></td>
+                                    <td style="color:black;"></td>
+                                    <td style="text-align:right;color:black;font-weight: bold;" colspan="2">
+                                        @nombreImp:
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;">
+                                        <input id="Iva" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" value=@iva onblur="PorcIva();" />
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;">
+                                        <input id="TotIva" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly />
+                                    </td>
+                                    <td style="text-align:center;color:black;"></td>
+                                </tr>
+                                <tr role="row" class="odd">
+                                    <td style="color:black;"></td>
+                                    <td style="color:black;"></td>
+                                    <td style="text-align:center;color:black;"></td>
+                                    <td style="text-align:right;color:black;font-weight: bold;" colspan="2">
+                                        Gastos Adicionales:
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;">
+                                        <input id="Gasto" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" onblur="Gastos();" />
+                                    </td>
+                                    <td style="color:black;color:black;"></td>
+                                </tr>
+                                <tr role="row" class="odd">
+                                    <td style="color:black;"></td>
+                                    <td style="color:black;"></td>
+                                    <td style="text-align:center;color:black;"></td>
+                                    <td style="text-align:right;color:blue;font-weight: bold;" colspan="2">
+                                        Total Orden:
+                                    </td>
+                                    <td style="text-align:right;color:blue;font-weight: bold;">
+                                        <input id="TotalODC" class="form-control" type="text" style="height:29px; text-align:right; color:black;font-weight:bold;" readonly />
+                                    </td>
+                                    <td style="text-align:right;color:black;font-weight: bold;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="linea"></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label asp-for="OccObservaciones" class="control-label"></label>
+                        <textarea asp-for="OccObservaciones" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto" readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input id="ProductoInicial" class="form-control" hidden value=@ProductoId />
+    <input asp-for="OccIVA" class="form-control" hidden />
+    <input asp-for="OccDescuento" class="form-control" hidden />
+    <input asp-for="OccGasto" class="form-control" hidden />
+    <input asp-for="OccDireccion" class="form-control" hidden />
+    <input asp-for="OccTelefonos" class="form-control" hidden />
+    <input asp-for="OccCorreosElec" class="form-control" hidden />
+    
+    <input id="IdProveedor" type="text" hidden />
+</div>
+
+
+
+
+@section Scripts {
+    <script src="~/js/Libreria.js"></script>
+    <script src="~/js/currency.min.js"></script>
+    <script type="text/javascript">
+
+        const SINFP = value => currency(value, { symbol: '', decimal: '.', separator: ',' });
+
+        $("#DatosProv").hide();
+
+        $("#IdProveedor").val($("#ProveedorId").val());
+
+        var direccion;
+        var telefonos;
+        var correos;
+        direccion = "";
+        telefonos = "";
+        correos = "";
+
+        var id;
+        var productoid;
+        var codigo;
+        var descripcion;
+        var unidadmedida;
+        var cantidad;
+        var costounitario;
+        var importe;
+        var odc;
+        var idrow;
+
+
+
+        $(document).ready(function () {
+
+
+            if ($("#IdProveedor").val() != 0) {
+                SearchProv();
+                ChangeMismaDireccion();
+            }
+            PorcDescuento();
+            PorcIva();
+            Gastos();
+
+            direccion = $('#DireccionProv').val();
+            telefonos = $('#TelefonosProv').val();
+            correos = $('#CorreosProv').val();
+
+            $('#OccFechaEmision').datepicker({
+                language: 'es',
+                todayBtn: 'linked',
+                clearBtn: true,
+                format: 'dd/mm/yyyy',
+                multidate: false,
+                todayHighlight: true,
+                autoclose: true
+            });
+            $('#OccFechaOrden').datepicker({
+                language: 'es',
+                todayBtn: 'linked',
+                clearBtn: true,
+                format: 'dd/mm/yyyy',
+                multidate: false,
+                todayHighlight: true,
+                autoclose: true
+            });
+            $('#OccFechaVencimiento').datepicker({
+                language: 'es',
+                todayBtn: 'linked',
+                clearBtn: true,
+                format: 'dd/mm/yyyy',
+                multidate: false,
+                todayHighlight: true,
+                autoclose: true
+            });
+
+        });
+
+        // Buscar proveedor
+        function SearchProv() {
+            var Id;
+            Id = 0;
+            Id = $("#IdProveedor").val();
+
+            if (Id > 0) {
+                $.ajax({
+                    url: '@Url.Action("BuscaProveedor", "OrdenCompra")',
+                    type: 'POST',
+                    data: { id: Id },
+                    success: function (result) {
+
+                        $("#NombreProv").val(result.prvNombreCompania);
+                        $("#DireccionProv").val(result.prvDireccion);
+                        var telef1;
+                        var telef2;
+                        telef1 = (result.prvTelefono1 == null) ? "" : result.prvTelefono1;
+                        telef2 = (result.prvTelefono2 == null) ? "" : result.prvTelefono2;
+                        if (telef1 != "" && telef2 != "") {
+                            $("#TelefonosProv").val(telef1 + ", " + telef2);
+                        } else {
+                            if (telef1 != "" && telef2 == "") {
+                                $("#TelefonosProv").val(telef1);
+                            }
+                        }
+
+                        var correo1;
+                        var correo2;
+                        correo1 = (result.prvCorreoE1 == null) ? "" : result.prvCorreoE1;
+                        correo2 = (result.prvCorreoE2 == null) ? "" : result.prvCorreoE2;
+
+                        if (correo1 != "" && correo2 != "") {
+                            $("#CorreosProv").val(correo1 + ", " + correo2);
+                        } else {
+                            if (correo1 != "" && correo2 == "") {
+                                $("#CorreosProv").val(correo1);
+                            }
+                        }
+
+
+                        $("#DatosProv").show();
+                    },
+                    error: function (result) {
+                    }
+                });
+                direccion = $('#DireccionProv').val();
+                telefonos = $('#TelefonosProv').val();
+                correos = $('#CorreosProv').val();
+
+            }
+        }
+
+        // Abrir/cerrar los datos del proveedor
+        $("#BarraTituloProv").on("click", function () {
+            $("#DatosProv").toggle();
+        });
+
+
+        // Buscar datos adicionales del producto seleccionado
+        function BuscaProducto(opc) {
+            var Id;
+            Id = 0;
+            if (opc == 1) {
+                Id = $("#ProductoId").val();
+            }
+            else {
+                Id = $("#ProductoId_1").val();
+            }
+
+            if (Id == "") {
+                Id = $("#ProductoInicial").val();
+            }
+            $.ajax({
+                url: '@Url.Action("BuscaProducto", "OrdenCompra")',
+                type: 'POST',
+                data: { id: Id },
+                success: function (result) {
+                    if (opc == 1) {
+                        $("#jcodigo").val(result.jcodigo);
+                        $("#jnombre").val(result.jnombre);
+                        $("#jcantPorUnidad").val(result.jcantPorUnidad);
+                        $("#jprecioUnidad").val(result.jprecioUnidad);
+                        $("#jstockMinimo").val(result.jstockMinimo);
+                        $("#jstock").val(result.jstock);
+                    } else {
+                        $("#jcodigo1").val(result.jcodigo);
+                        $("#jnombre1").val(result.jnombre);
+                        $("#jcantPorUnidad1").val(result.jcantPorUnidad);
+                        $("#jprecioUnidad1").val(result.jprecioUnidad);
+                        $("#jstockMinimo1").val(result.jstockMinimo);
+                        $("#jstock1").val(result.jstock);
+                    }
+
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+        // Calculo de descuento, por Porcentaje
+        function PorcDescuento() {
+            var porcImpCtr = $('#Descuento').val();
+            var porcentaje = Number(FormatoCurr(porcImpCtr));
+            var importeCtr = $('#SubImporte').val();
+            var importe = Number(FormatoCurr(importeCtr));
+            var calcImporte = importe - ((porcentaje * 0.01) * importe);
+            $('#TotDescuento').val(calcImporte.toFixed(2));
+            TotalizaODC();
+        }
+
+        // Calculo del IVA, por porcentaje
+        function PorcIva() {
+            var porcIva = $('#Iva').val();
+            var porcentaje = Number(FormatoCurr(porcIva));
+            var descuentoCtr = $('#TotDescuento').val();
+            var descuento = Number(FormatoCurr(descuentoCtr));
+            var calcIva = descuento * (porcentaje * 0.01);
+            $('#TotIva').val(calcIva.toFixed(2));
+            TotalizaODC();
+        }
+
+        // Calculo de gastos
+        function Gastos() {
+            var mtoGasto = $('#Gasto').val();
+            var gasto = Number(FormatoCurr(mtoGasto));
+            if (gasto >= 0) {
+                TotalizaODC();
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function TotalizaODC() {
+            var subDescuento = $('#TotDescuento').val();
+            var iva = $('#TotIva').val();
+            var gasto = $('#Gasto').val();
+
+            var tDescuento = 0;
+            if (subDescuento != "")
+                tDescuento = Number(subDescuento);
+
+            var tIva = 0;
+            if (iva != 0)
+                tIva = Number(iva);
+
+            var tGasto = 0;
+            if (gasto != 0)
+                tGasto = Number(gasto);
+
+            var total = 0;
+            total = tDescuento + tIva + tGasto;
+
+            var totalFmt = FormatoCurr(total.toString());
+
+            $('#TotalODC').val(totalFmt);
+
+        }
+
+        // Validar cantidad
+        function ValidaCantidad() {
+            var valor = $('#Cantidad').val();
+            var vcantidad = Number(valor);
+            if (vcantidad > 0) {
+                return true;
+            } else {
+                if (vcantidad == 0) {
+                    $('#Cantidad').val(1);
+                } else {
+                    return false;
+                }
+            }
+
+        }
+
+        // Check de misma direccion
+        $('#OccMismaDireccion').on('change', function () {
+            var valor = document.getElementById('OccMismaDireccion').checked;
+            if (valor == false) {
+                document.getElementById('DireccionProv').readOnly = false;
+                document.getElementById('TelefonosProv').readOnly = false;
+                document.getElementById('CorreosProv').readOnly = false;
+                if (confirm("¿ Borra el contenido de la dirección, teléfonos y correos electrónicos ? ")) {
+                    direccion = $('#DireccionProv').val();
+                    telefonos = $('#TelefonosProv').val();
+                    correos = $('#CorreosProv').val();
+
+                    $('#DireccionProv').val('');
+                    $('#TelefonosProv').val('');
+                    $('#CorreosProv').val('');
+
+                }
+
+            } else {
+                document.getElementById('DireccionProv').readOnly = true;
+                document.getElementById('TelefonosProv').readOnly = true;
+                document.getElementById('CorreosProv').readOnly = true;
+                $('#DireccionProv').val(direccion);
+                $('#TelefonosProv').val(telefonos);
+                $('#CorreosProv').val(correos);
+
+            }
+
+        });
+
+        // Seteo de direccion
+        function ChangeMismaDireccion() {
+            var valor = document.getElementById('OccMismaDireccion').checked;
+            if (valor == false) {
+                $.ajax({
+                    success: function () {
+                        $('#DireccionProv').val($("#OccDireccion").val());
+                        $('#TelefonosProv').val($("#OccTelefonos").val());
+                        $('#CorreosProv').val($("#OccCorreosElec").val());
+                        document.getElementById('DireccionProv').readOnly = false;
+                        document.getElementById('TelefonosProv').readOnly = false;
+                        document.getElementById('CorreosProv').readOnly = false;
+                    }
+                });
+            }
+        }
+
+
+        function Cancel() {
+            window.location.href = "/OrdenCompra/Index";
+        }
+
+        // Totalizar los items
+        function TotalizaImp() {
+            var subtotal = 0;
+            var montorow = 0;
+            for (var y = 0; y < document.getElementById("tablaDetalle").children[1].children.length; y++) {
+                montorow = document.getElementById("tablaDetalle").children[1].children[y].children[8].firstChild.textContent;   //document.getElementById("tablaDetalle").children[1].children[y].children[7].innerText;
+                if (montorow !== "") {
+                    subtotal = subtotal + Number(montorow);
+                }
+            }
+            return subtotal;
+        }
+
+
+
+    </script>
+}
+
+
+
+

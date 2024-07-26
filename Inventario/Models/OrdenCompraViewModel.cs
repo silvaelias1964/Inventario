@@ -1,7 +1,9 @@
 ﻿using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
+using CoreInventario.Domain.Enums;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Inventario.Models
@@ -22,15 +24,15 @@ namespace Inventario.Models
 
         [Display(Name = "Fecha Emisión")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaEmision { get; set; }
+        public string OccFechaEmision { get; set; }
 
         [Display(Name = "Fecha Orden")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaOrden { get; set; }
+        public string OccFechaOrden { get; set; }
 
         [Display(Name = "Fecha Vencimiento")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaVencimiento { get; set; }
+        public string OccFechaVencimiento { get; set; }
 
         [Display(Name = "Proveedor")]
         public int ProveedorId { get; set; }
@@ -61,6 +63,8 @@ namespace Inventario.Models
 
         public bool OccMismaDireccion { get; set; }
 
+        public string Estatus { get; set; }
+
         public virtual IList<OrdenCompraDetalleModel> OrdenCompraDetalleModels { get; set; }
 
         /// <summary>
@@ -72,9 +76,15 @@ namespace Inventario.Models
             model.Id = Id;
             model.OccNroOrden = OccNroOrden;
             model.ProveedorId = ProveedorId;
-            model.OccFechaEmision = OccFechaEmision;
-            model.OccFechaOrden = OccFechaOrden;
-            model.OccFechaVencimiento = OccFechaOrden;
+            //model.OccFechaEmision = OccFechaEmision.ToString();
+
+            if (OccFechaEmision != null)
+                model.OccFechaEmision = DateTime.ParseExact(OccFechaEmision, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            if (OccFechaOrden!=null)
+                model.OccFechaOrden = DateTime.ParseExact(OccFechaOrden, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            if (OccFechaVencimiento!=null)
+                model.OccFechaVencimiento = DateTime.ParseExact(OccFechaVencimiento, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
             model.OccGasto = OccGasto;
             model.OccIVA = OccIVA;
             model.OccDescuento = OccDescuento;
@@ -95,9 +105,15 @@ namespace Inventario.Models
             Id = model.Id;
             OccNroOrden = model.OccNroOrden;
             ProveedorId = model.ProveedorId;
-            OccFechaEmision = model.OccFechaEmision == null ? DateTime.Today : (DateTime)model.OccFechaEmision;
-            OccFechaOrden = model.OccFechaOrden == null ? DateTime.Today : (DateTime)model.OccFechaOrden;
-            OccFechaVencimiento = model.OccFechaVencimiento == null ? DateTime.Today : (DateTime)model.OccFechaVencimiento;
+            //OccFechaEmision = model.OccFechaEmision == null ? DateTime.Today : (DateTime)model.OccFechaEmision;
+
+            if (model.OccFechaEmision != null)
+                OccFechaEmision = model.OccFechaEmision.Value.ToString("dd/MM/yyyy");
+            if (model.OccFechaOrden != null)
+                OccFechaOrden = model.OccFechaOrden.Value.ToString("dd/MM/yyyy");
+            if (model.OccFechaVencimiento != null)
+                OccFechaVencimiento = model.OccFechaVencimiento.Value.ToString("dd/MM/yyyy");
+
             OccGasto = model.OccGasto;
             OccIVA = model.OccIVA;
             OccDescuento = model.OccDescuento;
@@ -106,6 +122,9 @@ namespace Inventario.Models
             OccTelefonos = model.OccTelefonos;
             OccCorreosElec = model.OccCorreosElec;
             OccMismaDireccion = model.OccMismaDireccion;
+
+            OdcEstatusEnum occEstatus = (OdcEstatusEnum)model.OccEstatus;
+            Estatus = occEstatus.ToString();
 
             OrdenCompraDetalleModels = model.OrdenCompraDetalleModels;
         }

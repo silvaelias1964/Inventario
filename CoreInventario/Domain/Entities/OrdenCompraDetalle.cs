@@ -10,6 +10,7 @@ namespace CoreInventario.Domain.Entities
 {
     public class OrdenCompraDetalle : BaseAuditableEntity
     {
+        public int OrdenCompraId { get; set;}
 
         [Required]
         public int ProductoId { get; set; }

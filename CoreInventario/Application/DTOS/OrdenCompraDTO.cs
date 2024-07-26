@@ -16,6 +16,6 @@ namespace CoreInventario.Application.DTOS
         public int ProveedorId { get; set; }
         public string ProveedorNombre { get; set; }
         public int EstatusId { get; set; }
-        public OdcEstatusEnum Estatus { get; set; }
+        public OdcEstatusEnum Estatus { get; set; }        
     }
 }

@@ -20,13 +20,13 @@ namespace CoreInventario.Application.Models
         public string OccNroOrden { get; set; }
 
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaEmision { get; set; }
+        public DateTime? OccFechaEmision { get; set; }
 
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaOrden { get; set; }
+        public DateTime? OccFechaOrden { get; set; }
 
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
-        public DateTime OccFechaVencimiento { get; set; }
+        public DateTime? OccFechaVencimiento { get; set; }
 
         public int ProveedorId { get; set; }
         public decimal OccIVA { get; set; }

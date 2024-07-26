@@ -11,6 +11,7 @@ namespace CoreInventario.Application.Models
     public class OrdenCompraDetalleModel
     {
         public int Id { get; set; }
+        public int OrdenCompraId { get; set; }
         public int ProductoId { get; set; }
         public int OcdCantidad { get; set; }
         //public int UnidadMedidaId { get; set; }

@@ -172,68 +172,63 @@ namespace Inventario.Controllers
         }
         #endregion
 
-        //#region Ver
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    LlenarListas();
+        #region Ver
+        public async Task<IActionResult> Details(int id)
+        {
+            LlenarListas();
+            OrdenCompraModel ordencompra = await ordenCompraService.GetById(id);
 
-        //    Cliente cliente = await clienteService.GetById(id);
+            OrdenCompraViewModel viewModel = new OrdenCompraViewModel();
+            viewModel.MapToViewModel(ref ordencompra);
 
-        //    ClienteViewModel viewModel = new ClienteViewModel();
-        //    viewModel.MapToViewModel(ref cliente);
+            return View(viewModel);
+        }
+        #endregion
 
+        #region Delete
+        // GET
+        public async Task<IActionResult> Delete(int id)
+        {
+            LlenarListas();
+            OrdenCompraModel ordencompra = await ordenCompraService.GetById(id);
+            OrdenCompraViewModel viewModel = new OrdenCompraViewModel();
+            viewModel.MapToViewModel(ref ordencompra);
+            return View(viewModel);
+        }
 
-        //    return View(viewModel);
-        //}
-        //#endregion
+        // POST: Delete 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(OrdenCompraViewModel viewModel)
+        {
+            try
+            {
+                int id = viewModel.Id;
+                string estado = await ordenCompraService.Delete(id);
 
-        //#region Delete
-        //// GET
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    LlenarListas();
-        //    Cliente cliente = await clienteService.GetById(id);
-        //    ClienteViewModel viewModel = new ClienteViewModel();
-        //    viewModel.MapToViewModel(ref cliente);
-
-        //    return View(viewModel);
-        //}
-
-        //// POST: Delete Alumnos
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Delete(ClienteViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        int id = viewModel.Id;
-        //        string estado = await clienteService.Delete(id);
-
-        //        if (estado == "Ok")
-        //        {
-        //            TempData["mensaje"] = "El registro se ha borrado correctamente";
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Error en el borrado de datos: " + estado);
-        //            LlenarListas();
-        //            return View(viewModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        foreach (var error in ex.Message.Split("*"))
-        //        {
-        //            ModelState.AddModelError(string.Empty, ex.Message);
-        //        }
-        //        LlenarListas();
-        //        return View(viewModel);
-        //    }
-        //}
-
-
-        //#endregion
+                if (estado == "Ok")
+                {
+                    TempData["mensaje"] = "El registro se ha borrado correctamente";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error en el borrado de datos: " + estado);
+                    LlenarListas();
+                    return View(viewModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                foreach (var error in ex.Message.Split("*"))
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                LlenarListas();
+                return View(viewModel);
+            }
+        }
+        #endregion
 
 
         #region Others

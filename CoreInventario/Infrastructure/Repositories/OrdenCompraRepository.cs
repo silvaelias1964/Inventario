@@ -103,6 +103,7 @@ namespace CoreInventario.Infrastructure.Repositories
             var lista = context.OrdenCompraDetalle.Select(c => new OrdenCompraDetalle
             {
                 Id = c.Id,
+                OrdenCompraId= c.OrdenCompraId,
                 ProductoId = c.ProductoId,
                 OcdCantidad = c.OcdCantidad,
                 //UnidadMedidaId = c.UnidadMedidaId,

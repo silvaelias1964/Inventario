@@ -69,6 +69,7 @@ namespace CoreInventario.Application.Services
                 ordencompraModel.OrdenCompraDetalleModels.Add(new OrdenCompraDetalleModel()
                 {
                     Id = item.Id,
+                    OrdenCompraId = item.OrdenCompraId,
                     ProductoId = item.ProductoId,
                     OcdCantidad = item.OcdCantidad,
                     //UnidadMedidaId = item.UnidadMedidaId,
@@ -117,6 +118,7 @@ namespace CoreInventario.Application.Services
                 {
                     var detalles = new OrdenCompraDetalle();
                     detalles.Id = item.Id;
+                    detalles.OrdenCompraId = item.OrdenCompraId;
                     detalles.ProductoId = item.ProductoId;
                     detalles.OcdCantidad = item.OcdCantidad;
                     //detalles.UnidadMedidaId = item.UnidadMedidaId;
@@ -124,6 +126,7 @@ namespace CoreInventario.Application.Services
 
                 }
 
+                entity.OccNroOrden = CodeGenerate();
                 await unitOfWork.OrdenCompra.Add(entity);
                 unitOfWork.OrdenCompra.Save();
                 return "Ok";
@@ -159,6 +162,7 @@ namespace CoreInventario.Application.Services
                 {
                     var detalles = new OrdenCompraDetalle();
                     //detalles.Id = item.Id;
+                    detalles.OrdenCompraId = item.OrdenCompraId;
                     detalles.ProductoId = item.ProductoId;
                     detalles.OcdCantidad = item.OcdCantidad;
                     //detalles.UnidadMedidaId = item.UnidadMedidaId;
@@ -218,7 +222,7 @@ namespace CoreInventario.Application.Services
                 entity.OccEstatus = model.OccEstatus;
                 
 
-                await unitOfWork.OrdenCompra.Update(entity);
+                 await unitOfWork.OrdenCompra.Update(entity);
                 unitOfWork.OrdenCompra.Save();
 
                 return "Ok";
@@ -244,13 +248,14 @@ namespace CoreInventario.Application.Services
             {
 
                 var entity = unitOfWork.OrdenCompra.GetByID(id);
-                var lstdetalles = entity.OrdenCompraDetalles.ToList();
+                unitOfWork.OrdenCompraDetalle.Delete(id);
 
-                foreach (var item in lstdetalles)
-                {
-                    var result = entity.OrdenCompraDetalles.FirstOrDefault(c => c.Id == item.Id);
-                    entity.RemoveOrdenCompraDetalle(result);
-                }
+                //var lstdetalles = entity.OrdenCompraDetalles.ToList();
+                //foreach (var item in lstdetalles)
+                //{
+                //    var result = entity.OrdenCompraDetalles.FirstOrDefault(c => c.Id == item.Id);
+                //    entity.RemoveOrdenCompraDetalle(result);
+                //}
 
                 await unitOfWork.OrdenCompra.Delete(entity);
                 unitOfWork.OrdenCompra.Save();
@@ -265,7 +270,67 @@ namespace CoreInventario.Application.Services
             }
         }
 
-    
+        /// <summary>
+        /// Generación automatica de código ODC
+        /// </summary>
+        /// <returns>string code</returns>
+        private string CodeGenerate()
+        {
+            string codeGen = "";
+            string strTYear = "";
+            string strTMonth = "";
+            string strRYear = "";
+            string strRMonth = "";
+            string fieldBeforeCode = "";
+            string prefix = "";
+            
+            var lastRegister = unitOfWork.OrdenCompra.GetAll().OrderByDescending(c => c.Id).FirstOrDefault();
+            if (lastRegister != null)
+            {
+                fieldBeforeCode = lastRegister.OrdenCompraNro;
+            }
+            else
+            {
+                fieldBeforeCode = "";  // zero records
+            }
+
+            // Date today
+            DateTime toDay;
+            toDay = DateTime.Now;
+            strTYear = toDay.Year.ToString().Trim();
+            strTYear = strTYear.Substring(2, 2);
+            strTMonth = toDay.Month.ToString().Trim();
+            strTMonth = strTMonth.Length == 1 ? "0" + strTMonth : strTMonth;
+            // Date code
+            if (fieldBeforeCode != prefix)
+            {
+                strRYear = fieldBeforeCode.Substring(0, 2);
+                strRMonth = fieldBeforeCode.Substring(2, 2);
+            }
+            else  // zero records
+            {
+                strRYear = "00";
+                strRMonth = "00";
+                fieldBeforeCode = fieldBeforeCode + strRYear + strRMonth + "000";
+            }
+            // code registered
+            string strBeforeCode = fieldBeforeCode.Substring(4);
+            int intBeforecode = 0;  // counter register
+            if (strTYear == strRYear && strTMonth == strRMonth)  // same month, increases from registration
+            {
+                intBeforecode = Convert.ToInt16(strBeforeCode) + 1;
+                strBeforeCode = intBeforecode.ToString("D4");
+                codeGen = prefix + strRYear + strRMonth + strBeforeCode;
+            }
+            else // different month, restart counter
+            {
+                intBeforecode = 1;
+                strBeforeCode = intBeforecode.ToString("D4");
+                codeGen = prefix + strTYear + strTMonth + strBeforeCode;
+            }
+            return codeGen;
+        }
+
 
     }
 }
