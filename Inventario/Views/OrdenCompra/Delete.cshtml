@@ -216,7 +216,7 @@
                                         Descripción
                                     </th>
                                     <th tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 10%; text-align:center;">
-                                        Cant.x Unidad
+                                        Cantidad x Unidad
                                     </th>
                                     <th tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" style="width: 6%; text-align:center;">
                                         Cantidad
@@ -274,22 +274,22 @@
                                                 @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].Id)
                                                 @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].ProductoId)
                                                 @Html.HiddenFor(x => x.OrdenCompraDetalleModels[i].OrdenCompraId)
-                                                <td style="color:black;">
-                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
+                                                <td style="color:black;font-size:small">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCodigo, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;", @size="15" })
                                                 </td>
-                                                <td style="color:black;">
+                                                <td style="color:black;font-size:small">
                                                     @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdNombre, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
                                                 </td>
                                                 <td style="color:black;font-size:small">
                                                     @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdCantPorUnidad, new { @class = "input-lg", @readonly = "readonly",@style="border:transparent;background:transparent;outline:none;" })
                                                 </td>
-                                                <td style="text-align:right;color:black;">
-                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;" })
+                                                <td style="text-align:right;color:black;font-size:small">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].OcdCantidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;", @size="10" })
                                                 </td>
-                                                <td style="text-align:right;color:black;">
-                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;" })
+                                                <td style="text-align:right;color:black;font-size:small">
+                                                    @Html.TextBoxFor(x => x.OrdenCompraDetalleModels[i].Producto.PrdPrecioUnidad, new { @class = "input-lg", @readonly = "readonly", @style="border:transparent;background:transparent;outline:none;text-align:right;", @size="10" })
                                                 </td>
-                                                <td style="text-align:right;color:black;">
+                                                <td style="text-align:right;color:black;font-size:small">
                                                     @importeFmt
                                                 </td>
 
@@ -336,7 +336,7 @@
                                         Descuento (%):
                                     </td>
                                     <td style="color:black;color:black;">
-                                        <input id="Descuento" class="form-control decimales" type="text" style="height:29px; text-align:right;color:black;" onblur="PorcDescuento();">
+                                        <input id="Descuento" class="form-control decimales" type="text" style="height:29px; text-align:right;color:black;" onblur="PorcDescuento();" readonly="">
                                     </td>
                                     <td style="text-align:right;color:red;font-weight: bold;">
                                         <input id="TotDescuento" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly="">
@@ -350,10 +350,10 @@
                                         @nombreImp:
                                     </td>
                                     <td style="text-align:right;color:black;font-weight: bold;">
-                                        <input id="Iva" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" value=@iva onblur="PorcIva();" />
+                                        <input id="Iva" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" value=@iva onblur="PorcIva();" readonly="" />
                                     </td>
                                     <td style="text-align:right;color:black;font-weight: bold;">
-                                        <input id="TotIva" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly />
+                                        <input id="TotIva" class="form-control" type="text" style="height:29px; text-align:right;color:black;font-weight:bold;" readonly="" />
                                     </td>
                                     <td style="text-align:center;color:black;"></td>
                                 </tr>
@@ -365,7 +365,7 @@
                                         Gastos Adicionales:
                                     </td>
                                     <td style="text-align:right;color:black;font-weight: bold;">
-                                        <input id="Gasto" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" onblur="Gastos();" />
+                                        <input id="Gasto" class="form-control decimales" type="text" style="height:29px;text-align:right;color:black;" onblur="Gastos();" readonly="" />
                                     </td>
                                     <td style="color:black;color:black;"></td>
                                 </tr>
@@ -377,7 +377,7 @@
                                         Total Orden:
                                     </td>
                                     <td style="text-align:right;color:blue;font-weight: bold;">
-                                        <input id="TotalODC" class="form-control" type="text" style="height:29px; text-align:right; color:black;font-weight:bold;" readonly />
+                                        <input id="TotalODC" class="form-control" type="text" style="height:29px; text-align:right; color:black;font-weight:bold;" readonly="" />
                                     </td>
                                     <td style="text-align:right;color:black;font-weight: bold;"></td>
                                 </tr>
@@ -419,6 +419,7 @@
 @section Scripts {
     <script src="~/js/Libreria.js"></script>
     <script src="~/js/currency.min.js"></script>
+    <script src="~/js/OrdenCompra.js"></script>
     <script type="text/javascript">
 
         const SINFP = value => currency(value, { symbol: '', decimal: '.', separator: ',' });
@@ -491,247 +492,6 @@
             });
 
         });
-
-        // Buscar proveedor
-        function SearchProv() {
-            var Id;
-            Id = 0;
-            Id = $("#IdProveedor").val();
-
-            if (Id > 0) {
-                $.ajax({
-                    url: '@Url.Action("BuscaProveedor", "OrdenCompra")',
-                    type: 'POST',
-                    data: { id: Id },
-                    success: function (result) {
-
-                        $("#NombreProv").val(result.prvNombreCompania);
-                        $("#DireccionProv").val(result.prvDireccion);
-                        var telef1;
-                        var telef2;
-                        telef1 = (result.prvTelefono1 == null) ? "" : result.prvTelefono1;
-                        telef2 = (result.prvTelefono2 == null) ? "" : result.prvTelefono2;
-                        if (telef1 != "" && telef2 != "") {
-                            $("#TelefonosProv").val(telef1 + ", " + telef2);
-                        } else {
-                            if (telef1 != "" && telef2 == "") {
-                                $("#TelefonosProv").val(telef1);
-                            }
-                        }
-
-                        var correo1;
-                        var correo2;
-                        correo1 = (result.prvCorreoE1 == null) ? "" : result.prvCorreoE1;
-                        correo2 = (result.prvCorreoE2 == null) ? "" : result.prvCorreoE2;
-
-                        if (correo1 != "" && correo2 != "") {
-                            $("#CorreosProv").val(correo1 + ", " + correo2);
-                        } else {
-                            if (correo1 != "" && correo2 == "") {
-                                $("#CorreosProv").val(correo1);
-                            }
-                        }
-
-
-                        $("#DatosProv").show();
-                    },
-                    error: function (result) {
-                    }
-                });
-                direccion = $('#DireccionProv').val();
-                telefonos = $('#TelefonosProv').val();
-                correos = $('#CorreosProv').val();
-
-            }
-        }
-
-        // Abrir/cerrar los datos del proveedor
-        $("#BarraTituloProv").on("click", function () {
-            $("#DatosProv").toggle();
-        });
-
-
-        // Buscar datos adicionales del producto seleccionado
-        function BuscaProducto(opc) {
-            var Id;
-            Id = 0;
-            if (opc == 1) {
-                Id = $("#ProductoId").val();
-            }
-            else {
-                Id = $("#ProductoId_1").val();
-            }
-
-            if (Id == "") {
-                Id = $("#ProductoInicial").val();
-            }
-            $.ajax({
-                url: '@Url.Action("BuscaProducto", "OrdenCompra")',
-                type: 'POST',
-                data: { id: Id },
-                success: function (result) {
-                    if (opc == 1) {
-                        $("#jcodigo").val(result.jcodigo);
-                        $("#jnombre").val(result.jnombre);
-                        $("#jcantPorUnidad").val(result.jcantPorUnidad);
-                        $("#jprecioUnidad").val(result.jprecioUnidad);
-                        $("#jstockMinimo").val(result.jstockMinimo);
-                        $("#jstock").val(result.jstock);
-                    } else {
-                        $("#jcodigo1").val(result.jcodigo);
-                        $("#jnombre1").val(result.jnombre);
-                        $("#jcantPorUnidad1").val(result.jcantPorUnidad);
-                        $("#jprecioUnidad1").val(result.jprecioUnidad);
-                        $("#jstockMinimo1").val(result.jstockMinimo);
-                        $("#jstock1").val(result.jstock);
-                    }
-
-                },
-                error: function (result) {
-                }
-            });
-        }
-
-        // Calculo de descuento, por Porcentaje
-        function PorcDescuento() {
-            var porcImpCtr = $('#Descuento').val();
-            var porcentaje = Number(FormatoCurr(porcImpCtr));
-            var importeCtr = $('#SubImporte').val();
-            var importe = Number(FormatoCurr(importeCtr));
-            var calcImporte = importe - ((porcentaje * 0.01) * importe);
-            $('#TotDescuento').val(calcImporte.toFixed(2));
-            TotalizaODC();
-        }
-
-        // Calculo del IVA, por porcentaje
-        function PorcIva() {
-            var porcIva = $('#Iva').val();
-            var porcentaje = Number(FormatoCurr(porcIva));
-            var descuentoCtr = $('#TotDescuento').val();
-            var descuento = Number(FormatoCurr(descuentoCtr));
-            var calcIva = descuento * (porcentaje * 0.01);
-            $('#TotIva').val(calcIva.toFixed(2));
-            TotalizaODC();
-        }
-
-        // Calculo de gastos
-        function Gastos() {
-            var mtoGasto = $('#Gasto').val();
-            var gasto = Number(FormatoCurr(mtoGasto));
-            if (gasto >= 0) {
-                TotalizaODC();
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        function TotalizaODC() {
-            var subDescuento = $('#TotDescuento').val();
-            var iva = $('#TotIva').val();
-            var gasto = $('#Gasto').val();
-
-            var tDescuento = 0;
-            if (subDescuento != "")
-                tDescuento = Number(subDescuento);
-
-            var tIva = 0;
-            if (iva != 0)
-                tIva = Number(iva);
-
-            var tGasto = 0;
-            if (gasto != 0)
-                tGasto = Number(gasto);
-
-            var total = 0;
-            total = tDescuento + tIva + tGasto;
-
-            var totalFmt = FormatoCurr(total.toString());
-
-            $('#TotalODC').val(totalFmt);
-
-        }
-
-        // Validar cantidad
-        function ValidaCantidad() {
-            var valor = $('#Cantidad').val();
-            var vcantidad = Number(valor);
-            if (vcantidad > 0) {
-                return true;
-            } else {
-                if (vcantidad == 0) {
-                    $('#Cantidad').val(1);
-                } else {
-                    return false;
-                }
-            }
-
-        }
-
-        // Check de misma direccion
-        $('#OccMismaDireccion').on('change', function () {
-            var valor = document.getElementById('OccMismaDireccion').checked;
-            if (valor == false) {
-                document.getElementById('DireccionProv').readOnly = false;
-                document.getElementById('TelefonosProv').readOnly = false;
-                document.getElementById('CorreosProv').readOnly = false;
-                if (confirm("¿ Borra el contenido de la dirección, teléfonos y correos electrónicos ? ")) {
-                    direccion = $('#DireccionProv').val();
-                    telefonos = $('#TelefonosProv').val();
-                    correos = $('#CorreosProv').val();
-
-                    $('#DireccionProv').val('');
-                    $('#TelefonosProv').val('');
-                    $('#CorreosProv').val('');
-
-                }
-
-            } else {
-                document.getElementById('DireccionProv').readOnly = true;
-                document.getElementById('TelefonosProv').readOnly = true;
-                document.getElementById('CorreosProv').readOnly = true;
-                $('#DireccionProv').val(direccion);
-                $('#TelefonosProv').val(telefonos);
-                $('#CorreosProv').val(correos);
-
-            }
-
-        });
-
-        // Seteo de direccion
-        function ChangeMismaDireccion() {
-            var valor = document.getElementById('OccMismaDireccion').checked;
-            if (valor == false) {
-                $.ajax({
-                    success: function () {
-                        $('#DireccionProv').val($("#OccDireccion").val());
-                        $('#TelefonosProv').val($("#OccTelefonos").val());
-                        $('#CorreosProv').val($("#OccCorreosElec").val());
-                        document.getElementById('DireccionProv').readOnly = false;
-                        document.getElementById('TelefonosProv').readOnly = false;
-                        document.getElementById('CorreosProv').readOnly = false;
-                    }
-                });
-            }
-        }
-
-
-        function Cancel() {
-            window.location.href = "/OrdenCompra/Index";
-        }
-
-        // Totalizar los items
-        function TotalizaImp() {
-            var subtotal = 0;
-            var montorow = 0;
-            for (var y = 0; y < document.getElementById("tablaDetalle").children[1].children.length; y++) {
-                montorow = document.getElementById("tablaDetalle").children[1].children[y].children[8].firstChild.textContent;   //document.getElementById("tablaDetalle").children[1].children[y].children[7].innerText;
-                if (montorow !== "") {
-                    subtotal = subtotal + Number(montorow);
-                }
-            }
-            return subtotal;
-        }
 
 
 

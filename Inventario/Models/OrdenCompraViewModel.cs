@@ -30,7 +30,7 @@ namespace Inventario.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
         public string OccFechaOrden { get; set; }
 
-        [Display(Name = "Fecha Vencimiento")]
+        [Display(Name = "Vencimiento")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/mm/yyyy}")]
         public string OccFechaVencimiento { get; set; }
 

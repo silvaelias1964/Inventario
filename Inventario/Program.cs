@@ -31,6 +31,8 @@ var avatarString = builder.Configuration.GetSection("Archivos:Avatar") ?? throw 
 var productoString = builder.Configuration.GetSection("Archivos:Productos") ?? throw new InvalidOperationException("Path string 'Productos' not found.");
 var pathFactor1 = builder.Configuration.GetSection("Url:FactorDolar1") ?? throw new InvalidOperationException("Path string 'FactorDolar1' not found.");
 var pathFactor2 = builder.Configuration.GetSection("Url:FactorDolar2") ?? throw new InvalidOperationException("Path string 'FactorDolar2' not found.");
+var pathArchivos = builder.Configuration.GetSection("Archivos:Archivos") ?? throw new InvalidOperationException("Path string 'Archivos' not found.");
+var pathSalidas = builder.Configuration.GetSection("Salidas:Reportes") ?? throw new InvalidOperationException("Path string 'Salidas' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(                    
@@ -64,7 +66,15 @@ builder.Services.AddControllersWithViews(options =>
 // builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IDataBaseConfiguration>(new DataBaseConfiguration { Connection = connectionString });
-builder.Services.AddCoreInventarioServices(builder.Configuration, connectionString, avatarString.Value.ToString(), productoString.Value.ToString(), pathFactor1.Value.ToString(), pathFactor2.Value.ToString());   // Aqui los servicios de CoreInventario
+builder.Services.AddCoreInventarioServices(
+    builder.Configuration, 
+    connectionString, 
+    avatarString.Value.ToString(), 
+    productoString.Value.ToString(), 
+    pathFactor1.Value.ToString(), 
+    pathFactor2.Value.ToString(), 
+    pathArchivos.Value.ToString(),
+    pathSalidas.Value.ToString());   // Aqui los servicios de CoreInventario
 // Repositorios
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddTransient<IProductoRepository, ProductoRepository>();
@@ -77,6 +87,7 @@ builder.Services.AddTransient<ISalidaRepository, SalidaRepository>();
 builder.Services.AddTransient<IUnidadMedidaRepository, UnidadMedidaRepository>();
 builder.Services.AddTransient<IOrdenCompraRepository, OrdenCompraRepository>();
 builder.Services.AddTransient<IOrdenCompraDetalleRepository, OrdenCompraDetalleRepository>();
+builder.Services.AddTransient<IConfiguracionRepository, ConfiguracionRepository>();
 builder.Services.AddScoped<IParametroRepository, ParametroRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

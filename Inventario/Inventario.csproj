@@ -33,6 +33,7 @@
 
    
   <ItemGroup>
+    <Folder Include="Resources\" />
     <Folder Include="wwwroot\lib\common\" />
     <Folder Include="wwwroot\lib\dialog\" />
     <Folder Include="wwwroot\plantilla\" />
@@ -42,6 +43,7 @@
 
    
   <ItemGroup>
+    <None Include="wwwroot\archivos\reportes\OrdenCompra_0.html" />
     <None Include="wwwroot\js\PasswordAdd.js" />
   </ItemGroup>
 
@@ -50,6 +52,18 @@
    
   <ItemGroup>
     <ProjectReference Include="..\CoreInventario\CoreInventario.csproj" />
+  </ItemGroup>
+
+
+
+   
+  <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\Users\ppere\.nuget\packages\itextsharp\5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\..\..\Users\ppere\.nuget\packages\itextsharp.xmlworker\5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ProjectExtensions>

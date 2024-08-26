@@ -54,6 +54,12 @@
                             <i class="fa fa-trash btn-dark btn-sm"> Borrar</i>
                         </b>
                     </button>
+                    <button type="button" id="Prn" class="btn bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="fa fa-print btn-dark btn-sm"> Imprimir</i>
+                        </b>
+                    </button>
+
                 </div>
 
             </div>
@@ -133,7 +139,7 @@
                 }
             });
 
-            $('#Add, #See, #Del, #Edit').click(function () {
+            $('#Add, #See, #Del, #Edit, #Prn').click(function () {
                 var table = $('#dataTable').DataTable();
                 var row = table.row('.selected');
                 var data = $('#dataTable').dataTable().fnGetData(row);
@@ -162,6 +168,14 @@
                         window.location.href = "/OrdenCompra/Edit/" + data[0];
 
                 }
+                else if (this.id == 'Prn') {
+
+                    if (data[0] == null)
+                        alert('No hay registro seleccionado');
+                    else
+                        window.location.href = "/OrdenCompra/ImprimirODC/" + data[0];
+                }
+
             });
 
         });

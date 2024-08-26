@@ -30,6 +30,7 @@ namespace CoreInventario.Infrastructure.Contexts
         public DbSet<OrdenCompra> OrdenCompra { get; set; }
         public DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
         public DbSet<Parametro> Parametros { get; set; }
+        public DbSet<Configuracion> Configuracion { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -108,6 +109,11 @@ namespace CoreInventario.Infrastructure.Contexts
                 entity.HasIndex(e => e.ProductoId);                
             });
 
+            builder.Entity<Configuracion>(entity =>
+            {
+                entity.HasIndex(e => e.Id).IsUnique();
+            });
+
 
             // Atributos de campo
             builder.Entity<Producto>()
@@ -128,6 +134,10 @@ namespace CoreInventario.Infrastructure.Contexts
 
             builder.Entity<OrdenCompra>()
                 .Property(p => p.OccGasto)
+                .HasColumnType("decimal(18,2)");
+
+            builder.Entity<Configuracion>()
+                .Property(p => p.PorIva)
                 .HasColumnType("decimal(18,2)");
 
 

@@ -152,7 +152,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Seguridad
+                Configuración General
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -164,16 +164,19 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-blue py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
+                        <h6 class="collapse-header">Login:</h6>
                         <a class="collapse-item" href="login.html">Login</a>
 
                         <a class="collapse-item" asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a>
 
                         <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
+
+                        <h6 class="collapse-header">Ambiente:</h6>
+                        <a class="collapse-item" asp-area="" asp-controller="Configuracion" asp-action="Index">Configuración</a>
+                        @* <h6 class="collapse-header">Other Pages:</h6>
                         <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a> *@
                     </div>
                 </div>
             </li>
@@ -438,7 +441,7 @@
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Configurar
+                                    Configurar Perfil
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>

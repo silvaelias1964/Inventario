@@ -127,6 +127,7 @@ namespace CoreInventario.Application.Services
                 }
 
                 entity.OccNroOrden = CodeGenerate();
+                entity.OccEstatus = 1;
                 await unitOfWork.OrdenCompra.Add(entity);
                 unitOfWork.OrdenCompra.Save();
                 return "Ok";

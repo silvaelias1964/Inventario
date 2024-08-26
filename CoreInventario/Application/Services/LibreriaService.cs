@@ -228,8 +228,8 @@ namespace CoreInventario.Application.Services
                 datos.Add(new FactorMonedaModel
                 {
                     currency = "Dolar",
-                    date = jsonObj.datetime.date,
-                    exchange = jsonObj.monitors.usd.price
+                    date = jsonObj.last_update,
+                    exchange = jsonObj.price
                 });
 
 
