@@ -11,6 +11,7 @@ namespace CoreInventario.Application.Interfaces.Services
     public interface IConfiguracionService
     {
         Task<Configuracion> GetById(int id);
+        Configuracion GetAll();
         Task<string> Add(ConfiguracionModel model);
         Task<string> Edit(ConfiguracionModel model);
     }

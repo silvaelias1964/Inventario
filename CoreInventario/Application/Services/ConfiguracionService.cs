@@ -36,6 +36,19 @@ namespace CoreInventario.Application.Services
         }
 
         /// <summary>
+        /// Traer todos los registros, en este caso solo el ultimo
+        /// </summary>
+        /// <returns></returns>
+        public Configuracion GetAll()
+        {
+            Configuracion entities = new Configuracion();
+            entities = unitOfWork.Configuracion.GetAll();
+            return entities;
+        }
+
+
+
+        /// <summary>
         /// Agregar configuracion
         /// </summary>
         /// <param name="model"></param>

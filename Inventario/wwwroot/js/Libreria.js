@@ -332,25 +332,32 @@ $('.decimales').on('input', function () {
     else {
         res = str;
     }
+    if (contarCaracterRepetido(str, ".") <= 1) {
 
-    // decimal
-    var dec = "";
-    if (n > 0) {
-        dec = str.substring(n + 1);
-        if (dec.length > 10) {
-            dec = dec.slice(0, 10);
+        // decimal
+        var dec = "";
+        if (n > 0) {
+            dec = str.substring(n + 1);
+            if (dec.length > 10) {
+                dec = dec.slice(0, 10);
+            }
+        }
+        if (res.length > 18) {
+            res = res.slice(0, 18);
+        }
+        if (n > 0) {
+            this.value = res + str.substring(n, n + 1) + dec;
+        }
+        else {
+            this.value = res;
         }
     }
-    if (res.length > 18) {
-        res = res.slice(0, 18);
-    }
-    if (n > 0) {
-        this.value = res + str.substring(n, n + 1) + dec;
-    }
     else {
+        if (res === "..")
+            res = res.replace("..", ".");
+
         this.value = res;
     }
-
 });
 
 
@@ -488,5 +495,19 @@ function FormateaNum(monto) {
 
     console.log('Euro: ${euro.format(monto)}');
 
+}
+
+// Cuenta los caracteres repetidos
+function contarCaracterRepetido(str, letra) {    
+    let arreglo = []
+    str = str.split('');
+
+    str.map(n => {
+        if (n.toLowerCase() === letra) {
+            arreglo.push(n)
+        }
+
+    })
+    return arreglo.length;
 }
 

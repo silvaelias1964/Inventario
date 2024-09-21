@@ -476,7 +476,7 @@
 
         });
 
-
+        // Generar ODC en PDF
         function Imprimir() { 
             var id;
             id = $("#Id").val();
@@ -520,6 +520,10 @@
                 });
             }
 
+        }
+
+        function Cancel() {
+            window.location.href = "/OrdenCompra/Index";
         }
 
 

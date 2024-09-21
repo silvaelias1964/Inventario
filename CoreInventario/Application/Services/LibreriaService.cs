@@ -335,5 +335,21 @@ namespace CoreInventario.Application.Services
         }
 
 
+        /// <summary>
+        /// Moneda por defecto
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> MonedaDefList()
+        {
+            List<SelectListItem> lstLista = new List<SelectListItem>();
+            var lista = unitOfWork.UnidadMedida.GetAll();
+            lstLista.Add(new SelectListItem() { Text = "Bs - Bolivar", Value = "0" });
+            lstLista.Add(new SelectListItem() { Text = "$  - Dolar", Value = "1" });
+
+            return lstLista;
+        }
+
+
+
     }
 }

@@ -91,5 +91,10 @@ namespace CoreInventario.Application.Interfaces.Services
         /// <returns></returns>
         List<ParametroDTO> ValParametros(string valor);
 
+        /// <summary>
+        /// Moneda por defecto
+        /// </summary>
+        /// <returns></returns>
+        List<SelectListItem> MonedaDefList();
     }
 }

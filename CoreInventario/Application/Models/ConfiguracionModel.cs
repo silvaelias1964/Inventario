@@ -26,10 +26,11 @@ namespace CoreInventario.Application.Models
         public string SmtpContrasena { get; set; }
         public int SmtpPuerto { get; set; }
         public string SmtpSender { get; set; }
-        public string SmtpSenvidor { get; set; }
+        public string SmtpServidor { get; set; }
         public bool SmtpSSL { get; set; }
         public string SmtpNombreUsuario { get; set; }
         public string SmtpContrasenaUsuario { get; set; }
+        public string TipoConfig { get; set; }  // (P)roduc. (D)esarr. (Q)a  (O)tro
 
     }
 }

@@ -11,6 +11,8 @@ namespace CoreInventario.Application.Interfaces.Repositories
     {
         Configuracion GetByID(int id);
 
+        Configuracion GetAll();
+
         Task Add(Configuracion configuracion);
 
         Task Update(Configuracion configuracion);

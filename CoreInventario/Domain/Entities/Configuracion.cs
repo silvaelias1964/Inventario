@@ -37,13 +37,14 @@ namespace CoreInventario.Domain.Entities
         [MaxLength(200)]
         public string SmtpSender { get; set; }
         [MaxLength(200)]
-        public string SmtpSenvidor { get; set; }
+        public string SmtpServidor { get; set; }
         public bool SmtpSSL { get; set;}
         [MaxLength(100)]
         public string SmtpNombreUsuario { get; set; }
         [MaxLength(100)]
         public string SmtpContrasenaUsuario { get; set;}
-
+        [MaxLength(1)]
+        public string TipoConfig { get; set;}  // (P)roduc. (D)esarr. (Q)a  (O)tro
 
     }
 }

@@ -1843,7 +1843,7 @@ pre code {
   color: #6e707e;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #d1d3e2;
+  border: 2px solid #d1d3e2;
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }

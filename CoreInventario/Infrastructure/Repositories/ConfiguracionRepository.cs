@@ -28,6 +28,13 @@ namespace CoreInventario.Infrastructure.Repositories
             return context.Configuracion.Find(id);
         }
 
+        public Configuracion GetAll()
+        {
+            return context.Configuracion.FromSqlRaw($"SELECT * FROM Configuracion")
+                .FirstOrDefault();
+            
+        }
+
         public async Task Add(Configuracion configuracion)
         {
             context.Configuracion.Add(configuracion);

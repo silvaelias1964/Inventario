@@ -1,0 +1,202 @@
+﻿@model Inventario.Models.ConfiguracionViewModel
+
+@{
+    ViewData["Title"] = "Create/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titPantalla = "Configuración";
+    var fncPantalla = "Editar";
+
+    // Set de campos input Date
+    DateTime fechanac = DateTime.Today;
+    var fechaini = fechanac.ToString("yyyy-MM-dd");
+
+
+}
+
+<div class="container-fluid">
+    <form asp-action="Edit">
+        <div class="row">
+            <div class="col-lg-12 barra-titulo-form barra-titulo-form">
+                <b>@titPantalla</b> - @fncPantalla
+                <div class="nav navbar-right" style="padding-right: 10px">
+                    <button type="submit" class="btn btn-danger bg-slate-600 btn-labeled btn-sm mr-2">
+                        <b>
+                            <i class="icon-checkmark3"></i>
+                        </b> Confirmar
+                    </button>
+
+                    <button type="button" onclick="Cancel();" class="btn btn-dark bg-slate-600 btn-labeled btn-sm">
+                        <b>
+                            <i class="icon-exit3"></i>
+                        </b> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div><br/></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="barra-separador-form">
+                        <b style="vertical-align:middle;">Datos del Propietario</b>                    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="Empresa" class="control-label"></label><label style="color:red;"> * </label>
+                            <input asp-for="Empresa" class="form-control" />
+                            <span asp-validation-for="Empresa" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label asp-for="Direccion" class="control-label"></label><label style="color:red;"> * </label>
+                            <textarea asp-for="Direccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Ciudad" class="control-label"></label>
+                            <input asp-for="Ciudad" class="form-control" />
+                            <span asp-validation-for="Ciudad" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Pais" class="control-label"></label>
+                            <input asp-for="Pais" class="form-control" />
+                            <span asp-validation-for="Pais" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label asp-for="Telefono" class="control-label"></label><label style="color:red;"> * </label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Correo" class="control-label"></label><label style="color:red;"> * </label>
+                        <input asp-for="Correo" class="form-control" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label asp-for="Contacto" class="control-label"></label>
+                        <input asp-for="Contacto" class="form-control" />
+                        <span asp-validation-for="Contacto" class="text-danger"></span>
+                    </div>                    
+                </div>
+                <div><br /></div>
+                <div class="row">
+                    <div class="barra-separador-form">
+                        <b style="vertical-align:middle;">Datos Generales</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Iva" class="control-label"></label>
+                            <input asp-for="Iva" class="form-control" />
+                            <span asp-validation-for="Iva" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="PorIva" class="control-label"></label>
+                            <input asp-for="PorIva" class="form-control decimales" type="text" style="text-align:right" />
+                            <span asp-validation-for="PorIva" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="MonedaDefecto" class="control-label"></label>
+                            <select class="form-control custom-select" asp-for="MonedaDefecto" asp-items=@ViewBag.MonedaDefecto></select>
+                            <span asp-validation-for="MonedaDefecto" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div><br /></div>
+                <div class="row">
+                    <div class="barra-separador-form">
+                        <b style="vertical-align:middle;">Datos técnicos Correo SMTP</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SmtpSender" class="control-label"></label>
+                            <input asp-for="SmtpSender" class="form-control" />
+                            <span asp-validation-for="SmtpSender" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="SmtpContrasena" class="control-label"></label>
+                            <input asp-for="SmtpContrasena" class="form-control" />
+                            <span asp-validation-for="SmtpContrasena" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="SmtpServidor" class="control-label"></label>
+                            <input asp-for="SmtpServidor" class="form-control" />
+                            <span asp-validation-for="SmtpServidor" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="SmtpPuerto" class="control-label"></label>
+                            <input asp-for="SmtpPuerto" class="form-control enteros" type="text" style="text-align:right" />
+                            <span asp-validation-for="SmtpPuerto" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/Libreria.js"></script>
+    <script src="~/js/currency.min.js"></script>    
+    <script type="text/javascript">
+
+        const SINFP = value => currency(value, { symbol: '', decimal: '.', separator: ',' });
+
+
+        $(document).ready(function () {
+
+ 
+
+        });
+
+
+        // Actualizar datos al salir
+        window.onsubmit = function () {
+        };
+
+        function Cancel() {
+            window.location.href = "/Home/Index";
+        }
+
+
+
+    </script>
+}
