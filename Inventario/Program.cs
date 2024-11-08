@@ -18,6 +18,7 @@ using CoreInventario.Infrastructure.Repositories;
 using CoreInventario.Infrastructure.Interceptors;
 using CoreInventario;
 using CoreInventario.Transversal.Mappers;
+using Inventario.Modules.WatchDog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -106,6 +107,9 @@ builder.Services.AddControllers();
 
 #endregion
 
+
+
+
 // Sesiones
 builder.Services.AddResponseCaching();
 builder.Services.AddSession(options =>
@@ -115,7 +119,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddMvc();
 builder.Services.AddDistributedMemoryCache();
-
+builder.Services.AddWatchDog(builder.Configuration);
 
 
 var app = builder.Build();

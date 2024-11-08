@@ -7,6 +7,7 @@ using Inventario.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Inventario.Controllers
 {
@@ -40,6 +41,88 @@ namespace Inventario.Controllers
 
             return View(viewModel);
         }
+
+        
+        [HttpPost]
+        public IActionResult Index(ConfiguracionViewModel viewModel) 
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    // Mapping
+                    var model = new ConfiguracionModel();
+                    viewModel.MapToModel(ref model);
+                    var result = configuracionService.Edit(model);
+                    if (result == "Ok")
+                    {
+                        TempData["mensaje"] = "El registro se ha actualizado correctamente";
+                        //return RedirectToAction(nameof(Index));
+                        return Redirect("~/Configuracion/Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, result);
+                        LlenarListas();
+                        //return View(viewModel);
+                        return BadRequest(ModelState);
+                    }
+                }
+                else
+                {
+
+                    ModelState.AddModelError(string.Empty, "Error en los datos, revise..");
+
+                    LlenarListas();
+
+                    return View(viewModel);
+                    //return BadRequest(ModelState);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                foreach (var error in ex.Message.Split("*"))
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+
+                LlenarListas();
+
+                //return View(viewModel);
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult IEdit() //ConfiguracionViewModel viewModel
+        {
+            try
+            {
+                return Redirect("~/Configuracion/Index");
+            }
+            catch (Exception ex)
+            {
+
+                return Redirect("~/Configuracion/Index");
+            }
+        }
+
+
+        //[HttpPost]
+        //public IActionResult Edit(ConfiguracionViewModel viewModel) 
+        //{
+        //    try
+        //    {
+        //        return Redirect("~/Configuracion/Index");
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return Redirect("~/Configuracion/Index");
+        //    }
+        //}
 
         #region Others
 

@@ -11,10 +11,14 @@ namespace CoreInventario.Domain.Entities
     public class Configuracion : BaseAuditableEntity
     {
         // Datos generales de la empresa propietaria del sistema
+        [Required]
         [MaxLength(100)]
         public string Empresa {  get; set; }
+        
+        [Required]
         [MaxLength(250)]
         public string Direccion { get; set; }
+
         [MaxLength(50)]
         public string Ciudad { get; set;}
         [MaxLength(50)]

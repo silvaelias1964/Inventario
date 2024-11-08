@@ -1,7 +1,8 @@
 ﻿@model Inventario.Models.ConfiguracionViewModel
+@using Microsoft.AspNetCore.Mvc.Localization;
 
 @{
-    ViewData["Title"] = "Create/Edit";
+    //ViewData["Title"] = "Create/Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var titPantalla = "Configuración";
@@ -10,12 +11,22 @@
     // Set de campos input Date
     DateTime fechanac = DateTime.Today;
     var fechaini = fechanac.ToString("yyyy-MM-dd");
+    //Model.Id = 0;
 
-
+}
+<!-- Mostrar mensaje en el index si se grabó correctamente -->
+@if (TempData["mensaje"] != null)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        @TempData["mensaje"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
 <div class="container-fluid">
-    <form asp-action="Edit">
+    <form id="settingsForm" asp-action="Index" method="post">
         <div class="row">
             <div class="col-lg-12 barra-titulo-form barra-titulo-form">
                 <b>@titPantalla</b> - @fncPantalla
@@ -37,7 +48,10 @@
         <div><br/></div>
         <div class="row">
             <div class="col-lg-12">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>                
+                @(Html.HiddenFor(c => c.Id))
+                @(Html.HiddenFor(c => c.TipoConfig))
+                
                 <div class="row">
                     <div class="barra-separador-form">
                         <b style="vertical-align:middle;">Datos del Propietario</b>                    
@@ -47,6 +61,7 @@
                     <div class="col-md-10">
                         <div class="form-group">
                             <label asp-for="Empresa" class="control-label"></label><label style="color:red;"> * </label>
+                            <span asp-for="Empresa" class="text-danger"></span>
                             <input asp-for="Empresa" class="form-control" />
                             <span asp-validation-for="Empresa" class="text-danger"></span>
                         </div>
@@ -56,12 +71,13 @@
                     <div class="col-md-10">
                         <div class="form-group">
                             <label asp-for="Direccion" class="control-label"></label><label style="color:red;"> * </label>
-                            <textarea asp-for="Direccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
+                            <span asp-for="Empresa" class="text-danger"></span>
+                            <textarea asp-for="Direccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea> 
                             <span asp-validation-for="Direccion" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row"> <!--Ciudad-->                    
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Ciudad" class="control-label"></label>
@@ -75,21 +91,21 @@
                             <input asp-for="Pais" class="form-control" />
                             <span asp-validation-for="Pais" class="text-danger"></span>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
-                <div class="row">
+                <div class="row"> <!--Telefono-->                    
                     <div class="col-md-6">
-                        <label asp-for="Telefono" class="control-label"></label><label style="color:red;"> * </label>
+                        <label asp-for="Telefono" class="control-label"></label>
                         <input asp-for="Telefono" class="form-control" />
                         <span asp-validation-for="Telefono" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Correo" class="control-label"></label><label style="color:red;"> * </label>
+                        <label asp-for="Correo" class="control-label"></label>
                         <input asp-for="Correo" class="form-control" />
                         <span asp-validation-for="Correo" class="text-danger"></span>
-                    </div>
+                    </div>                    
                 </div>
-                <div class="row">
+                <div class="row"> <!--Contacto-->
                     <div class="col-md-10">
                         <label asp-for="Contacto" class="control-label"></label>
                         <input asp-for="Contacto" class="form-control" />
@@ -102,7 +118,8 @@
                         <b style="vertical-align:middle;">Datos Generales</b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row"> <!-- Iva/PorIva/MonedaDefecto -->
+
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="Iva" class="control-label"></label>
@@ -124,6 +141,7 @@
                             <span asp-validation-for="MonedaDefecto" class="text-danger"></span>
                         </div>
                     </div>
+
                 </div>
 
                 <div><br /></div>
@@ -132,7 +150,7 @@
                         <b style="vertical-align:middle;">Datos técnicos Correo SMTP</b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row"> <!-- SmtpSender/SmtpContrasena -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="SmtpSender" class="control-label"></label>
@@ -141,35 +159,56 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="form-group">
+                        <div class="form-group has-feedback has-feedback-left">
                             <label asp-for="SmtpContrasena" class="control-label"></label>
-                            <input asp-for="SmtpContrasena" class="form-control" />
+                            <span asp-for="SmtpContrasena" class="text-danger"></span>
+                            <input asp-for="SmtpContrasena" class="form-control" onclick="clearPassword()" />
                             <span asp-validation-for="SmtpContrasena" class="text-danger"></span>
+                            <div class="form-control-feedback">
+                                <i class="icon-user-lock text-muted"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row"> <!-- SmtpServidor/SmtpPuerto -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="SmtpServidor" class="control-label"></label>
                             <input asp-for="SmtpServidor" class="form-control" />
                             <span asp-validation-for="SmtpServidor" class="text-danger"></span>
+
                         </div>
                     </div>
+                    
                     <div class="col-md-2">
                         <div class="form-group">
                             <label asp-for="SmtpPuerto" class="control-label"></label>
-                            <input asp-for="SmtpPuerto" class="form-control enteros" type="text" style="text-align:right" />
+                            <input asp-for="SmtpPuerto" class="form-control enteros" type="text" style="text-align:right" />                            
                             <span asp-validation-for="SmtpPuerto" class="text-danger"></span>
                         </div>
                     </div>
+                    
                 </div>
 
             </div>
         </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <!-- 
+        <input asp-for="SmtpSSL" class="form-control"  value="false"/>
+                <span asp-validation-for="SmtpSSL" class="text-danger"></span> 
+                <input asp-for="SmtpSSL" type="checkbox" class="switchery-primary" style="margin-top:1px">
+                <input asp-for="SmtpNombreUsuario" class="form-control" value="Ninguno" />
+                <span asp-validation-for="SmtpNombreUsuario" class="text-danger"></span>
 
+                <input asp-for="SmtpContrasenaUsuario" class="form-control" value="Ninguno" />
+                <span asp-validation-for="SmtpContrasenaUsuario" class="text-danger"></span>
 
+                <input asp-for="TipoConfig" class="form-control" value="D" />
+                        <span asp-validation-for="TipoConfig" class="text-danger"></span> -->
+            </div>
+        </div>
     </form>
 </div>
 
@@ -181,16 +220,83 @@
         const SINFP = value => currency(value, { symbol: '', decimal: '.', separator: ',' });
 
 
-        $(document).ready(function () {
+        function fieldValidate() {
+            if ($("#Empresa").val() != "" && $("#Direccion").val() != "" && $("#SmtpContrasena").val() != "" && $("#SmtpSender").val() != "") {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
- 
+        $(document).ready(function () {
+            $('#SmtpContrasena').attr('type', 'password');
+            //'/Configuracion/Index',
+            $('#settingsForm').submit(function (e) {
+                var formData = new FormData(this);
+                if (fieldValidate()) {
+                    //  url: '/Configuracion/Index/',
+                    $.ajax({
+                        url: '@Url.Action("Index", "Configuracion")',
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            // here in result you will get your data
+                            if (result.success) {
+                                new PNotify({
+                                   title: 'Operación Exitosa',
+                                   text: 'Configuración actualizada.',
+                                   addclass: 'bg-success'
+                                });
+                            } else {
+                                new PNotify({
+                                   title: 'Operación Fallida',
+                                   text: 'Por favor verifique los datos.',
+                                   addclass: 'bg-danger'
+                                });
+                            }
+
+                        },
+                        error: function (result) {
+                            //if (result.status == "200") {
+                            //    new PNotify({
+                            //       title: 'Operación Exitosa',
+                            //       text: 'Configuración actualizada.',
+                            //       addclass: 'bg-success'
+                            //    });
+                            //} else {
+                                //if (result.responseJSON[""] !== undefined) {
+                                    //showFailedDialog("Error", result.responseJSON[""]);
+                                    //else if (result.responseJSON.DaysOfAntiquitiesAMC !== undefined) {
+                                    //    showFailedDialog("Error", result.responseJSON.DaysOfAntiquitiesAMC[0]);
+                                    //}
+                                    //else if (result.responseJSON.CountryId !== undefined) {
+                                    //    showFailedDialog("Error", result.responseJSON.CountryId[0]);
+                                //}
+                                //else {
+                                    showFailedDialog("Error", "Operación fallida");
+                                //}
+                            //}
+                        }
+                    });
+                    e.preventDefault();
+                }
+            });
 
         });
 
+        function clearPassword() {
+            $('#SmtpContrasena').val("");
+            $('#Password').val("");
+        }
+
 
         // Actualizar datos al salir
-        window.onsubmit = function () {
-        };
+        //window.onsubmit = function () {
+        //};
 
         function Cancel() {
             window.location.href = "/Home/Index";

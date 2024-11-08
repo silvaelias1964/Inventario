@@ -214,35 +214,48 @@ namespace CoreInventario.Application.Services
             _httpreq = new HttpRequestMessage();
             _httpreq.Method = HttpMethod.Get;
             _httpreq.RequestUri = new Uri(_httpclie.BaseAddress.AbsoluteUri + querystring + serialapi);
-            HttpResponseMessage _httpresp = _httpclie.SendAsync(_httpreq).Result;
-            if (_httpresp.StatusCode == HttpStatusCode.OK)
+
+            try
             {
-                string jsonstring = _httpresp.Content.ReadAsStringAsync().Result;
-
-                dynamic jsonObj = JObject.Parse(jsonstring);
-
-                //List<FactorMonedaModel> datos = JsonConvert.DeserializeObject<List<FactorMonedaModel>>(jsonstring);
-                //FactMoneda datos = JsonConvert.DeserializeObject<FactMoneda>(jsonstring);
-
-                var datos=new List<FactorMonedaModel>();
-                datos.Add(new FactorMonedaModel
+                HttpResponseMessage _httpresp = _httpclie.SendAsync(_httpreq).Result;
+                if (_httpresp.StatusCode == HttpStatusCode.OK)
                 {
-                    currency = "Dolar",
-                    date = jsonObj.last_update,
-                    exchange = jsonObj.price
-                });
+                    string jsonstring = _httpresp.Content.ReadAsStringAsync().Result;
+
+                    dynamic jsonObj = JObject.Parse(jsonstring);
+
+                    //List<FactorMonedaModel> datos = JsonConvert.DeserializeObject<List<FactorMonedaModel>>(jsonstring);
+                    //FactMoneda datos = JsonConvert.DeserializeObject<FactMoneda>(jsonstring);
+
+                    var datos = new List<FactorMonedaModel>();
+                    datos.Add(new FactorMonedaModel
+                    {
+                        currency = "Dolar",
+                        date = jsonObj.last_update,
+                        exchange = jsonObj.price
+                    });
 
 
-                return datos[0];
+                    return datos[0];
 
+                }
+                else
+                {
+
+                    List<FactorMonedaModel> datos = new List<FactorMonedaModel>();
+                    datos.Add(new FactorMonedaModel() { currency = "", date = new DateTime().ToShortDateString(), exchange = 0 });
+                    return datos[0];
+                }
             }
-            else
+            catch (Exception ex)
             {
 
                 List<FactorMonedaModel> datos = new List<FactorMonedaModel>();
                 datos.Add(new FactorMonedaModel() { currency = "", date = new DateTime().ToShortDateString(), exchange = 0 });
                 return datos[0];
             }
+
+
         }
 
         /// <summary>

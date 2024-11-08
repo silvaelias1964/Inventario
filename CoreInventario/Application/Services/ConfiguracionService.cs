@@ -75,13 +75,14 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<string> Edit(ConfiguracionModel model)
+        public string Edit(ConfiguracionModel model)
         {
+
             try
             {
                 var entity = mapper.Map<Configuracion>(model); //Mapping con mapper               
 
-                await unitOfWork.Configuracion.Update(entity);
+                unitOfWork.Configuracion.Update(entity);
                 unitOfWork.Configuracion.Save();
                 return "Ok";
             }

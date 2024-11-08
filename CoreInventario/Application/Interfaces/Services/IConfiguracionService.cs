@@ -13,6 +13,6 @@ namespace CoreInventario.Application.Interfaces.Services
         Task<Configuracion> GetById(int id);
         Configuracion GetAll();
         Task<string> Add(ConfiguracionModel model);
-        Task<string> Edit(ConfiguracionModel model);
+        string Edit(ConfiguracionModel model);
     }
 }

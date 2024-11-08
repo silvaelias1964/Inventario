@@ -2,6 +2,7 @@
 using CoreInventario.Application.Services;
 using CoreInventario.Domain.Helpers;
 using CoreInventario.Transversal.Commons;
+using CoreInventario.Transversal.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace CoreInventario
 {
@@ -52,6 +54,8 @@ namespace CoreInventario
             services.AddSingleton<FileSanity>();
             services.AddSingleton<UploadFile>();
             services.AddSingleton<DeleteFile>();
+            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+
             return services;
         }
     }

@@ -118,7 +118,7 @@ namespace Inventario.Controllers
                     var model = new ClienteModel();
                     viewModel.MapToModel(ref model);
                     var result = await clienteService.Edit(model);
-                    if (result == "Ok")
+                    if(result == "Ok")
                     {
                         TempData["mensaje"] = "El registro se ha actualizado correctamente";
                         return RedirectToAction(nameof(Index));
