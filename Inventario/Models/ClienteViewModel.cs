@@ -52,6 +52,9 @@ namespace Inventario.Models
         [Display(Name = "Estatus")]
         public int CliEstatus { get; set; }
 
+        // Usuario en sesión
+        public string? IdUsuarioSesion { get; set; }
+        public string? UsuarioSesion { get; set; }        
 
 
         /// <summary>
@@ -71,6 +74,8 @@ namespace Inventario.Models
             model.CliTelefono2 = CliTelefono2;
             model.CliCorreoE = CliCorreoE;
             model.CliEstatus = CliEstatus;
+            model.IdUsuarioSesion = IdUsuarioSesion;
+            model.UsuarioSesion = UsuarioSesion;
 
         }
 

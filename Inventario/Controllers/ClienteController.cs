@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
@@ -6,6 +7,7 @@ using Inventario.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Inventario.Controllers
 {
@@ -31,7 +33,7 @@ namespace Inventario.Controllers
         // Listado inicial
         public async Task<IActionResult> Index()
         {
-            var entities = await clienteService.GetAll();
+            var entities = await clienteService.GetAll();            
             return View(entities);
         }
 
@@ -54,6 +56,11 @@ namespace Inventario.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    // Sesion
+                    var usuarioLog = UsuarioLog();
+                    viewModel.IdUsuarioSesion = usuarioLog.IdUsuario;
+                    viewModel.UsuarioSesion = usuarioLog.Usuario;
+
                     // Mapping
                     var model = new ClienteModel();
                     viewModel.MapToModel(ref model);
@@ -96,10 +103,8 @@ namespace Inventario.Controllers
         {
             LlenarListas();
             Cliente cliente = await clienteService.GetById(id);
-
             ClienteViewModel viewModel = new ClienteViewModel();
             viewModel.MapToViewModel(ref cliente);
-
             return View(viewModel);
 
         }
@@ -113,6 +118,10 @@ namespace Inventario.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Sesion
+                    var usuarioLog = UsuarioLog();
+                    viewModel.IdUsuarioSesion = usuarioLog.IdUsuario;
+                    viewModel.UsuarioSesion = usuarioLog.Usuario;
 
                     // Mapping
                     var model = new ClienteModel();
@@ -188,8 +197,13 @@ namespace Inventario.Controllers
         {
             try
             {
+                // Sesion
+                var usuarioLog = UsuarioLog();
+                viewModel.IdUsuarioSesion = usuarioLog.IdUsuario;
+                viewModel.UsuarioSesion = usuarioLog.Usuario;
+
                 int id = viewModel.Id;
-                string estado = await clienteService.Delete(id);
+                string estado = await clienteService.Delete(id, usuarioLog);
 
                 if (estado == "Ok")
                 {
@@ -236,6 +250,34 @@ namespace Inventario.Controllers
             ViewBag.TipoCliente = lstTipoClie;
         }
 
+        /// <summary>
+        /// Extraer usuario en sesión, para guardar log
+        /// </summary>
+        /// <returns>UsuarioSesionDTO</returns>
+        public UsuarioSesionDTO UsuarioLog()
+        {
+            ClaimsPrincipal claimuser = HttpContext.User;
+            UsuarioSesionDTO usuario = new UsuarioSesionDTO();
+            if (claimuser.Identity.IsAuthenticated)
+            {
+                foreach (var claim in claimuser.Claims)
+                {
+                    if (usuario.Usuario == null)
+                    {                        
+                        usuario.Usuario = claim.Value.ToString();
+                    }
+                    else if (usuario.Foto == null)
+                    {                     
+                        usuario.Foto = claim.Value.ToString();
+                    }
+                    else
+                    {
+                        usuario.IdUsuario = claim.Value.ToString();
+                    }
+                }
+            }
+            return usuario;
+        }
 
         #endregion
 

@@ -49,5 +49,9 @@ namespace CoreInventario.Application.Models
         //public int? PrdId { get; set; }
 
         public virtual Producto Producto { get; set; }
+
+        // Usuario en sesión
+        public string? IdUsuarioSesion { get; set; }
+        public string? UsuarioSesion { get; set; }
     }
 }

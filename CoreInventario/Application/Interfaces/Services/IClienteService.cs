@@ -1,4 +1,5 @@
-﻿using CoreInventario.Application.Models;
+﻿using CoreInventario.Application.DTOS;
+using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using System;
 using System.Collections;
@@ -19,6 +20,6 @@ namespace CoreInventario.Application.Interfaces.Services
 
         Task<string> Edit(ClienteModel model);
 
-        Task<string> Delete(int id);
+        Task<string> Delete(int id, UsuarioSesionDTO usuarioLog);
     }
 }

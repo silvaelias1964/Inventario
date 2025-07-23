@@ -12,7 +12,7 @@ namespace Inventario.Modules.WatchDog
                 opt.SetExternalDbConnString = configuration.GetConnectionString("DefaultConnection");
                 opt.DbDriverOption = WatchDogDbDriverEnum.MSSQL;
                 opt.IsAutoClear = true;
-                opt.ClearTimeSchedule = WatchDogAutoClearScheduleEnum.Monthly;
+                opt.ClearTimeSchedule = WatchDogAutoClearScheduleEnum.Monthly;                
             });
 
             return services;

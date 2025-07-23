@@ -20,5 +20,10 @@ namespace CoreInventario.Application.Models
         public string CliTelefono2 { get; set; }
         public string CliCorreoE { get; set; }
         public int CliEstatus { get; set; }
+
+        // Usuario en sesión
+        public string IdUsuarioSesion { get; set; }
+        public string UsuarioSesion { get; set; }
+
     }
 }

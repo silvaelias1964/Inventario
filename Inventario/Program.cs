@@ -108,8 +108,6 @@ builder.Services.AddControllers();
 #endregion
 
 
-
-
 // Sesiones
 builder.Services.AddResponseCaching();
 builder.Services.AddSession(options =>

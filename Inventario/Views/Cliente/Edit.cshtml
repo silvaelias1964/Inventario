@@ -1,4 +1,5 @@
 ﻿@model Inventario.Models.ClienteViewModel
+@using CoreInventario.Application.DTOS;
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,6 +7,9 @@
 
     var titPantalla = "Cliente";
     var fncPantalla = "Editar";
+
+
+    
 
 }
 
@@ -31,115 +35,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12">
-          
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label asp-for="CliTipo" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="CliTipo" asp-items=@ViewBag.TipoCliente></select>
-                            <span asp-validation-for="CliTipo" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label asp-for="CliCodigo" class="control-label"></label>
-                            <input asp-for="CliCodigo" class="form-control" />
-                            <span asp-validation-for="CliCodigo" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label asp-for="Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" readonly />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            <label asp-for="CliRazonSocial" class="control-label"></label>
-                            <input asp-for="CliRazonSocial" class="form-control" />
-                            <span asp-validation-for="CliRazonSocial" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label asp-for="CliContacto" class="control-label"></label>
-                            <input asp-for="CliContacto" class="form-control" />
-                            <span asp-validation-for="CliContacto" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label asp-for="CliTitulo" class="control-label"></label>
-                            <input asp-for="CliTitulo" class="form-control" />
-                            <span asp-validation-for="CliTitulo" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="linea"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="form-group">
-                            <label asp-for="CliDireccion" class="control-label"></label>
-                            <textarea asp-for="CliDireccion" class="form-control" type="text" rows="3" cols="100" style="overflow:auto;resize:none;text-wrap:normal;scrollbar-base-color:ActiveBorder;overflow-y:scroll;height:auto"></textarea>
-                            <span asp-validation-for="CliDireccion" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="linea"></div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="CliTelefono1" class="control-label"></label>
-                            <input asp-for="CliTelefono1" class="form-control" />
-                            <span asp-validation-for="CliTelefono1" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="CliTelefono2" class="control-label"></label>
-                            <input asp-for="CliTelefono2" class="form-control" />
-                            <span asp-validation-for="CliTelefono2" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label asp-for="CliCorreoE" class="control-label"></label>
-                            <input asp-for="CliCorreoE" class="form-control" />
-                            <span asp-validation-for="CliCorreoE" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label asp-for="CliEstatus" class="control-label"></label>
-                            <select class="form-control custom-select" asp-for="CliEstatus" asp-items=@ViewBag.Estatus></select>
-                            <span asp-validation-for="CliEstatus" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                           
-            </div>
-        </div>
+        @await Html.PartialAsync("_cliente", Model)
+        
     </form>
 </div>
 

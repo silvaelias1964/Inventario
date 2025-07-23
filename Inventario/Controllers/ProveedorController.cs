@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
@@ -6,6 +7,7 @@ using Inventario.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace Inventario.Controllers
 {
@@ -56,6 +58,13 @@ namespace Inventario.Controllers
                     // Mapping
                     var model = new ProveedorModel();
                     viewModel.MapToModel(ref model);
+
+                    // Sesion
+                    ClaimsPrincipal claimuser = HttpContext.User;
+                    var usuarioLog = libreriaService.UsuarioLog(claimuser);
+                    model.IdUsuarioSesion = usuarioLog.IdUsuario;
+                    model.UsuarioSesion = usuarioLog.Usuario;
+
                     var result = await proveedorService.Add(model);
                     if (result == "Ok")
                     {
@@ -112,10 +121,16 @@ namespace Inventario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     // Mapping
                     var model = new ProveedorModel();
                     viewModel.MapToModel(ref model);
+
+                    // Sesion
+                    ClaimsPrincipal claimuser = HttpContext.User;
+                    var usuarioLog = libreriaService.UsuarioLog(claimuser);
+                    model.IdUsuarioSesion = usuarioLog.IdUsuario;
+                    model.UsuarioSesion = usuarioLog.Usuario;
+
                     var result = await proveedorService.Edit(model);
                     if (result == "Ok")
                     {
@@ -188,8 +203,12 @@ namespace Inventario.Controllers
         {
             try
             {
+                // Sesion
+                ClaimsPrincipal claimuser = HttpContext.User;
+                var usuarioLog = libreriaService.UsuarioLog(claimuser);
+
                 int id = viewModel.Id;
-                string estado = await proveedorService.Delete(id);
+                string estado = await proveedorService.Delete(id, usuarioLog);
 
                 if (estado == "Ok")
                 {
@@ -232,7 +251,37 @@ namespace Inventario.Controllers
             ViewBag.Estatus = lstEstatusProv;
 
         }
-    
+
+        /// <summary>
+        /// Extraer usuario en sesión, para guardar log
+        /// </summary>
+        /// <returns>UsuarioSesionDTO</returns>
+        //public UsuarioSesionDTO UsuarioLog()
+        //{
+        //    ClaimsPrincipal claimuser = HttpContext.User;
+        //    UsuarioSesionDTO usuario = new UsuarioSesionDTO();
+        //    if (claimuser.Identity.IsAuthenticated)
+        //    {
+        //        foreach (var claim in claimuser.Claims)
+        //        {
+        //            if (usuario.Usuario == null)
+        //            {
+        //                usuario.Usuario = claim.Value.ToString();
+        //            }
+        //            else if (usuario.Foto == null)
+        //            {
+        //                usuario.Foto = claim.Value.ToString();
+        //            }
+        //            else
+        //            {
+        //                usuario.IdUsuario = claim.Value.ToString();
+        //            }
+        //        }
+        //    }
+        //    return usuario;
+        //}
+
+
         #endregion
 
     }

@@ -18,6 +18,8 @@ using CoreInventario.Application.Models;
 using CoreInventario.Transversal.Commons;
 using Newtonsoft.Json.Linq;
 using CoreInventario.Application.DTOS;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace CoreInventario.Application.Services
 {
@@ -360,6 +362,36 @@ namespace CoreInventario.Application.Services
             lstLista.Add(new SelectListItem() { Text = "$  - Dolar", Value = "1" });
 
             return lstLista;
+        }
+
+
+        /// <summary>
+        /// Extraer usuario en sesión, para guardar log
+        /// </summary>
+        /// <returns>UsuarioSesionDTO</returns>
+        public UsuarioSesionDTO UsuarioLog(ClaimsPrincipal claimuser)
+        {
+            //ClaimsPrincipal claimuser = HttpContext.User;
+            UsuarioSesionDTO usuario = new UsuarioSesionDTO();
+            if (claimuser.Identity.IsAuthenticated)
+            {
+                foreach (var claim in claimuser.Claims)
+                {
+                    if (usuario.Usuario == null)
+                    {
+                        usuario.Usuario = claim.Value.ToString();
+                    }
+                    else if (usuario.Foto == null)
+                    {
+                        usuario.Foto = claim.Value.ToString();
+                    }
+                    else
+                    {
+                        usuario.IdUsuario = claim.Value.ToString();
+                    }
+                }
+            }
+            return usuario;
         }
 
 

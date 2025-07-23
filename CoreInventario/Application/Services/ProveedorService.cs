@@ -5,6 +5,7 @@ using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
 using CoreInventario.Domain.Entities;
 using CoreInventario.Infrastructure.Repositories;
+using CoreInventario.Transversal.Commons;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections;
@@ -22,12 +23,14 @@ namespace CoreInventario.Application.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly IAppLogger<ProveedorService> appLogger;
 
         // Constructor
-        public ProveedorService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProveedorService(IUnitOfWork unitOfWork, IMapper mapper, IAppLogger<ProveedorService> appLogger)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.appLogger = appLogger;
         }
 
         /// <summary>
@@ -64,6 +67,9 @@ namespace CoreInventario.Application.Services
                 var entity = mapper.Map<Proveedor>(model); //Mapping con mapper
                 await unitOfWork.Proveedor.Add(entity);
                 unitOfWork.Proveedor.Save();
+                // Log                
+                appLogger.LogInformation($"[{model.IdUsuarioSesion + " - " + model.UsuarioSesion}], Creación de Proveedor: {entity.Id.ToString()}");
+
                 return "Ok";
             }
             catch (Exception ex)
@@ -87,6 +93,9 @@ namespace CoreInventario.Application.Services
                 
                 await unitOfWork.Proveedor.Update(entity);
                 unitOfWork.Proveedor.Save();
+                // Log
+                appLogger.LogInformation($"[{model.IdUsuarioSesion + " - " + model.UsuarioSesion}], Edición de Proveedor: {entity.Id.ToString()}");
+
                 return "Ok";
             }
             catch (Exception ex)
@@ -104,12 +113,14 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<string> Delete(int id)
+        public async Task<string> Delete(int id, UsuarioSesionDTO usuarioLog)
         {
             try
             {
                 await unitOfWork.Proveedor.Delete(id);
                 unitOfWork.Proveedor.Save();
+                // Log
+                appLogger.LogInformation($"[{usuarioLog.IdUsuario + " - " + usuarioLog.Usuario}],Eliminación de Proveedor: {id.ToString()}");
 
                 return "Ok";
             }

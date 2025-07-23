@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -96,5 +97,11 @@ namespace CoreInventario.Application.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         List<SelectListItem> MonedaDefList();
+
+        /// <summary>
+        /// Extraer usuario en sesión, para guardar log
+        /// </summary>
+        /// <returns>UsuarioSesionDTO</returns>
+        UsuarioSesionDTO UsuarioLog(ClaimsPrincipal claimuser);
     }
 }

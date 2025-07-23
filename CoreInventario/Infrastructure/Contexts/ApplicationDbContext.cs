@@ -64,15 +64,7 @@ namespace CoreInventario.Infrastructure.Contexts
 
             });
 
-            builder.Entity<OrdenCompra>(entity =>
-            {
-                //entity.HasOne(e => e.UnidadMedida)                
-                //entity.WithMany(c => c.OrdenCompraDetalle).HasForeignKey("UnidadMedidaId").OnDelete(DeleteBehavior.NoAction);
-
-                entity.HasIndex(e => e.Id).IsUnique();
-                entity.HasMany(e => e.OrdenCompraDetalles).WithOne(e=>e.OrdenCompra).HasForeignKey("OrdenCompraId").OnDelete(DeleteBehavior.NoAction);  
-            });
-
+            
             builder.Entity<Entrada>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();                
@@ -95,11 +87,22 @@ namespace CoreInventario.Infrastructure.Contexts
                 entity.HasIndex(e => e.Clave).IsUnique();
             });
 
+            //builder.Entity<OrdenCompra>(entity =>
+            //{
+            //    entity.HasIndex(e => e.Id).IsUnique();
+            //    entity.HasMany(e => e.OrdenCompraDetalles)
+            //        .WithOne(e => e.OrdenCompra)
+            //        .HasForeignKey("OrdenCompraId")
+            //        .OnDelete(DeleteBehavior.NoAction);
+            //});
+
+
             builder.Entity<OrdenCompra>(entity =>
             {
                 entity.HasIndex(e => e.Id).IsUnique();
                 entity.HasMany(e => e.OrdenCompraDetalles)
-                    .WithOne(e => e.OrdenCompra).HasForeignKey("OrdenCompraId")
+                    .WithOne(e => e.OrdenCompra)
+                    .HasForeignKey("OrdenCompraId")
                     .OnDelete(DeleteBehavior.ClientCascade);
             });
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreInventario.Application.DTOS;
 using CoreInventario.Application.Interfaces.Repositories;
 using CoreInventario.Application.Interfaces.Services;
 using CoreInventario.Application.Models;
@@ -10,6 +11,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using CoreInventario.Transversal.Logins;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace CoreInventario.Application.Services
 {
@@ -58,10 +63,11 @@ namespace CoreInventario.Application.Services
             try
             {
 
-                var entity = mapper.Map<Cliente>(model); //Mapping con mapper
+                var entity = mapper.Map<Cliente>(model); //Mapping con mapper                
                 await unitOfWork.Cliente.Add(entity);
                 unitOfWork.Cliente.Save();
-                appLogger.LogInformation("Creación de Cliente exitosa..");
+                entity.CreadoPor = model.IdUsuarioSesion + " - " + model.UsuarioSesion;
+                appLogger.LogInformation($"[{entity.CreadoPor}], Creación de Cliente: {entity.Id.ToString()}", entity.CreadoPor);                
                 return "Ok";
             }
             catch (Exception ex)
@@ -81,12 +87,13 @@ namespace CoreInventario.Application.Services
         public async Task<string> Edit(ClienteModel model)
         {
             try
-            {
-                var entity = mapper.Map<Cliente>(model); //Mapping con mapper               
+            {                
 
+                var entity = mapper.Map<Cliente>(model); //Mapping con mapper                               
                 await unitOfWork.Cliente.Update(entity);
                 unitOfWork.Cliente.Save();
-                appLogger.LogInformation("Modificación de Cliente exitosa..");
+                entity.ActualizadoPor = model.IdUsuarioSesion + " - " + model.UsuarioSesion;
+                appLogger.LogInformation($"[{entity.ActualizadoPor}],Modificación de Cliente: {entity.Id.ToString()}", entity.ActualizadoPor);
                 return "Ok";
             }
             catch (Exception ex)
@@ -105,13 +112,13 @@ namespace CoreInventario.Application.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<string> Delete(int id)
+        public async Task<string> Delete(int id, UsuarioSesionDTO usuarioLog)
         {
             try
-            {
+            {                
                 await unitOfWork.Cliente.Delete(id);
                 unitOfWork.Cliente.Save();
-                appLogger.LogInformation("Eliminación de Cliente exitoso..");
+                appLogger.LogInformation($"[{usuarioLog.IdUsuario + " - " + usuarioLog.Usuario}],Eliminación de Cliente: {id.ToString()}");
                 return "Ok";
             }
             catch (Exception ex)
